@@ -147,7 +147,15 @@
         </div>
     </div>
 </footer>
+<script>
+  function openNav() {
+    document.getElementById("overlay").style.display = "block";
+  }
 
+  function closeNav(event) {
+    document.getElementById("overlay").style.display = "none";
+  }
+</script>
 <!-- Swiper -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
@@ -184,14 +192,6 @@
         });
     }
 </script>
- <script>
-  function openNav() {
-    document.getElementById("overlay").style.display = "block";
-  }
-
-  function closeNav(event) {
-    document.getElementById("overlay").style.display = "none";
-  }
-</script>
+ 
 </body>
 </html>
