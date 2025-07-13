@@ -634,13 +634,27 @@ footer {
   color: #006400;
 }
 
+/* Улучшенный крестик закрытия бокового меню */
 .closebtn {
   position: absolute;
-  top: 12px;
+  top: 16px;
   right: 20px;
-  font-size: 30px;
+  font-size: 28px;
   cursor: pointer;
-  color: #666;
+  color: #333;
+  font-weight: bold;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  line-height: 36px;
+  transition: all 0.3s ease;
+}
+
+.closebtn:hover {
+  background-color: #006400;
+  color: white;
 }
 
 /* Отображение гамбургера на мобильных */
