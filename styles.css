@@ -570,3 +570,71 @@ footer {
     font-size: 0.95rem;
     color: #555;
 }
+/* HEADER STYLES */
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #006400;
+}
+
+.hamburger {
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+}
+
+/* Mobile menu */
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  background-color: #ffffff;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.mobile-nav a {
+  padding: 10px 0;
+  text-decoration: none;
+  color: #333;
+}
+
+.mobile-nav a:hover {
+  color: #006400;
+}
+
+/* Show hamburger and menu on small screens */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  nav.desktop-menu {
+    display: none;
+  }
+}
