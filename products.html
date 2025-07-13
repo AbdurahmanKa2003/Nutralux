@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продукты | Nutralux</title>
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="container header-content">
+        <div class="logo-wrapper">
+            <img src=https://cdn1.ozonusercontent.com/s3/product-service-meta-media/298eeed5-2047-4a88-a5b5-3ae3a10873b7.png  alt="Nutralux Logo" class="logo" />
+            <span class="brand-title">Nutralux</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="products.html" class="active">Продукты</a></li>
+                <li><a href="about.html">О нас</a></li>
+                <li><a href="contact.html">Контакты</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero -->
+<section class="hero hero-products">
+    <div class="container">
+        <h1>Каталог Nutralux</h1>
+        <p>Лучшие натуральные добавки для вашего здоровья</p>
+        <a href="#products" class="cta-button">Смотреть каталог</a>
+    </div>
+</section>
+
+<!-- Filter -->
+<section class="category-filter container">
+    <button class="filter-btn active" onclick="filterProducts('all')">Все</button>
+    <button class="filter-btn" onclick="filterProducts('immune')">Иммунитет</button>
+    <button class="filter-btn" onclick="filterProducts('sleep')">Сон</button>
+    <button class="filter-btn" onclick="filterProducts('energy')">Энергия</button>
+    <button class="filter-btn" onclick="filterProducts('beauty')">Красота</button>
+</section>
+
+<!-- Product Grid -->
+<section class="product-section container" id="products">
+    <div class="product-grid">
+        <!-- Карточки -->
+        <div class="product-card" data-category="immune">
+            <img src=https://ir.ozone.ru/s3/multimedia-1-k/c400/7294871036.jpg alt="Immunity Boost" />
+            <h3>Immunity Boost</h3>
+            <p>Укрепление иммунной системы</p>
+
+            <a href="#" class="btn-more">Подробнее</a>
+        </div>
+
+        <div class="product-card" data-category="sleep">
+            <img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRAH997iMU93x81RD5QL5HeEkulTBge3KLYsF-S2cQBdaAtAmlIEltJrlURs1Fs55Q4-8&usqp=CAU alt="Sleep Balance" />
+            <h3>Sleep Balance</h3>
+            <p>Спокойный и здоровый сон</p>
+
+            <a href="#" class="btn-more">Подробнее</a>
+        </div>
+
+        <div class="product-card" data-category="energy">
+            <img src=https://cdn1.ozone.ru/s3/multimedia-1-9/7132779945.jpg alt="Energy Plus" />
+            <h3>Energy Plus</h3>
+            <p>Натуральная энергия на весь день</p>
+
+            <a href="#" class="btn-more">Подробнее</a>
+        </div>
+
+        <div class="product-card" data-category="beauty">
+            <img src=https://ir.ozone.ru/s3/multimedia-1-z/c400/7146823175.jpg alt="Beauty Complex" />
+            <h3>Beauty Complex</h3>
+            <p>Для сияющей кожи и крепких волос</p>
+
+            <a href="#" class="btn-more">Подробнее</a>
+        </div>
+
+        <div class="product-card" data-category="immune">
+            <img src= https://ir.ozone.ru/s3/multimedia-1-a/c400/7294873798.jpg alt="Detox Formula" />
+            <h3>Detox Formula</h3>
+            <p>Мягкое очищение организма</p>
+
+            <a href="#" class="btn-more">Подробнее</a>
+        </div>
+        <div class="product-card" data-category="immune">
+            <img src= https://ir.ozone.ru/s3/multimedia-1-a/c400/7294873798.jpg alt="Detox Formula" />
+            <h3>Detox Formula</h3>
+            <p>Мягкое очищение организма</p>
+
+            <a href="#" class="btn-more">Подробнее</a>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Products Slider -->
+<section class="popular-slider container">
+    <h2 class="section-title">Популярные товары</h2>
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide product-slide">
+                <img src=https://ir.ozone.ru/s3/multimedia-1-k/c400/7294871036.jpg  alt="Immunity Boost">
+                <div class="info">
+                    <h3>Immunity Boost</h3>
+
+                </div>
+            </div>
+            <div class="swiper-slide product-slide">
+                <img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRAH997iMU93x81RD5QL5HeEkulTBge3KLYsF-S2cQBdaAtAmlIEltJrlURs1Fs55Q4-8&usqp=CAU alt="Sleep Balance">
+                <div class="info">
+                    <h3>Sleep Balance</h3>
+
+                </div>
+            </div>
+            <div class="swiper-slide product-slide">
+                <img src="https://cdn1.ozone.ru/s3/multimedia-1-9/7132779945.jpg" alt="Energy Plus">
+                <div class="info">
+                    <h3>Energy Plus</h3>
+
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container footer-content">
+        <img src="images/nutralux-logo.jpeg" class="footer-logo" alt="logo" />
+        <p>&copy; 2025 Nutralux. Все права защищены.</p>
+        <div class="footer-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">YouTube</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Swiper -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        autoplay: { delay: 3000 },
+        slidesPerView: 1,
+        spaceBetween: 30,
+        breakpoints: {
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 }
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        }
+    });
+
+    // Категорийный фильтр
+    function filterProducts(category) {
+        const cards = document.querySelectorAll('.product-card');
+        const buttons = document.querySelectorAll('.filter-btn');
+
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        cards.forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+</body>
+</html>
