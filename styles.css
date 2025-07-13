@@ -638,3 +638,86 @@ footer {
     display: none;
   }
 }
+/* Основной хедер */
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 40px;
+  margin-right: 8px;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 600;
+  color: #006400;
+}
+
+.hamburger {
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+}
+
+/* Боковая панель */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1100;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  border-left: 1px solid #ccc;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+}
+
+.sidenav a {
+  padding: 12px 24px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #333;
+  display: block;
+  transition: 0.2s;
+}
+
+.sidenav a:hover {
+  background-color: #f0f0f0;
+  color: #006400;
+}
+
+.closebtn {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #666;
+}
+
+/* Отображение гамбургера на мобильных */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  nav, .desktop-menu {
+    display: none;
+  }
+}
