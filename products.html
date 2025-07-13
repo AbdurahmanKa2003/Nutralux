@@ -14,24 +14,21 @@
 
 <!-- Header -->
 <header>
-  <div class="header-wrapper">
-    <div class="logo-container">
-      <img src="logo.png" alt="Nutralux Logo" class="logo-img">
-      <span class="logo-text">Nutralux</span>
+    <div class="container header-content">
+        <div class="logo-wrapper">
+            <img src=https://cdn1.ozonusercontent.com/s3/product-service-meta-media/298eeed5-2047-4a88-a5b5-3ae3a10873b7.png  alt="Nutralux Logo" class="logo" />
+            <span class="brand-title">Nutralux</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="products.html" class="active">Продукты</a></li>
+                <li><a href="about.html">О нас</a></li>
+                <li><a href="contact.html">Контакты</a></li>
+            </ul>
+        </nav>
     </div>
-    <div class="hamburger" onclick="openNav()">&#9776;</div>
-  </div>
-
-  <div id="overlay" class="overlay" onclick="closeNav(event)">
-    <div id="sideNav" class="sidenav" onclick="event.stopPropagation()">
-      <a href="index.html">Главная</a>
-      <a href="about.html">О нас</a>
-      <a href="products.html">Продукты</a>
-      <a href="contact.html">Контакты</a>
-    </div>
-  </div>
 </header>
-
 
 <!-- Hero -->
 <section class="hero hero-products">
@@ -147,15 +144,7 @@
         </div>
     </div>
 </footer>
-<script>
-  function openNav() {
-    document.getElementById("overlay").style.display = "block";
-  }
 
-  function closeNav(event) {
-    document.getElementById("overlay").style.display = "none";
-  }
-</script>
 <!-- Swiper -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
@@ -192,6 +181,5 @@
         });
     }
 </script>
- 
 </body>
 </html>
