@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon"/>
+  
+  <!-- Динамические SEO Мета-теги и Schema.org будут внедрены здесь JavaScript'ом -->
+  <!-- Резервные мета-теги, если JavaScript отключен или медленно работает -->
+  <title>Nutralux — Информация о товаре</title>
+  <meta name="description" content="Подробная информация о витаминах и БАДах Nutralux: описание, состав, как купить."/>
+  <meta name="keywords" content="Nutralux, добавки, витамины, товары для здоровья, детали продукта"/>
+  <link rel="canonical" href="https://yourwebsite.com/product.html"/> <!-- Замените на фактический URL вашего сайта -->
+
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* Базовые стили для страницы продукта */
+    .product-wrap {
+      max-width: 1100px;
+      margin: 7rem auto 3rem;
+      padding: 0 1.5rem; /* Немного увеличен padding по бокам */
+      display: grid;
+      gap: 2.5rem; /* Увеличен зазор между колонками */
+      grid-template-columns: 1fr 1.2fr; /* Соотношение колонок: изображение чуть меньше, информация чуть больше */
+      align-items: flex-start; /* Выравнивание элементов сверху */
+    }
+
+    .product-wrap img {
+      width: 100%;
+      border-radius: 1rem;
+      object-fit: contain; /* Изменено на contain, чтобы изображение не обрезалось */
+      background: #f0f0f0; /* Более светлый фон для изображений */
+      padding: 1rem; /* Добавлен padding, чтобы изображение не прилипало к краям */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Мягкая тень */
+    }
+
+    .product-info {
+      padding: 1rem; /* Добавлен внутренний отступ для info блока */
+    }
+
+    .product-info h1 {
+      font-size: 2.5rem; /* Немного увеличен размер заголовка */
+      margin-bottom: .8rem; /* Увеличен отступ */
+      color: var(--text-color);
+    }
+
+    .product-info .badge {
+      display: inline-block;
+      margin-bottom: 1rem; /* Увеличен отступ */
+      background: rgba(44, 168, 74, 0.15); /* Более насыщенный фон для бейджа */
+      color: var(--main-color);
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .product-info p {
+      line-height: 1.7; /* Увеличен межстрочный интервал */
+      opacity: .85; /* Чуть меньшая прозрачность для лучшей читаемости */
+      margin-bottom: 1.5rem; /* Отступ после описания */
+      font-size: 1.1rem; /* Немного увеличен размер шрифта */
+    }
+
+    /* Стили для секции фактов (состава) */
+    .nutri {
+      margin-top: 2rem; /* Отступ сверху */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Две колонки на больших экранах, одна на маленьких */
+      gap: 1.5rem; /* Отступ между элементами фактов */
+    }
+
+    .nutri div {
+      background: var(--second-bg-color); /* Светлый фон для каждого факта */
+      padding: 1.2rem 1.5rem; /* Внутренние отступы */
+      border-radius: 0.8rem; /* Скругление углов */
+      border: 1px solid rgba(15, 23, 42, 0.05); /* Тонкая рамка */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Легкая тень */
+      display: flex;
+      flex-direction: column; /* Элементы внутри flex-контейнера будут располагаться вертикально */
+      justify-content: center;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .nutri div:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      border-color: rgba(44, 168, 74, 0.2);
+    }
+
+    .nutri strong {
+      display: block; /* Заголовок факта на отдельной строке */
+      font-size: 1rem; /* Размер шрифта для названия факта */
+      color: var(--main-color); /* Зеленый цвет для названий фактов */
+      margin-bottom: 0.4rem; /* Отступ после названия факта */
+      font-weight: 700;
+    }
+
+    .nutri span.fact-value { /* Новый класс для значения факта */
+      font-size: 0.95rem; /* Размер шрифта для значения факта */
+      color: var(--text-color);
+      line-height: 1.4;
+      opacity: 0.9;
+    }
+
+    .backline {
+      margin: 2.5rem 0 0; /* Увеличен отступ перед кнопкой "Назад" */
+    }
+    .backline .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem; /* Отступ между иконкой и текстом */
+      padding: 0.9rem 2rem; /* Немного увеличен padding */
+      font-size: 1rem; /* Немного увеличен размер шрифта кнопки */
+      border-radius: 4rem; /* Более округлая кнопка */
+    }
+
+    /* Адаптивность */
+    @media (max-width: 850px) {
+      .product-wrap {
+        grid-template-columns: 1fr; /* Одна колонка на мобильных */
+        margin-top: 5rem;
+        gap: 2rem;
+        padding: 0 1rem;
+      }
+      .product-wrap img {
+        max-width: 70%; /* Изображение центрируется и занимает 70% ширины */
+        margin: 0 auto; /* Центрирование изображения */
+      }
+      .nutri {
+        grid-template-columns: 1fr; /* Одна колонка для фактов на очень маленьких экранах */
+        gap: 1rem;
+      }
+      .product-info h1 {
+        font-size: 2rem;
+      }
+      .product-info p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="index-ru.html#home" class="logo">Nutralux</a>
+    <i class="bx bx-menu" id="menu-icon"></i>
+    <nav class="navbar">
+      <a href="index-ru.html#about" class="active">О нас</a>
+      <a href="index-ru.html#services" class="active">Услуги</a>
+      <a href="catalog.html" class="active">Каталог</a>
+      <a href="index-ru.html#contact" class="active">Контакты</a>
+      <!-- переключатель языка: на соответствующую EN-страницу с тем же slug -->
+      <a id="lang-en" class="active lang" aria-label="English version"><span class="fi fi-gb"></span></a>
+    </nav>
+  </header>
+
+  <main id="content"></main>
+
+  <footer class="footer">
+    <div class="footer-text"><p>© 2025 Nutralux</p></div>
+    <div class="footer-iconTop"><a href="#"><i class='bx bx-up-arrow-alt'></i></a></div>
+  </footer>
+
+  <script>
+    // Функция для получения параметра из URL
+    function qs(name) {
+      const u = new URL(window.location.href);
+      return u.searchParams.get(name);
+    }
+
+    // Привязываем переключатель языка, сохраняя slug
+    (function setLangLink(){
+      const slug = qs('slug');
+      const a = document.getElementById('lang-en');
+      if (a) a.href = slug ? ('product-en.html?slug=' + encodeURIComponent(slug)) : 'catalog-en.html';
+    })();
+
+    // Загрузка данных продукта
+    async function loadProduct() {
+      const slug = qs('slug');
+      const container = document.getElementById('content');
+      const head = document.head; // Добавляем ссылку на head
+
+      if (!slug) {
+        container.innerHTML = '<section class="product-wrap"><p>Товар не указан.</p></section>';
+        return;
+      }
+
+      try {
+        const resp = await fetch('products.json?v=' + Date.now(), { cache: 'no-store' });
+        const items = await resp.json();
+        const p = items.find(x => String(x.slug) === slug);
+
+        if (!p) {
+          container.innerHTML = '<section class="product-wrap"><p>Товар не найден.</p></section>';
+          return;
+        }
+
+        // --- Динамическое обновление SEO ---
+
+        // Обновление Title
+        document.title = `${p.name} — Nutralux | Купить онлайн`;
+
+        // Обновление Meta Description
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if (!metaDescription) {
+          metaDescription = document.createElement('meta');
+          metaDescription.name = 'description';
+          head.appendChild(metaDescription);
+        }
+        metaDescription.content = `${p.name}: ${p.description} Купите качественные ${p.category} добавки от Nutralux.`;
+
+        // Обновление Meta Keywords (необязательно, но для полноты)
+        let metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (!metaKeywords) {
+          metaKeywords = document.createElement('meta');
+          metaKeywords.name = 'keywords';
+          head.appendChild(metaKeywords);
+        }
+        metaKeywords.content = `${p.name}, ${p.category}, ${p.short?.replace(/, /g, ', ')}, Nutralux, добавки, витамины, купить онлайн, здоровье`;
+
+        // Обновление Canonical Link
+        let canonicalLink = document.querySelector('link[rel="canonical"]');
+        if (!canonicalLink) {
+          canonicalLink = document.createElement('link');
+          canonicalLink.rel = 'canonical';
+          head.appendChild(canonicalLink);
+        }
+        canonicalLink.href = `https://yourwebsite.com/product.html?slug=${encodeURIComponent(p.slug)}`; // Замените на фактический домен
+
+        // Open Graph & Twitter Card Мета-теги
+        // Функция для создания/обновления мета-тегов с атрибутом property
+        const updateMetaProperty = (property, content) => {
+          let tag = document.querySelector(`meta[property="${property}"]`);
+          if (!tag) {
+            tag = document.createElement('meta');
+            tag.setAttribute('property', property);
+            head.appendChild(tag);
+          }
+          tag.content = content;
+        };
+
+        // Функция для создания/обновления мета-тегов с атрибутом name (для Twitter)
+        const updateMetaName = (name, content) => {
+          let tag = document.querySelector(`meta[name="${name}"]`);
+          if (!tag) {
+            tag = document.createElement('meta');
+            tag.setAttribute('name', name);
+            head.appendChild(tag);
+          }
+          tag.content = content;
+        };
+
+        updateMetaProperty('og:title', `${p.name} — Nutralux`);
+        updateMetaProperty('og:description', `${p.description}`);
+        updateMetaProperty('og:type', 'product'); // Специфично для страниц продуктов
+        updateMetaProperty('og:url', `https://yourwebsite.com/product.html?slug=${encodeURIComponent(p.slug)}`); // Замените на фактический домен
+        updateMetaProperty('og:image', `https://yourwebsite.com/${p.image}`); // Замените на фактический домен, если изображения размещены в другом месте
+        updateMetaProperty('og:locale', 'ru_RU');
+
+        updateMetaName('twitter:card', 'summary_large_image');
+        updateMetaName('twitter:title', `${p.name} — Nutralux`);
+        updateMetaName('twitter:description', `${p.description}`);
+        updateMetaName('twitter:image', `https://yourwebsite.com/${p.image}`); // Замените на фактический домен
+
+        // Schema.org JSON-LD для Продукта
+        let schemaScript = document.getElementById('product-schema');
+        if (!schemaScript) {
+          schemaScript = document.createElement('script');
+          schemaScript.type = 'application/ld+json';
+          schemaScript.id = 'product-schema';
+          head.appendChild(schemaScript);
+        }
+
+        const productSchema = {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": p.name,
+          "description": p.description,
+          "image": `https://yourwebsite.com/${p.image}`, // Замените на фактический домен
+          "url": `https://yourwebsite.com/product.html?slug=${encodeURIComponent(p.slug)}`, // Замените на фактический домен
+          "brand": {
+            "@type": "Brand",
+            "name": "Nutralux"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": `https://yourwebsite.com/product.html?slug=${encodeURIComponent(p.slug)}`, // Замените на фактический домен
+            "priceCurrency": "RUB", // Предполагаем RUB, скорректируйте, если отличается
+            "price": "999.00", // Заполнитель: Вам нужно добавить фактические данные о цене в products.json
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": "https://schema.org/InStock" // Предполагаем в наличии, скорректируйте по необходимости
+          }
+          // Здесь можно добавить другие свойства, такие как "aggregateRating", "review" и т.д.
+        };
+        schemaScript.textContent = JSON.stringify(productSchema, null, 2);
+
+        // --- Конец динамического обновления SEO ---
+
+        // Формирование HTML для фактов о продукте
+        const factsHtml = p.facts?.map(f => `
+          <div>
+            <strong>${f.name}</strong>
+            <span class="fact-value">${f.value}</span>
+          </div>
+        `).join('') || '';
+
+        container.innerHTML = `
+          <section class="product-wrap">
+            <div><img src="${p.image}" alt="Nutralux ${p.name} добавка"></div> <!-- Улучшенный alt для изображения продукта -->
+            <div class="product-info">
+              <span class="badge">${p.category}</span>
+              <h1>${p.name}</h1>
+              <p>${p.description}</p>
+              <div class="nutri">
+                ${factsHtml}
+              </div>
+              <p class="backline"><a class="btn" href="catalog.html"><i class='bx bx-left-arrow-alt'></i> Назад в каталог</a></p>
+            </div>
+          </section>
+        `;
+      } catch (e) {
+        console.error("Ошибка при загрузке продукта:", e);
+        container.innerHTML = '<section class="product-wrap"><p>Произошла ошибка при загрузке данных о товаре.</p></section>';
+      }
+    }
+
+    // Запускаем загрузку продукта при загрузке страницы
+    document.addEventListener('DOMContentLoaded', loadProduct);
+  </script>
+  <script src="scroll.js"></script> <!-- Убедитесь, что scroll.js подключен -->
+</body>
+</html>

@@ -1,0 +1,636 @@
+/* ====== RESET & BASE ====== */
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+/* Палитра Nutralux */
+:root {
+  --bg-color: #ffffff;             /* фоновый — белый */
+  --second-bg-color: #f4f7f9;       /* светлый серо-голубой для блоков/карт */
+  --text-color: #1f2937;            /* тёмно-серый текст */
+  --main-color: #2ca84a;            /* зелёный акцент (кнопки, ссылки) */
+  --main-color-dark: #239243;       /* ховер */
+  --error-color: rgb(201, 9, 9);
+  --button-text: #ffffff;           /* текст на зелёных кнопках */
+  --header-shadow: 0 6px 16px rgba(0,0,0,.06);
+  --card-shadow: 0 10px 25px rgba(0,0,0,.08);
+  --divider: 1px solid rgba(15,23,42,.08);
+}
+
+*::selection {
+  background: var(--main-color);
+  color: #fff;
+}
+
+html { font-size: 1rem; overflow-x: hidden; }
+body { background: var(--bg-color); color: var(--text-color); }
+
+section { min-height: 23vh; padding: 8rem 9% 6rem; }
+span { color: var(--main-color); }
+
+/* ====== HEADER ====== */
+.header {
+  position: fixed; top: 0; left: 0; width: 100%;
+  padding: 1.4rem 9%;
+  background: var(--bg-color);
+  display: flex; justify-content: space-between; align-items: center;
+  z-index: 100;
+  box-shadow: var(--header-shadow);
+}
+
+.header.sticky { border-bottom: var(--divider); }
+
+.logo {
+  font-size: 2rem; font-weight: 700; letter-spacing: .2px;
+  color: var(--text-color); cursor: default;
+}
+
+.navbar a {
+  font-size: 1.7rem; margin-left: 4rem; transition: .25s;
+  color: var(--text-color);
+}
+.navbar a:hover { color: var(--main-color); }
+
+#menu-icon { display: none; font-size: 3.2rem; color: var(--text-color); }
+
+/* ====== HOME ====== */
+.home { display: flex; justify-content: center; align-items: center; }
+
+.home-img img {
+  width: 27vw; border-radius: 40rem;
+  box-shadow: 0 10px 30px rgba(44,168,74,.25);
+  animation: floatImage 4s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2.4rem); }
+  100% { transform: translateY(0); }
+}
+
+.home-content { margin-right: 5rem; max-width: 55rem; }
+.home-content h3 { font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; }
+.home-content h1 { font-size: 3rem; font-weight: 700; line-height: 1.3; margin-bottom: .7rem; }
+.home-content p { font-size: 1.6rem; }
+
+/* Соц. кнопки — зелёные обводки */
+.social-media a {
+  display: inline-flex; justify-content: center; align-items: center;
+  width: 4rem; height: 4rem;
+  background: transparent;
+  border: .2rem solid var(--main-color); border-radius: 50%;
+  font-size: 2rem; color: var(--main-color);
+  margin: 3rem 1.5rem 3rem 0; transition: .25s ease;
+}
+.social-media a:hover {
+  background: var(--main-color); color: #fff;
+  box-shadow: 0 0 0 6px rgba(44,168,74,.12);
+}
+
+/* Основная кнопка */
+.btn {
+  display: inline-block; padding: 1rem 2.8rem;
+  background: var(--main-color);
+  border-radius: 4rem;
+  box-shadow: 0 8px 16px rgba(44,168,74,.25);
+  font-size: 1.6rem; color: var(--button-text); font-weight: 700;
+  transition: .25s ease;
+}
+.btn:hover { background: var(--main-color-dark); box-shadow: 0 4px 10px rgba(44,168,74,.25); }
+
+/* ====== ABOUT ====== */
+.about {
+  display: flex; justify-content: center; align-items: center; gap: 2rem;
+  background: var(--second-bg-color);
+}
+.about-img img {
+  width: 25vw; border-radius: 30rem;
+  box-shadow: 0 10px 30px rgba(44,168,74,.18);
+}
+
+.heading {
+  text-align: center;
+  font-size: 4.5rem;
+  /* Основной цвет заголовка - черный */
+  color: var(--text-color);
+  font-weight: 700;
+}
+/* Зеленый цвет для span внутри заголовка */
+.heading span {
+  color: var(--main-color);
+}
+
+.about-content { margin-left: 5rem; max-width: 55rem; }
+.about-content h2 { text-align: left; line-height: 1.2; margin-bottom: 1.5rem; }
+.about-content h3 { font-size: 2.6rem; }
+.about-content p { font-size: 1.6rem; margin: 2rem 0 3rem; }
+
+/* ====== SERVICES ====== */
+.services-container {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem;
+}
+.services h2 { margin-bottom: 5rem; text-align: center; }
+
+.services-container .services-box {
+  flex: 1 1 30rem;
+  background: var(--second-bg-color);
+  padding: 2rem 2rem 3rem; border-radius: 2rem; text-align: center;
+  border: var(--divider);
+  transition: .25s ease; box-shadow: var(--card-shadow);
+}
+.services-container .services-box:hover {
+  border-color: rgba(44,168,74,.35);
+  transform: translateY(-2px);
+}
+
+.services-box i { font-size: 7rem; color: var(--main-color); }
+.services-box h3 { font-size: 2.6rem; margin: 1rem 0 2rem; }
+.services-box ul { font-size: 1.6rem; text-align: left; }
+.services-box ul li { line-height: 1.5; margin-left: 5rem; }
+
+/* ====== CONTACT ====== */
+.contact h2 { margin-bottom: 3rem; }
+
+.contact form {
+  max-width: 70rem; margin: 1rem auto 3rem; text-align: center;
+}
+
+.contact form .input-box {
+  display: flex; justify-content: space-between; flex-wrap: wrap;
+}
+
+.contact form .input-box input,
+.contact form textarea {
+  width: 100%;
+  padding: 1.5rem; font-size: 1.6rem; color: var(--text-color);
+  background: var(--second-bg-color); border-radius: .8rem; margin: .7rem 0;
+  border: 1px solid transparent; transition: .2s;
+}
+
+.contact form .input-box input { width: 49%; }
+.contact form .input-box input:focus,
+.contact form textarea:focus { border-color: var(--main-color); }
+
+.contact form .input-box input:focus:invalid,
+.contact form textarea:focus:invalid { border-color: var(--error-color); }
+
+.contact form textarea { resize: none; }
+
+.contact form .btn { margin-top: 2rem; cursor: pointer; }
+
+/* ====== FOOTER ====== */
+.footer {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+  padding: 2rem 9%;
+  background: var(--bg-color);
+  border-top: var(--divider);
+}
+
+.footer-text p { font-size: 1.6rem; }
+
+.footer-icon-top a {
+  display: inline-flex; justify-content: center; align-items: center;
+  padding: .8rem; background: var(--main-color); border-radius: .8rem; transition: .25s ease;
+}
+.footer-icon-top a:hover { background: var(--main-color-dark); }
+.footer-icon-top a i { font-size: 2.4rem; color: #fff; }
+
+/* ====== BREAKPOINTS ====== */
+@media (max-width: 1200px) {
+  html { font-size: 55%; }
+  section { min-height: 70vh; }
+}
+
+@media (max-width: 991px) {
+  .header { padding: 1.4rem 9%; }
+  section { min-height: 50vh; padding: 10rem 3% 2rem; }
+  .services { padding-bottom: 7rem; }
+  
+  .contact { min-height: auto; }
+  .footer { padding: 2rem 3%; }
+}
+
+@media (max-width: 768px) {
+  #menu-icon { display: block; }
+  
+  .navbar {
+      position: absolute; top: 100%; left: 0; width: 100%;
+      padding: 1rem 3%;
+      background: var(--bg-color);
+      border-top: var(--divider);
+      box-shadow: 0 .5rem 1rem rgba(0,0,0,.06);
+      display: none;
+  }
+  .navbar.active { display: block; }
+  
+  .navbar a { display: block; font-size: 2rem; margin: 3rem 0; }
+  
+  .home { flex-direction: column; }
+  .home-content h3 { font-size: 2.6rem; }
+  .home-content h1 { font-size: 5rem; }
+  .home-img img { width: 55vw; margin: 6rem 0 4rem; animation: none; }
+  
+  .about { flex-direction: column-reverse; }
+  .about img { width: 55vw; margin: 3rem 0 4rem; }
+  
+  .services h2 { margin-bottom: 3rem; }
+  .services-container { margin-bottom: 4rem; }
+  
+  .contact { margin-bottom: 4rem; }
+}
+
+@media (max-width: 450px) {
+  html { font-size: 50%; }
+  .contact form .input-box input { width: 100%; }
+  .home-img img, .about img { width: 90vw; }
+  .footer { flex-direction: column-reverse; }
+  .footer p { text-align: center; margin-top: 2rem; }
+}
+
+/* ====== CATALOG PAGE STYLES ====== */
+.catalog-header { 
+  text-align: center; 
+  margin-bottom: 3rem;
+  padding-top: 2rem;
+}
+
+.catalog-header h1 { 
+  font-size: 4rem; 
+  margin-bottom: 1rem;
+  font-weight: 800;
+  /* Изменено: Основной цвет заголовка каталога теперь черный */
+  color: var(--text-color);
+  /* Удалены градиентные стили, чтобы использовать span для зеленого цвета */
+  letter-spacing: 1px;
+}
+/* Добавлено: Зеленый цвет для span внутри заголовка каталога */
+.catalog-header h1 span {
+  color: var(--main-color);
+}
+
+
+.catalog-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  gap: 2rem; 
+  margin: 0 auto 4rem; 
+  max-width: 1200px;
+  padding: 0 2rem;
+  align-items: stretch; /* Это выравнивает все карточки по высоте */
+}
+
+.product-card { 
+  background: var(--second-bg-color);
+  border-radius: 1.5rem; 
+  padding: 1.5rem; 
+  box-shadow: var(--card-shadow);
+  transition: transform .3s ease, box-shadow .3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Гарантирует, что карточка займет всю высоту ячейки сетки */
+  border: var(--divider);
+}
+
+.product-card:hover { 
+  transform: translateY(-8px); 
+  box-shadow: 0 15px 30px rgba(0,0,0,.12);
+  border-color: rgba(44,168,74,.35);
+}
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* Создает квадратный контейнер (1:1) */
+  overflow: hidden;
+  border-radius: 1rem;
+  background-color: #ffffff; /* Белый фон для изображений с пустыми полями */
+  margin-bottom: 1.2rem;
+}
+
+.product-image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ИЗМЕНЕНО: теперь изображение будет полностью заполнять контейнер, возможно с обрезкой */
+  border-radius: 1rem; /* Сохраняет скругление углов для изображения */
+}
+
+.product-card h3 { 
+  margin: 0 0 .6rem; 
+  font-size: 1.8rem; 
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.product-card p { 
+  font-size: 1.4rem; 
+  color: var(--text-color);
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+  min-height: 4.2em; /* Минимальная высота для единообразия, если описания очень короткие */
+  line-height: 1.5;
+  flex-grow: 1; /* Позволяет параграфу занимать всё доступное место, выталкивая кнопку вниз */
+}
+
+.card-bottom { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-top: auto; /* Прижимает блок к низу карточки */
+}
+
+.product-card .btn { 
+  padding: 0.8rem 1.8rem;
+  font-size: 1.4rem;
+}
+
+.badge { 
+  font-size: 1.2rem; 
+  background: rgba(44,168,74,.1);
+  color: var(--main-color);
+  padding: 0.4rem 1rem; 
+  border-radius: 1rem;
+  font-weight: 500;
+}
+
+/* Убираем лишний отступ в каталоге */
+section.catalog-header {
+  padding: 6rem 9% 0;
+  margin-top: 0;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+  .catalog-header h1 {
+      font-size: 3.2rem;
+  }
+  
+  .catalog-grid {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+      padding: 0 1.5rem;
+  }
+  
+  .product-card {
+      padding: 1.2rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .catalog-grid {
+      grid-template-columns: 1fr;
+  }
+}
+
+.loading-indicator, .empty-catalog, .error-message{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:.6rem; padding:4rem 0; color:#64748b;
+}
+.loading-indicator i, .error-message i { font-size:2.4rem; color:var(--main-color); }
+.empty-catalog i { font-size:2.4rem; color:#94a3b8; }
+
+
+/* Styles for the "Featured Products" section on the homepage */
+.portfolio {
+  padding: 4rem 0;
+  background: #f8f9fa;
+}
+
+.heading {
+  text-align: center;
+  font-size: 2.5rem; /* Размер заголовка */
+  margin-bottom: 3rem;
+  font-weight: 700;
+  color: var(--text-color); /* Основной цвет заголовка - черный */
+}
+
+.heading span {
+  color: var(--main-color); /* Цвет акцента - зеленый */
+}
+
+.portfolio-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Уменьшил минимальную ширину карточки */
+  gap: 1.2rem; /* Уменьшил отступы между карточками */
+  margin-top: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: stretch;
+}
+
+.portfolio-box {
+  background: #ffffff;
+  border-radius: 8px; /* Уменьшил радиус скругления для более аккуратного вида */
+  padding: 0.8rem; /* Уменьшил внутренний отступ */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08); /* Скорректировал тень */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid #e9ecef;
+  height: 100%;
+}
+
+.portfolio-box:hover {
+  transform: translateY(-6px); /* Скорректировал эффект поднятия */
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12); /* Скорректировал тень */
+  border-color: rgba(44, 168, 74, 0.6);
+}
+
+.portfolio-img {
+  width: 100%;
+  position: relative;
+  padding-top: 100%; /* Сохраняет квадратные пропорции */
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.portfolio-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.portfolio-box:hover img {
+  transform: scale(1.05); /* Скорректировал зум */
+  filter: brightness(1.02); /* Скорректировал яркость */
+}
+
+.portfolio-content {
+  padding: 1rem; /* Уменьшил внутренний отступ для контента */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.portfolio-text-group {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 0.8rem; /* Уменьшил отступ */
+}
+
+.portfolio-content h4 {
+  font-size: 1.1rem; /* Уменьшил размер шрифта */
+  margin-bottom: 0.3rem; /* Уменьшил отступ */
+  font-weight: 600;
+  color: #343a40;
+}
+
+.portfolio-content p {
+  font-size: 0.8rem; /* Уменьшил размер шрифта */
+  color: #6c757d;
+  line-height: 1.4; /* Скорректировал межстрочный интервал */
+  min-height: 2.5em; /* Скорректировал минимальную высоту */
+}
+
+.portfolio-content .btn {
+  background: var(--main-color);
+  color: var(--button-text);
+  padding: 0.7rem 1.5rem; /* Уменьшил padding */
+  border-radius: 30px; /* Сделал менее округлыми */
+  font-size: 0.8rem; /* Уменьшил размер шрифта */
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.25s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-content .btn:hover {
+  background: var(--main-color-dark);
+  box-shadow: 0 0 12px rgba(40, 167, 69, 0.4); /* Скорректировал тень */
+}
+
+.catalog-btn {
+  text-align: center;
+  margin-top: 3rem; /* Уменьшил отступ сверху */
+}
+
+.catalog-btn .btn-catalog {
+  background: none;
+  border: 2px solid var(--main-color);
+  color: var(--main-color);
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.catalog-btn .btn-catalog:hover {
+  background: var(--main-color);
+  color: var(--button-text);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+/* Адаптация для мобильных устройств для секции portfolio */
+@media (max-width: 768px) {
+  .portfolio-container {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ещё меньше на мобильных */
+      gap: 1rem;
+  }
+  .portfolio-box {
+      padding: 0.6rem;
+  }
+  .portfolio-content h4 {
+      font-size: 1rem;
+  }
+  .portfolio-content p {
+      font-size: 0.75rem;
+      min-height: 2.2em;
+  }
+  .portfolio-content .btn {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.75rem;
+  }
+  .catalog-btn {
+      margin-top: 2rem;
+  }
+}
+
+/* ===== FAQ Section ===== */
+.faq {
+  padding: 5rem 10%;
+  background: #f9f9f9;
+}
+
+.faq .heading {
+  text-align: center;
+  font-size: 2.9rem; /* чуть больше */
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: #222;
+  letter-spacing: 0.5px; /* аккуратнее */
+}
+
+.faq .heading span {
+  color: #2eb82e; /* зелёный акцент */
+}
+
+.faq-container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 1.2rem;
+  padding: 1.5rem 1.8rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.faq-item h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.faq-item p {
+  margin: 0.6rem 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+.product-card .btn {
+  padding: 0.6rem 1.4rem;
+  font-size: 1.2rem;
+  border-radius: 2rem;
+  background: var(--main-color);
+  color: var(--button-text);
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(44,168,74,0.15);
+  transition: all 0.25s ease;
+}
+
+.product-card .btn:hover {
+  background: var(--main-color-dark);
+  box-shadow: 0 6px 14px rgba(44,168,74,0.25);
+  transform: translateY(-2px);
+}

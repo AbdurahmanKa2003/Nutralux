@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon"/>
+    <title>Nutralux Catalog — Vitamins & Supplements | Buy Magnesium, Omega-3, Probiotics</title>
+    <meta name="description" content="Full catalog of Nutralux vitamins and supplements: Magnesium, Omega-3, Probiotics, Multivitamins, and other health-boosting products. Explore detailed descriptions, forms, and ingredients for each item."/>
+    <meta name="keywords" content="vitamins catalog, supplements, buy vitamins, magnesium, omega-3, probiotics, multivitamins, ginkgo biloba, women's health, kids vitamins, Nutralux catalog, online supplement store" />
+    <meta name="author" content="Nutralux" />
+    <link rel="canonical" href="https://yourwebsite.com/catalog-en.html" /> <!-- Replace with your actual website URL -->
+
+    <!-- Open Graph Meta Tags (for social media) -->
+    <meta property="og:title" content="Nutralux Catalog — Vitamins & Supplements" />
+    <meta property="og:description" content="Full catalog of Nutralux vitamins and supplements: Magnesium, Omega-3, Probiotics, Multivitamins, and other health-boosting products. Explore detailed descriptions, forms, and ingredients for each item." />
+    <meta property="og:type" content="product.group" /> <!-- Or "website", if no more specific type applies -->
+    <meta property="og:url" content="https://yourwebsite.com/catalog-en.html" /> <!-- Replace with your actual website URL -->
+    <meta property="og:image" content="https://yourwebsite.com/images/favicon-32x32.png" /> <!-- Replace with the URL of an image representing your catalog -->
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card Meta Tags (for Twitter) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nutralux Catalog — Vitamins & Supplements" />
+    <meta name="twitter:description" content="Full catalog of Nutralux vitamins and supplements: Magnesium, Omega-3, Probiotics, Multivitamins, and other health-boosting products." />
+    <meta name="twitter:image" content="https://yourwebsite.com/images/favicon-32x32.png" /> <!-- Replace with the URL of an image representing your catalog -->
+
+    <!-- box icons -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"/>
+    <!-- lang icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css"/>
+    <!-- css -->
+    <link rel="stylesheet" href="styles.css"/>
+
+    <!-- Schema.org JSON-LD Markup for Product Listing Page -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Nutralux Catalog — Vitamins & Supplements",
+      "description": "Full catalog of Nutralux vitamins and supplements: Magnesium, Omega-3, Probiotics, Multivitamins, and other health-boosting products.",
+      "url": "https://yourwebsite.com/catalog-en.html", <!-- Replace with your actual website URL -->
+      "publisher": {
+        "@type": "Organization",
+        "name": "Nutralux",
+        "url": "https://yourwebsite.com/", <!-- Replace with your root website URL -->
+        "logo": "https://yourwebsite.com/images/favicon-32x32.png" <!-- Replace with your logo URL -->
+      }
+      // Product offers can be dynamically added here by JavaScript
+    }
+    </script>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <a href="index.html#home" class="logo">Nutralux</a>
+      <i class="bx bx-menu" id="menu-icon"></i>
+      <nav class="navbar">
+        <a href="index.html#about" class="active">About</a>
+        <a href="index.html#services" class="active">Services</a>
+        <a href="catalog-en.html" class="active">Catalog</a>
+        <a href="index.html#contact" class="active">Contact</a>
+        <!-- language switch to RU -->
+        <a href="catalog.html" class="active lang" aria-label="Русская версия">
+          <span class="fi fi-ru"></span>
+        </a>
+      </nav>
+    </header>
+
+    <section class="catalog-header">
+      <h1>Supplements <span>Catalog Nutralux</span></h1> <!-- Updated heading -->
+    </section>
+
+    <section class="catalog-grid" id="catalog-grid"></section>
+
+    <footer class="footer">
+      <div class="footer-text"><p>© 2025 Nutralux</p></div>
+      <div class="footer-iconTop"><a href="#"><i class='bx bx-up-arrow-alt'></i></a></div>
+    </footer>
+
+    <script>
+      async function loadProducts() {
+        const grid = document.getElementById('catalog-grid');
+        try {
+          const resp = await fetch('products-en.json?v=' + Date.now(), { cache: 'no-store' }); // Assumes you have products-en.json
+          const items = await resp.json();
+
+          // Check for empty catalog
+          if (items.length === 0) {
+            grid.innerHTML = '<div class="empty-catalog"><i class="bx bx-info-circle"></i><p>No products available in the catalog yet.</p></div>';
+            return;
+          }
+
+          grid.innerHTML = items.map(p => `
+            <article class="product-card">
+              <div class="product-image-container">
+                <img src="${p.image}" alt="${p.name} Nutralux" loading="lazy"> <!-- Improved alt -->
+              </div>
+              <h3>${p.name}</h3>
+              <p>${p.short}</p>
+              <div class="card-bottom">
+                <span class="badge">${p.category}</span>
+                <a class="btn" href="product-en.html?slug=${encodeURIComponent(p.slug)}">Details</a>
+              </div>
+            </article>
+          `).join('');
+        } catch (e) {
+          console.error("Error loading catalog:", e); // More informative message
+          grid.innerHTML = '<div class="error-message"><i class="bx bx-error-alt"></i><p>Could not load catalog. Please try again later.</p></div>'; // Error message
+        }
+      }
+      loadProducts();
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>

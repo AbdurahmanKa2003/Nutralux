@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon"/>
+  
+  <!-- Dynamic SEO Meta Tags and Schema.org will be injected here by JavaScript -->
+  <!-- Fallback meta tags if JavaScript is disabled or slow -->
+  <title>Nutralux — Product Details</title>
+  <meta name="description" content="View details for Nutralux supplements: description, ingredients, and how to buy."/>
+  <meta name="keywords" content="Nutralux, supplements, vitamins, health products, product details"/>
+  <link rel="canonical" href="https://yourwebsite.com/product-en.html"/> <!-- Replace with your actual website URL -->
+
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* Базовые стили для страницы продукта */
+    .product-wrap {
+      max-width: 1100px;
+      margin: 7rem auto 3rem;
+      padding: 0 1.5rem;
+      display: grid;
+      gap: 2.5rem;
+      grid-template-columns: 1fr 1.2fr;
+      align-items: flex-start;
+    }
+    .product-wrap img {
+      width: 100%;
+      border-radius: 1rem;
+      object-fit: contain;
+      background: #f0f0f0;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .product-info {
+      padding: 1rem;
+    }
+    .product-info h1 {
+      font-size: 2.5rem;
+      margin-bottom: .8rem;
+      color: var(--text-color);
+    }
+    .product-info .badge {
+      display: inline-block;
+      margin-bottom: 1rem;
+      background: rgba(44, 168, 74, 0.15);
+      color: var(--main-color);
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .product-info p {
+      line-height: 1.7;
+      opacity: .85;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+    .nutri {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .nutri div {
+      background: var(--second-bg-color);
+      padding: 1.2rem 1.5rem;
+      border-radius: 0.8rem;
+      border: 1px solid rgba(15, 23, 42, 0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: all 0.2s ease-in-out;
+    }
+    .nutri div:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      border-color: rgba(44, 168, 74, 0.2);
+    }
+    .nutri strong {
+      display: block;
+      font-size: 1rem;
+      color: var(--main-color);
+      margin-bottom: 0.4rem;
+      font-weight: 700;
+    }
+    .nutri span.fact-value {
+      font-size: 0.95rem;
+      color: var(--text-color);
+      line-height: 1.4;
+      opacity: 0.9;
+    }
+    .backline {
+      margin: 2.5rem 0 0;
+    }
+    .backline .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+      border-radius: 4rem;
+    }
+    @media (max-width: 850px) {
+      .product-wrap {
+        grid-template-columns: 1fr;
+        margin-top: 5rem;
+        gap: 2rem;
+        padding: 0 1rem;
+      }
+      .product-wrap img {
+        max-width: 70%;
+        margin: 0 auto;
+      }
+      .nutri {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .product-info h1 {
+        font-size: 2rem;
+      }
+      .product-info p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="index.html#home" class="logo">Nutralux</a>
+    <i class="bx bx-menu" id="menu-icon"></i>
+    <nav class="navbar">
+      <a href="index.html#about" class="active">About</a>
+      <a href="index.html#services" class="active">Services</a>
+      <a href="catalog-en.html" class="active">Catalog</a>
+      <a href="index.html#contact" class="active">Contact</a>
+      <a id="lang-ru" class="active lang" aria-label="Русская версия"><span class="fi fi-ru"></span></a>
+    </nav>
+  </header>
+
+  <main id="content"></main>
+
+  <footer class="footer">
+    <div class="footer-text"><p>© 2025 Nutralux</p></div>
+    <div class="footer-iconTop"><a href="#"><i class='bx bx-up-arrow-alt'></i></a></div>
+  </footer>
+
+  <script>
+    function qs(name) {
+      const u = new URL(window.location.href);
+      return u.searchParams.get(name);
+    }
+
+    (function setLangLink(){
+      const slug = qs('slug');
+      const a = document.getElementById('lang-ru');
+      if (a) a.href = slug ? ('product.html?slug=' + encodeURIComponent(slug)) : 'catalog.html';
+    })();
+
+    async function loadProduct() {
+      const slug = qs('slug');
+      const container = document.getElementById('content');
+      const head = document.head;
+
+      if (!slug) {
+        container.innerHTML = '<section class="product-wrap"><p>Product not specified.</p></section>';
+        return;
+      }
+
+      try {
+        const resp = await fetch('products-en.json?v=' + Date.now(), { cache: 'no-store' });
+        const items = await resp.json();
+        const p = items.find(x => String(x.slug) === slug);
+
+        if (!p) {
+          container.innerHTML = '<section class="product-wrap"><p>Product not found.</p></section>';
+          return;
+        }
+
+        // --- Dynamic SEO Updates ---
+
+        // Update Title
+        document.title = `${p.name} — Nutralux | Buy Online`;
+
+        // Update Meta Description
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if (!metaDescription) {
+          metaDescription = document.createElement('meta');
+          metaDescription.name = 'description';
+          head.appendChild(metaDescription);
+        }
+        metaDescription.content = `${p.name}: ${p.description} Shop Nutralux for quality ${p.category} supplements.`;
+
+        // Update Meta Keywords (optional, less impactful but good for completeness)
+        let metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (!metaKeywords) {
+          metaKeywords = document.createElement('meta');
+          metaKeywords.name = 'keywords';
+          head.appendChild(metaKeywords);
+        }
+        metaKeywords.content = `${p.name}, ${p.category}, ${p.short.replace(/, /g, ', ')}, Nutralux, supplements, vitamins, online store, health`;
+
+        // Update Canonical Link
+        let canonicalLink = document.querySelector('link[rel="canonical"]');
+        if (!canonicalLink) {
+          canonicalLink = document.createElement('link');
+          canonicalLink.rel = 'canonical';
+          head.appendChild(canonicalLink);
+        }
+        canonicalLink.href = `https://yourwebsite.com/product-en.html?slug=${encodeURIComponent(p.slug)}`; // Replace with your actual domain
+
+        // Open Graph & Twitter Card Meta Tags
+        // Function to create/update meta property tags
+        const updateMetaProperty = (property, content) => {
+          let tag = document.querySelector(`meta[property="${property}"]`);
+          if (!tag) {
+            tag = document.createElement('meta');
+            tag.setAttribute('property', property);
+            head.appendChild(tag);
+          }
+          tag.content = content;
+        };
+
+        // Function to create/update meta name tags (for Twitter)
+        const updateMetaName = (name, content) => {
+          let tag = document.querySelector(`meta[name="${name}"]`);
+          if (!tag) {
+            tag = document.createElement('meta');
+            tag.setAttribute('name', name);
+            head.appendChild(tag);
+          }
+          tag.content = content;
+        };
+
+        updateMetaProperty('og:title', `${p.name} — Nutralux`);
+        updateMetaProperty('og:description', `${p.description}`);
+        updateMetaProperty('og:type', 'product'); // Specific for product pages
+        updateMetaProperty('og:url', `https://yourwebsite.com/product-en.html?slug=${encodeURIComponent(p.slug)}`); // Replace with your actual domain
+        updateMetaProperty('og:image', `https://yourwebsite.com/${p.image}`); // Replace with your actual domain if images are hosted elsewhere
+        updateMetaProperty('og:locale', 'en_US');
+
+        updateMetaName('twitter:card', 'summary_large_image');
+        updateMetaName('twitter:title', `${p.name} — Nutralux`);
+        updateMetaName('twitter:description', `${p.description}`);
+        updateMetaName('twitter:image', `https://yourwebsite.com/${p.image}`); // Replace with your actual domain
+
+        // Schema.org JSON-LD for Product
+        let schemaScript = document.getElementById('product-schema');
+        if (!schemaScript) {
+          schemaScript = document.createElement('script');
+          schemaScript.type = 'application/ld+json';
+          schemaScript.id = 'product-schema';
+          head.appendChild(schemaScript);
+        }
+
+        const productSchema = {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": p.name,
+          "description": p.description,
+          "image": `https://yourwebsite.com/${p.image}`, // Replace with your actual domain
+          "url": `https://yourwebsite.com/product-en.html?slug=${encodeURIComponent(p.slug)}`, // Replace with your actual domain
+          "brand": {
+            "@type": "Brand",
+            "name": "Nutralux"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": `https://yourwebsite.com/product-en.html?slug=${encodeURIComponent(p.slug)}`, // Replace with your actual domain
+            "priceCurrency": "USD", // Assuming USD, adjust if different
+            "price": "9.99", // Placeholder: You need to add actual price data to your products.json
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": "https://schema.org/InStock" // Assuming in stock, adjust as needed
+          }
+          // You can add more properties here like "aggregateRating", "review", etc.
+        };
+        schemaScript.textContent = JSON.stringify(productSchema, null, 2);
+
+        // --- End Dynamic SEO Updates ---
+
+        const factsHtml = p.facts?.map(f => `
+          <div>
+            <strong>${f.name}</strong>
+            <span class="fact-value">${f.value}</span>
+          </div>
+        `).join('') || '';
+
+        container.innerHTML = `
+          <section class="product-wrap">
+            <div><img src="${p.image}" alt="${p.name} Nutralux Supplement"></div> <!-- Improved alt for product image -->
+            <div class="product-info">
+              <span class="badge">${p.category}</span>
+              <h1>${p.name}</h1>
+              <p>${p.description}</p>
+              <div class="nutri">
+                ${factsHtml}
+              </div>
+              <p class="backline"><a class="btn" href="catalog-en.html"><i class='bx bx-left-arrow-alt'></i> Back to Catalog</a></p>
+            </div>
+          </section>
+        `;
+      } catch (e) {
+        console.error("Error loading product:", e);
+        container.innerHTML = '<section class="product-wrap"><p>An error occurred while loading the product or product not found.</p></section>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProduct);
+  </script>
+  <script src="scroll.js"></script>
+</body>
+</html>

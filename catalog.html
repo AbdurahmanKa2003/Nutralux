@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon" />
+
+    <!-- SEO Meta Tags -->
+    <title>Каталог Nutralux — Витамины и БАДы | Купить Магний, Омега-3, Пробиотики</title>
+    <meta name="description" content="Полный каталог витаминов и БАДов Nutralux: Магний, Омега-3, Пробиотики, Мультивитамины и другие добавки для здоровья. Изучите описания, формы выпуска и состав каждого продукта." />
+    <meta name="keywords" content="каталог витаминов, БАДы, купить витамины, магний, омега-3, пробиотики, мультивитамины, гинкго билоба, женское здоровье, детские витамины, Nutralux каталог, онлайн магазин добавок" />
+    <meta name="author" content="Nutralux" />
+    <link rel="canonical" href="https://yourwebsite.com/catalog.html" /> <!-- Замените на фактический URL вашего сайта -->
+
+    <!-- Open Graph Meta Tags (для социальных сетей) -->
+    <meta property="og:title" content="Каталог Nutralux — Витамины и БАДы" />
+    <meta property="og:description" content="Полный каталог витаминов и БАДов Nutralux: Магний, Омега-3, Пробиотики, Мультивитамины и другие добавки для здоровья. Изучите описания, формы выпуска и состав каждого продукта." />
+    <meta property="og:type" content="product.group" /> <!-- Или "website", если нет более подходящего типа -->
+    <meta property="og:url" content="https://yourwebsite.com/catalog.html" /> <!-- Замените на фактический URL вашего сайта -->
+    <meta property="og:image" content="https://yourwebsite.com/images/favicon-32x32.png" /> <!-- Замените на URL изображения, представляющего ваш каталог -->
+    <meta property="og:locale" content="ru_RU" />
+
+    <!-- Twitter Card Meta Tags (для Twitter) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Каталог Nutralux — Витамины и БАДы" />
+    <meta name="twitter:description" content="Полный каталог витаминов и БАДов Nutralux: Магний, Омега-3, Пробиотики, Мультивитамины и другие добавки для здоровья." />
+    <meta name="twitter:image" content="https://yourwebsite.com/images/favicon-32x32.png" /> <!-- Замените на URL изображения, представляющего ваш каталог -->
+
+    <!-- box icons -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+    <!-- lang icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css" />
+    <!-- css -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Schema.org JSON-LD Markup for Product Listing Page -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Каталог Nutralux — Витамины и БАДы",
+      "description": "Полный каталог витаминов и БАДов Nutralux: Магний, Омега-3, Пробиотики, Мультивитамины и другие добавки для здоровья.",
+      "url": "https://yourwebsite.com/catalog.html", <!-- Замените на фактический URL этой страницы -->
+      "publisher": {
+        "@type": "Organization",
+        "name": "Nutralux",
+        "url": "https://yourwebsite.com/", <!-- Замените на корневой URL вашего сайта -->
+        "logo": "https://yourwebsite.com/images/favicon-32x32.png" <!-- Замените на URL вашего логотипа -->
+      }
+      // Product offers can be dynamically added here by JavaScript
+    }
+    </script>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <a href="index-ru.html#home" class="logo">Nutralux</a>
+      <i class="bx bx-menu" id="menu-icon"></i>
+      <nav class="navbar">
+        <a href="index-ru.html#about" class="active">О нас</a>
+        <a href="index-ru.html#services" class="active">Услуги</a>
+        <a href="catalog.html" class="active">Каталог</a>
+        <a href="index-ru.html#contact" class="active">Контакты</a>
+        <!-- переключение языка -->
+        <a href="catalog-en.html" class="active lang" aria-label="English version">
+          <span class="fi fi-gb"></span>
+        </a>
+      </nav>
+    </header>
+
+    <section class="catalog-header">
+      <h1>Каталог <span>добавок Nutralux</span></h1> <!-- Обновленный заголовок -->
+    </section>
+
+    <section class="catalog-grid" id="catalog-grid"></section>
+
+    <footer class="footer">
+      <div class="footer-text"><p>© 2025 Nutralux</p></div>
+      <div class="footer-iconTop"><a href="#"><i class='bx bx-up-arrow-alt'></i></a></div>
+    </footer>
+
+    <script>
+      async function loadProducts() {
+        const grid = document.getElementById('catalog-grid');
+        try {
+          const resp = await fetch('products.json?v=' + Date.now(), { cache: 'no-store' });
+          const items = await resp.json();
+          
+          // Проверка на пустой каталог
+          if (items.length === 0) {
+            grid.innerHTML = '<div class="empty-catalog"><i class="bx bx-info-circle"></i><p>В каталоге пока нет товаров.</p></div>';
+            return;
+          }
+
+          grid.innerHTML = items.map(p => `
+            <article class="product-card">
+              <div class="product-image-container">
+                <img src="${p.image}" alt="${p.name} Nutralux" loading="lazy"> <!-- Улучшенный alt -->
+              </div>
+              <h3>${p.name}</h3>
+              <p>${p.short}</p>
+              <div class="card-bottom">
+                <span class="badge">${p.category}</span>
+                <a class="btn" href="product.html?slug=${encodeURIComponent(p.slug)}">Подробнее</a>
+              </div>
+            </article>
+          `).join('');
+        } catch (e) {
+          console.error("Ошибка загрузки каталога:", e); // Более информативное сообщение
+          grid.innerHTML = '<div class="error-message"><i class="bx bx-error-alt"></i><p>Не удалось загрузить каталог. Пожалуйста, попробуйте позже.</p></div>'; // Сообщение об ошибке
+        }
+      }
+      loadProducts();
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
