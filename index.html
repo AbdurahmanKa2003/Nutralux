@@ -261,119 +261,174 @@
       }
     </script>
 
-    <!-- Chat Widget -->
- <!-- Chat Widget -->
-<div id="chat-widget">
-  <style>
-    .chat-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-    }
-    
-    .chat-header {
-      background: #4CAF50;
-      color: white;
-      padding: 12px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 14px;
-    }
-    
-    .chat-messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      background: #f9f9f9;
-      font-size: 13px;
-    }
-    
-    .chat-input-container {
-      display: flex;
-      padding: 10px;
-      background: white;
-      border-top: 1px solid #ddd;
-    }
-    
-    .chat-input {
-      flex: 1;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      margin-right: 8px;
-      font-size: 13px;
-    }
-    
-    .chat-send {
-      padding: 8px 15px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    
-    .message {
-      margin: 8px 0;
-      padding: 8px 12px;
-      border-radius: 6px;
-      max-width: 85%;
-      word-wrap: break-word;
-    }
-    
-    .user-message {
-      background: #e3f2fd;
-      margin-left: auto;
-      text-align: right;
-    }
-    
-    .bot-message {
-      background: #f1f1f1;
-      margin-right: auto;
-    }
-    
-    .error-message {
-      background: #ffebee;
-      color: #c62828;
-      text-align: center;
-    }
-  </style>
+ <div id="chat-fab" style="display: flex;">
+    <i class="bx bx-chat"></i>
+</div>
 
-  <div class="chat-container">
-    <div class="chat-header">Чат-бот Nutralux</div>
-    <div class="chat-messages" id="chat-messages">
-      <div class="message bot-message">
-        <strong>Бот:</strong> Здравствуйте! Я чат-бот Nutralux. Чем могу помочь?
-      </div>
+<div id="chat-widget" style="display: none;">
+    <style>
+        /* Общие стили для виджета */
+        #chat-widget {
+            position: fixed;
+            bottom: 90px; /* Поднимаем выше, чтобы не перекрывать FAB */
+            right: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 350px;
+            height: 450px;
+            z-index: 9999;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            /* ! Важно: используем 'flex' для правильной компоновки */
+            flex-direction: column; 
+        }
+        /* Стиль для кнопки-переключателя (FAB) */
+        #chat-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #4CAF50; /* Цвет кнопки */
+            color: white;
+            border-radius: 50%;
+            display: flex; /* Для центрирования иконки */
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        /* Стили контейнеров чата (из вашего кода) */
+        .chat-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .chat-header {
+            background: #4CAF50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            font-size: 13px;
+        }
+        .chat-input-container {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #ddd;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-size: 13px;
+        }
+        .chat-send {
+            padding: 8px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .message {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            max-width: 85%;
+            word-wrap: break-word;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            text-align: right;
+        }
+        .bot-message {
+            background: #f1f1f1;
+            margin-right: auto;
+            text-align: left;
+        }
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            text-align: center;
+        }
+    </style>
+
+    <div class="chat-container">
+        <div class="chat-header">Чат-бот Nutralux</div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <strong>Бот:</strong> Здравствуйте! Я чат-бот Nutralux. Чем могу помочь?
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Напишите сообщение...">
+            <button class="chat-send" id="chat-send">Отправить</button>
+        </div>
     </div>
-    <div class="chat-input-container">
-      <input type="text" class="chat-input" id="chat-input" placeholder="Напишите сообщение...">
-      <button class="chat-send" id="chat-send">Отправить</button>
-    </div>
-  </div>
-
-
+</div>
 
 <script>
     // --- ГЛОБАЛЬНАЯ ПЕРЕМЕННАЯ ДЛЯ ПАМЯТИ ЯЗЫКА ---
-    let lastLanguage = 'ru'; 
-    
-    // <-- ИЗМЕНЕНИЕ 1: ДОБАВЛЯЕМ ССЫЛКИ НА ВИДЖЕТ И КНОПКУ -->
+    let lastLanguage = 'ru';
+
+    // --- ПРИВЯЗКА К DOM (для чата и кнопки) ---
     const chatWidget = document.getElementById('chat-widget');
     const chatFab = document.getElementById('chat-fab');
-    
-    // --- ПРИВЯЗКА К DOM (для чата) ---
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
 
-    // --- ДАТАСЕТ ПРОДУКТОВ (Ваш код) ---
+    // --- ФУНКЦИЯ ДЛЯ ПЕРЕКЛЮЧЕНИЯ ЧАТА (ОСНОВНАЯ ЛОГИКА) ---
+    function toggleChat() {
+        // Проверяем, скрыт ли чат (display === 'none' или пусто)
+        const isHidden = chatWidget.style.display === 'none' || chatWidget.style.display === '';
+
+        // Показываем/скрываем виджет
+        chatWidget.style.display = isHidden ? 'flex' : 'none';
+
+        // Меняем иконку (чат -> крестик при открытии, крестик -> чат при закрытии)
+        chatFab.innerHTML = isHidden ? '<i class="bx bx-x"></i>' : '<i class="bx bx-chat"></i>';
+
+        // Фокусируемся на поле ввода при открытии
+        if (isHidden) {
+            // Используйте .focus() на input, чтобы пользователь мог сразу печатать
+            setTimeout(() => chatInput.focus(), 100);
+        }
+    }
+
+    // --- НАЗНАЧАЕМ ОБРАБОТЧИКИ ---
+    if (chatFab) {
+        chatFab.addEventListener('click', toggleChat);
+    }
+
+    // --- ДАЛЬНЕЙШИЙ КОД ЧАТ-БОТА (продукты, getAIResponse, addMessage, sendMessage) ОСТАВЛЯЕТЕ БЕЗ ИЗМЕНЕНИЙ ---
+    /* (Здесь идет ваш код с const products = [...], getAIResponse, addMessage, sendMessage) */
+    
+    // Вставьте сюда весь ваш JavaScript-код, начиная от const products = [...]
+    // и заканчивая проверкой на ошибки в самом конце:
+
     const products = [
         { "slug": "ginkgo-biloba-500", "name": "Гинкго Билоба 500 мг", "short": "Память, внимание, кровообращение мозга", "category": "Растительные экстракты", "description": "Поддержка мозгового кровообращения и когнитивных функций: память, концентрация, координация. Снижение шума в ушах и головокружения, помощь при утомлении." },
         { "slug": "magnesium-b6", "name": "Магний B6", "short": "Нервная система, сон, усвоение магния", "category": "Минералы", "description": "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна. Витамин B6 поддерживает нервную систему." },
@@ -389,9 +444,7 @@
         { "slug": "slimming-complex", "name": "Слимминг Комплекс", "short": "Тонус, метаболизм и контроль аппетита", "category": "Комплексы", "description": "Тонизация и поддержка снижения веса: гуарана, зелёный чай, CLA, L-карнитин, гарциния, корица, гимнема, 5-HTP и хром." }
     ];
 
-    // --- ФУНКЦИЯ ДЛЯ ГЕНЕРАЦИИ ОТВЕТА (Ваш код) ---
     function getAIResponse(message) {
-        // ... (весь ваш существующий код getAIResponse) ...
         const lowerMessage = message.toLowerCase().trim();
         const productMap = {
             sleep: /(сон|спать|бессонниц|расслабл|тревог|stress|rest)/,
@@ -422,7 +475,7 @@
         // ОБРАБОТКА SOCIAL TALK (Как дела, спасибо, кто ты)
         if (/(как дела|how are you|ты кто|спасибо|благодарю|молодец|круто|хорошо|норм|thanks|thank you)/.test(lowerMessage)) {
             if (lastLanguage === 'ru' || /(как дела|спасибо|благодарю|молодец|круто|хорошо|норм)/.test(lowerMessage)) {
-                lastLanguage = 'ru'; 
+                lastLanguage = 'ru';
                 return "Я в порядке, спасибо! Готов помочь вам выбрать лучшие добавки для **здоровья и энергии**.\n\nЧто для вас сейчас важнее: **Сон** или **Иммунитет**?";
             } else {
                 lastLanguage = 'en';
@@ -448,7 +501,7 @@
             }
         }
         
-        // СЕКЦИЯ ОДИНОЧНЫХ КАТЕГОРИЙ 
+        // СЕКЦИЯ ОДИНОЧНЫХ КАТЕГОРИЙ
         if (keywordsFound.includes('sleep')) {
             const sleepProducts = products.filter(p => p.short.includes('сон') || p.name.includes('Магний') || p.name.includes('Стресс'));
             let response = "😴 **Для глубокого сна и стабильной нервной системы:**\n\n";
@@ -520,8 +573,8 @@
         const generalQuestionRu = /(что|какие|лучш|посоветуй|рекоменд|почему)/.test(lowerMessage);
         
         if (lastLanguage === 'ru' || generalQuestionRu) {
-             lastLanguage = 'ru'; 
-             if (generalQuestionRu) {
+            lastLanguage = 'ru';
+            if (generalQuestionRu) {
                 return "🤔 **Пожалуйста, уточните ваш запрос!**\n\nЯ могу помочь с выбором для конкретной цели, например:\n• 'Что для **сердца**?'\n• 'Лучшее для **кожи**?'\n\nИли спросите о комбинации: 'Что взять для сна и мозга?'";
             }
             // Обработка нестандартных вопросов на русском
@@ -529,8 +582,8 @@
                 return "💬 **Извините, мой профиль – это витамины и здоровье.** Я не могу ответить на вопросы, не связанные с продукцией Nutralux.\n\nПожалуйста, задайте вопрос о **Сне**, **Энергии**, **Иммунитете** или **Красоте**.\n\nЕсли вопрос касается доставки или оплаты, свяжитесь с нами в WhatsApp: 📞 +905332452900";
             }
         } else if (lastLanguage === 'en' || /(why|what|which|best)/.test(lowerMessage)) {
-            lastLanguage = 'en'; 
-             // Обработка нестандартных вопросов на английском
+            lastLanguage = 'en';
+            // Обработка нестандартных вопросов на английском
             if (lowerMessage.length > 5) {
                 return "💬 **I apologize, my focus is on vitamins and health.** I can only answer questions related to Nutralux products and health goals.\n\nPlease ask about **Sleep**, **Energy**, **Immunity**, or **Beauty**.\n\nFor delivery or payment questions, please contact us on WhatsApp: 📞 +905332452900";
             }
@@ -543,8 +596,8 @@
             return "🤔 **I am not sure how to respond to your request.** Please try asking about a specific health goal, using keywords like:\n\n• **Sleep**, **Immunity**, **Energy**, **Skin**, **Heart**.\n\nOr contact us on WhatsApp: 📞 +905332452900";
         }
     }
-    
-    // --- ФУНКЦИИ И ОБРАБОТЧИКИ DOM ---
+
+    // --- ФУНКЦИИ И ОБРАБОТЧИКИ DOM (из вашего кода) ---
     function addMessage(text, type = 'bot') {
         if (!chatMessages) return;
 
@@ -558,6 +611,7 @@
         } else if (type === 'error') {
             htmlText = `<strong>Ошибка:</strong> ${text}`;
         } else {
+            // Заменяем \n на <br> для переносов строки в ответах бота
             htmlText = `<strong>Бот:</strong> ${text.replace(/\n/g, '<br>')}`;
         }
         
@@ -592,29 +646,7 @@
         }, 1200);
     }
     
-    // <-- ИЗМЕНЕНИЕ 2: ФУНКЦИЯ ДЛЯ ПЕРЕКЛЮЧЕНИЯ ЧАТА (ОСНОВНАЯ ЛОГИКА) -->
-    function toggleChat() {
-        // Проверяем, скрыт ли чат
-        const isHidden = chatWidget.style.display === 'none' || chatWidget.style.display === '';
-        
-        // Показываем/скрываем виджет
-        chatWidget.style.display = isHidden ? 'flex' : 'none';
-
-        // Меняем иконку (чат -> крестик при открытии, крестик -> чат при закрытии)
-        chatFab.innerHTML = isHidden ? '<i class="bx bx-x"></i>' : '<i class="bx bx-chat"></i>';
-        
-        // Фокусируемся на поле ввода при открытии
-        if (isHidden) {
-            // Используйте .focus() на input, чтобы пользователь мог сразу печатать
-            setTimeout(() => chatInput.focus(), 100); 
-        }
-    }
-
-    // <-- ИЗМЕНЕНИЕ 3: НАЗНАЧАЕМ ОБРАБОТЧИКИ -->
-    if (chatFab) {
-        chatFab.addEventListener('click', toggleChat);
-    }
-    
+    // --- НАЗНАЧАЕМ ОБРАБОТЧИКИ (ОТПРАВКА СООБЩЕНИЙ) ---
     if (chatSend && chatInput) {
         chatSend.addEventListener('click', sendMessage);
         chatInput.addEventListener('keypress', (e) => {
@@ -626,14 +658,5 @@
     }
 
 </script>
-  <div id="chat-widget">
-        <style>...</style> 
-        <div class="chat-container">...</div>
-        <script>...</script>
-    </div>
-    
-    <div id="chat-fab">
-      <i class="bx bx-chat"></i>
-    </div>
   </body>
 </html>
