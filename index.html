@@ -372,95 +372,7 @@
         color: #c62828;
         text-align: center;
     }
-@media (max-width: 480px) {
-    #chat-widget {
-        width: calc(100% - 32px);
-        height: 82vh;
-        max-height: 82vh; /* Фиксируем высоту */
-        right: 16px;
-        left: 16px;
-        bottom: 84px;
-        max-width: none;
-        border-radius: 24px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        /* Предотвращаем проблемы с клавиатурой */
-        position: fixed;
-        transform: translateZ(0);
-    }
-    
-    #chat-fab {
-        bottom: 20px;
-        right: 20px;
-        width: 56px;
-        height: 56px;
-        font-size: 22px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-        border: 2px solid white;
-        position: fixed;
-        z-index: 1001;
-    }
-    
-    /* Исправляем область сообщений */
-    .chat-messages {
-        padding: 16px;
-        height: calc(100% - 140px); /* Фиксированная высота */
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        /* Предотвращаем скролл страницы behind */
-        overscroll-behavior: contain;
-    }
-    
-    .chat-input-container {
-        padding: 12px 16px;
-        background: white;
-        border-top: 1px solid #e0e0e0;
-        position: sticky;
-        bottom: 0;
-        /* Фиксируем поле ввода */
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
-    
-    #chat-input {
-        font-size: 16px;
-        padding: 14px 18px;
-        /* Убираем фокус, который вызывает зум */
-        touch-action: manipulation;
-    }
-    
-    /* Дополнительные исправления для клавиатуры */
-    .chat-wrapper {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    /* Предотвращаем сдвиг контента */
-    html.mobile-keyboard-open {
-        height: 100%;
-        overflow: hidden;
-    }
-    
-    html.mobile-keyboard-open body {
-        height: 100%;
-        overflow: hidden;
-    }
-    
-    /* Безопасные зоны для iPhone */
-    @supports (padding: max(0px)) {
-        #chat-widget {
-            left: max(16px, env(safe-area-inset-left));
-            right: max(16px, env(safe-area-inset-right));
-            bottom: max(84px, env(safe-area-inset-bottom));
-        }
-    }
-}
+
 </style>
 
     <div class="chat-container">
@@ -487,23 +399,7 @@
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
-      chatInput.addEventListener('focus', function() {
-        document.documentElement.classList.add('mobile-keyboard-open');
-      
-        setTimeout(() => {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 300);
-    });
     
-    chatInput.addEventListener('blur', function() {
-        document.documentElement.classList.remove('mobile-keyboard-open');
-    });
-    
-    // Альтернативное решение - виртуальная клавиатура
-    if ('virtualKeyboard' in navigator) {
-        navigator.virtualKeyboard.overlaysContent = true;
-    }
-});
     function toggleChat() {
         if (!chatWidget || !chatFab || !chatInput) {
             console.error("Элементы чата не найдены в DOM.");
