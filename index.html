@@ -1,4 +1,4 @@
-hey your bot again work bad please train him better and do him mach more smarter for every possible situation and do the styles for mobile format of bot more better an comfortable <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -266,114 +266,114 @@ hey your bot again work bad please train him better and do him mach more smarter
 </div>
 
 <div id="chat-widget" style="display: none;">
-  <style>
- 
-    #chat-widget {
-        position: fixed;
-        bottom: 90px;
-        right: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        width: 350px;
-        height: 450px;
-        z-index: 9999;
-        background: #fff;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        flex-direction: column;
-    }
- 
-    #chat-fab {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 60px;
-        height: 60px;
-        background: #4CAF50; /* Цвет кнопки */
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 30px;
-        cursor: pointer;
-        z-index: 10000;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    
-    .chat-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        background: white;
-        border-radius: 10px;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-    }
-    .chat-header {
-        background: #4CAF50;
-        color: white;
-        padding: 12px;
-        text-align: center;
-        font-weight: bold;
-        font-size: 14px;
-    }
-    .chat-messages {
-        flex: 1;
-        padding: 10px;
-        overflow-y: auto;
-        background: #f9f9f9;
-        font-size: 13px;
-    }
-    .chat-input-container {
-        display: flex;
-        padding: 10px;
-        background: white;
-        border-top: 1px solid #ddd;
-    }
-    .chat-input {
-        flex: 1;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-right: 8px;
-        font-size: 13px;
-    }
-    .chat-send {
-        padding: 8px 15px;
-        background: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 13px;
-    }
-    .message {
-        margin: 8px 0;
-        padding: 8px 12px;
-        border-radius: 6px;
-        max-width: 85%;
-        word-wrap: break-word;
-        line-height: 1.4;
-        white-space: pre-line;
-    }
-    .user-message {
-        background: #e3f2fd;
-        margin-left: auto;
-        text-align: right;
-    }
-    .bot-message {
-        background: #f1f1f1;
-        margin-right: auto;
-        text-align: left;
-    }
-    .error-message {
-        background: #ffebee;
-        color: #c62828;
-        text-align: center;
-    }
-
-</style>
+    <style>
+        /* Общие стили для виджета */
+        #chat-widget {
+            position: fixed;
+            bottom: 90px; /* Поднимаем выше, чтобы не перекрывать FAB */
+            right: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 350px;
+            height: 450px;
+            z-index: 9999;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            /* ! Важно: используем 'flex' для правильной компоновки */
+            flex-direction: column; 
+        }
+        /* Стиль для кнопки-переключателя (FAB) */
+        #chat-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #4CAF50; /* Цвет кнопки */
+            color: white;
+            border-radius: 50%;
+            display: flex; /* Для центрирования иконки */
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        /* Стили контейнеров чата (из вашего кода) */
+        .chat-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .chat-header {
+            background: #4CAF50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            font-size: 13px;
+        }
+        .chat-input-container {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #ddd;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-size: 13px;
+        }
+        .chat-send {
+            padding: 8px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .message {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            max-width: 85%;
+            word-wrap: break-word;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            text-align: right;
+        }
+        .bot-message {
+            background: #f1f1f1;
+            margin-right: auto;
+            text-align: left;
+        }
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            text-align: center;
+        }
+    </style>
 
     <div class="chat-container">
         <div class="chat-header">Чат-бот Nutralux</div>
@@ -399,13 +399,9 @@ hey your bot again work bad please train him better and do him mach more smarter
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
-    
-    function toggleChat() {
-        if (!chatWidget || !chatFab || !chatInput) {
-            console.error("Элементы чата не найдены в DOM.");
-            return;
-        }
 
+    // --- ФУНКЦИЯ ДЛЯ ПЕРЕКЛЮЧЕНИЯ ЧАТА (ОСНОВНАЯ ЛОГИКА) ---
+    function toggleChat() {
         // Проверяем, скрыт ли чат (display === 'none' или пусто)
         const isHidden = chatWidget.style.display === 'none' || chatWidget.style.display === '';
 
@@ -417,16 +413,22 @@ hey your bot again work bad please train him better and do him mach more smarter
 
         // Фокусируемся на поле ввода при открытии
         if (isHidden) {
+            // Используйте .focus() на input, чтобы пользователь мог сразу печатать
             setTimeout(() => chatInput.focus(), 100);
         }
     }
 
-    // --- НАЗНАЧАЕМ ОБРАБОТЧИК ДЛЯ КНОПКИ-ПЕРЕКЛЮЧАТЕЛЯ (FAB) ---
+    // --- НАЗНАЧАЕМ ОБРАБОТЧИКИ ---
     if (chatFab) {
         chatFab.addEventListener('click', toggleChat);
     }
+
+    // --- ДАЛЬНЕЙШИЙ КОД ЧАТ-БОТА (продукты, getAIResponse, addMessage, sendMessage) ОСТАВЛЯЕТЕ БЕЗ ИЗМЕНЕНИЙ ---
+    /* (Здесь идет ваш код с const products = [...], getAIResponse, addMessage, sendMessage) */
     
-    // --- ДАННЫЕ ПРОДУКТОВ ---
+    // Вставьте сюда весь ваш JavaScript-код, начиная от const products = [...]
+    // и заканчивая проверкой на ошибки в самом конце:
+
     const products = [
         { "slug": "ginkgo-biloba-500", "name": "Гинкго Билоба 500 мг", "short": "Память, внимание, кровообращение мозга", "category": "Растительные экстракты", "description": "Поддержка мозгового кровообращения и когнитивных функций: память, концентрация, координация. Снижение шума в ушах и головокружения, помощь при утомлении." },
         { "slug": "magnesium-b6", "name": "Магний B6", "short": "Нервная система, сон, усвоение магния", "category": "Минералы", "description": "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна. Витамин B6 поддерживает нервную систему." },
@@ -441,8 +443,6 @@ hey your bot again work bad please train him better and do him mach more smarter
         { "slug": "womens-multivitamin", "name": "Женский Мультивитамин", "short": "Ежедневный баланс, усвоение до 98%", "category": "Комплексы", "description": "Сбалансированный комплекс для женского организма: пищеварение, иммунитет, метаболизм, поддержка кожи и энергии." },
         { "slug": "slimming-complex", "name": "Слимминг Комплекс", "short": "Тонус, метаболизм и контроль аппетита", "category": "Комплексы", "description": "Тонизация и поддержка снижения веса: гуарана, зелёный чай, CLA, L-карнитин, гарциния, корица, гимнема, 5-HTP и хром." }
     ];
-
-    // --- ОСНОВНАЯ ЛОГИКА ЧАТ-БОТА ---
 
     function getAIResponse(message) {
         const lowerMessage = message.toLowerCase().trim();
@@ -459,7 +459,7 @@ hey your bot again work bad please train him better and do him mach more smarter
         
         const keywordsFound = Object.keys(productMap).filter(key => productMap[key].test(lowerMessage));
         
-        // --- 1. АДМИНИСТРАТИВНЫЕ И СОЦИАЛЬНЫЕ ОТВЕТЫ ---
+        // --- 1. АДМИНИСТРАТИВНЫЕ И СОЦИАЛЬНЫЕ ОТВЕТЫ (ОБНОВЛЕНИЕ ЯЗЫКА) ---
         
         // Приветствие и обновление языка
         if (/(привет|здравств|добр|хай|ку|начать)/.test(lowerMessage)) {
@@ -597,8 +597,7 @@ hey your bot again work bad please train him better and do him mach more smarter
         }
     }
 
-    // --- ФУНКЦИИ УПРАВЛЕНИЯ СООБЩЕНИЯМИ ---
-
+    // --- ФУНКЦИИ И ОБРАБОТЧИКИ DOM (из вашего кода) ---
     function addMessage(text, type = 'bot') {
         if (!chatMessages) return;
 
@@ -653,20 +652,6 @@ hey your bot again work bad please train him better and do him mach more smarter
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
+        
     } else {
-        console.error("Чат-бот не смог найти все элементы DOM (кнопки или инпут).");
-    }
-
-    // --- ДОПОЛНИТЕЛЬНЫЙ КОД ДЛЯ TYPED.JS ---
-    if (typeof Typed !== 'undefined' && document.querySelector('.multiple-text')) {
-        new Typed('.multiple-text', {
-            strings: ['supplements partner', 'daily wellness guide'],
-            typeSpeed: 100,
-            backSpeed: 100,
-            backDelay: 1000,
-            loop: true
-        });
-    }
-</script>
-  </body>
-</html>
+        console.error("Ча
