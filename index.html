@@ -487,8 +487,23 @@
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
-
-    // --- ФУНКЦИЯ ДЛЯ ПЕРЕКЛЮЧЕНИЯ ЧАТА (ОСНОВНАЯ ЛОГИКА) ---
+      chatInput.addEventListener('focus', function() {
+        document.documentElement.classList.add('mobile-keyboard-open');
+      
+        setTimeout(() => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 300);
+    });
+    
+    chatInput.addEventListener('blur', function() {
+        document.documentElement.classList.remove('mobile-keyboard-open');
+    });
+    
+    // Альтернативное решение - виртуальная клавиатура
+    if ('virtualKeyboard' in navigator) {
+        navigator.virtualKeyboard.overlaysContent = true;
+    }
+});
     function toggleChat() {
         if (!chatWidget || !chatFab || !chatInput) {
             console.error("Элементы чата не найдены в DOM.");
