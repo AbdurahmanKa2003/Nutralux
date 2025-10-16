@@ -373,183 +373,293 @@
   </div>
 
   
-
 <script>
-    // ЖДЕМ ЗАГРУЗКИ DOM ПЕРЕД ИНИЦИАЛИЗАЦИЕЙ
-    document.addEventListener('DOMContentLoaded', function() {
-        initializeChat();
-    });
+    // --------------------------------------------------------------------------------
+    // 1. ПРИВЯЗКА К DOM (ОБЯЗАТЕЛЬНА ДЛЯ РАБОТЫ СКРИПТА)
+    // --------------------------------------------------------------------------------
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+    const chatMessages = document.getElementById('chat-messages');
 
-    function initializeChat() {
-        // ОБЪЯВЛЯЕМ ПЕРЕМЕННЫЕ
-        const chatMessages = document.getElementById('chat-messages');
-        const chatInput = document.getElementById('chat-input');
-        const chatSend = document.getElementById('chat-send');
-
-        // ПРОВЕРКА ЭЛЕМЕНТОВ
-        if (!chatMessages || !chatInput || !chatSend) {
-            console.error('❌ Ошибка: Элементы чата не найдены!');
-            return;
+    // --------------------------------------------------------------------------------
+    // 2. ДАТАСЕТ ПРОДУКТОВ
+    // --------------------------------------------------------------------------------
+    const products = [
+        {
+            "slug": "ginkgo-biloba-500",
+            "name": "Гинкго Билоба 500 мг",
+            "short": "Память, внимание, кровообращение мозга",
+            "category": "Растительные экстракты",
+            "description": "Поддержка мозгового кровообращения и когнитивных функций: память, концентрация, координация. Снижение шума в ушах и головокружения, помощь при утомлении."
+        },
+        {
+            "slug": "magnesium-b6",
+            "name": "Магний B6",
+            "short": "Нервная система, сон, усвоение магния",
+            "category": "Минералы",
+            "description": "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна. Витамин B6 поддерживает нервную систему."
+        },
+        {
+            "slug": "omega-3-1000",
+            "name": "Омега-3 1000 мг",
+            "short": "Мозг, сердце, зрение",
+            "category": "Жирные кислоты",
+            "description": "Незаменимые жирные кислоты для работы мозга и сердечно-сосудистой системы, иммунитета и состояния кожи и зрения."
+        },
+        {
+            "slug": "b-complex",
+            "name": "Витамин B-комплекс",
+            "short": "Энергия, нервная система, кровь",
+            "category": "Витамины",
+            "description": "Комплекс витаминов группы B для энергообмена, работы ЦНС и кроветворения. Поддерживает синтез гемоглобина и обмен углеводов."
+        },
+        {
+            "slug": "anti-stress",
+            "name": "Анти-Стресс",
+            "short": "Спокойствие, сон, снижение тревожности",
+            "category": "Растительные экстракты",
+            "description": "Поддержка при тревоге и напряжении, нормализация сна. Растительные экстракты зверобоя, пассифлоры и валерианы."
+        },
+        {
+            "slug": "vitamin-d3-10000",
+            "name": "Витамин D3 10 000 МЕ",
+            "short": "Иммунитет, кальциевый обмен, сосуды",
+            "category": "Витамины",
+            "description": "Поддерживает иммунитет и здоровый кальциевый обмен, способствует эластичности сосудов и профилактике кальцификации тканей."
+        },
+        {
+            "slug": "zinc-complex",
+            "name": "Цинк (комплекс)",
+            "short": "Иммунитет, кожа, обмен",
+            "category": "Минералы",
+            "description": "Поддержка иммунитета, кожи и обменных процессов. Усилен витамином C, D и селеном."
+        },
+        {
+            "slug": "probiotic-30b",
+            "name": "Пробиотик",
+            "short": "Микробиом и пищеварение",
+            "category": "Пробиотики",
+            "description": "Мультиштаммовый пробиотик: защита от патогенов, синтез витаминов, улучшение всасывания минералов и поддержка иммунитета."
+        },
+        {
+            "slug": "collagen-30-sachets",
+            "name": "Коллаген — 30 саше",
+            "short": "Кожа, суставы, волосы и ногти",
+            "category": "Коллаген",
+            "description": "Три типа коллагена + витамин C, гиалуроновая кислота, коэнзим Q10, цинк, биотин для кожи, суставов и общего тонуса."
+        },
+        {
+            "slug": "vitamin-c-effervescent-1000",
+            "name": "Витамин C 1000 мг (шипучий)",
+            "short": "Иммунитет, антиоксидант, коллаген",
+            "category": "Витамины",
+            "description": "Поддерживает иммунитет, состояние сосудов и кожи, улучшает усвоение железа и синтез коллагена."
+        },
+        {
+            "slug": "womens-multivitamin",
+            "name": "Женский Мультивитамин",
+            "short": "Ежедневный баланс, усвоение до 98%",
+            "category": "Комплексы",
+            "description": "Сбалансированный комплекс для женского организма: пищеварение, иммунитет, метаболизм, поддержка кожи и энергии."
+        },
+        {
+            "slug": "slimming-complex",
+            "name": "Слимминг Комплекс",
+            "short": "Тонус, метаболизм и контроль аппетита",
+            "category": "Комплексы",
+            "description": "Тонизация и поддержка снижения веса: гуарана, зелёный чай, CLA, L-карнитин, гарциния, корица, гимнема, 5-HTP и хром."
         }
+    ];
 
-        console.log('✅ Все элементы чата загружены!');
-
-        // ВАШ ДАТАСЕТ ПРОДУКТОВ
-        const products = [
-            {
-                "slug": "ginkgo-biloba-500",
-                "name": "Гинкго Билоба 500 мг", 
-                "short": "Память, внимание, кровообращение мозга",
-                "category": "Растительные экстракты",
-                "description": "Поддержка мозгового кровообращения и когнитивных функций: память, концентрация, координация."
-            },
-            {
-                "slug": "magnesium-b6",
-                "name": "Магний B6",
-                "short": "Нервная система, сон, усвоение магния", 
-                "category": "Минералы",
-                "description": "Магний помогает при раздражительности, спазмах мышц и нарушениях сна."
-            },
-            {
-                "slug": "omega-3-1000", 
-                "name": "Омега-3 1000 мг",
-                "short": "Мозг, сердце, зрение",
-                "category": "Жирные кислоты", 
-                "description": "Незаменимые жирные кислоты для работы мозга и сердечно-сосудистой системы."
-            },
-            {
-                "slug": "b-complex",
-                "name": "Витамин B-комплекс",
-                "short": "Энергия, нервная система, кровь",
-                "category": "Витамины",
-                "description": "Комплекс витаминов группы B для энергообмена и работы ЦНС."
-            },
-            {
-                "slug": "anti-stress",
-                "name": "Анти-Стресс", 
-                "short": "Спокойствие, сон, снижение тревожности",
-                "category": "Растительные экстракты", 
-                "description": "Поддержка при тревоге и напряжении, нормализация сна."
-            },
-            {
-                "slug": "vitamin-d3-10000",
-                "name": "Витамин D3 10 000 МЕ", 
-                "short": "Иммунитет, кальциевый обмен, сосуды",
-                "category": "Витамины",
-                "description": "Поддерживает иммунитет и здоровый кальциевый обмен."
-            },
-            {
-                "slug": "zinc-complex",
-                "name": "Цинк (комплекс)",
-                "short": "Иммунитет, кожа, обмен", 
-                "category": "Минералы",
-                "description": "Поддержка иммунитета, кожи и обменных процессов."
-            },
-            {
-                "slug": "collagen-30-sachets",
-                "name": "Коллаген — 30 саше",
-                "short": "Кожа, суставы, волосы и ногти", 
-                "category": "Коллагen",
-                "description": "Три типа коллагена для кожи, суставов и общего тонуса."
-            },
-            {
-                "slug": "vitamin-c-effervescent-1000", 
-                "name": "Витамин C 1000 мг (шипучий)",
-                "short": "Иммунитет, антиоксидант, коллаген",
-                "category": "Витамины",
-                "description": "Поддерживает иммунитет, состояние сосудов и кожи."
-            }
-        ];
-
-        // УМНАЯ СИСТЕМА ОТВЕТОВ
-        function getAIResponse(message) {
-            const lowerMessage = message.toLowerCase().trim();
-            console.log('Анализируем запрос:', lowerMessage);
-            
-            if (/(hello|hi|hey)/.test(lowerMessage)) {
-                return "Hello! I'm Nutralux AI consultant. I speak English! How can I help you?";
-            }
-            
-            if (/(sleep|sleeping|сон)/.test(lowerMessage)) {
-                return "😴 **For better sleep:**\n• Magnesium B6 - for relaxation\n• Anti-Stress - reduces anxiety\n• Best choice: Magnesium B6";
-            }
-            
-            if (/(brain|memory|мозг|память)/.test(lowerMessage)) {
-                return "🧠 **For brain function:**\n• Ginkgo Biloba 500 mg - memory & focus\n• Omega-3 1000 mg - brain health\n• Top combination: Both together!";
-            }
-            
-            if (/(energy|tired|энерг|устал)/.test(lowerMessage)) {
-                return "⚡ **For energy:**\n• Vitamin B-Complex - instant energy\n• Best for fatigue: B-Complex";
-            }
-            
-            if (/(immun|immune|иммунит)/.test(lowerMessage)) {
-                return "🛡️ **For immunity:**\n• Vitamin C 1000 mg - antioxidant\n• Zinc Complex - immune support\n• Vitamin D3 - essential protection";
-            }
-            
-            if (/(skin|beauty|кожа|волос)/.test(lowerMessage)) {
-                return "💅 **For skin & beauty:**\n• Collagen 30 sachets - skin & joints\n• Zinc Complex - skin health";
-            }
-            
-            if (/(привет|здравств)/.test(lowerMessage)) {
-                return "Здравствуйте! 👋 Я AI-консультант Nutralux. Помогу выбрать витамины!\n\nСпросите:\n• Для сна 😴\n• Для памяти 🧠\n• Для энергии ⚡\n• Для иммунитета 🛡️";
-            }
-            
-            return "🤔 Tell me what you need:\n• Sleep 😴\n• Brain 🧠  \n• Energy ⚡\n• Immunity 🛡️\n• Skin 💅\n\nOr ask in Russian!";
+    // --------------------------------------------------------------------------------
+    // 3. УМНАЯ СИСТЕМА ОТВЕТОВ С ПРОДУКТАМИ
+    // --------------------------------------------------------------------------------
+    function getAIResponse(message) {
+        const lowerMessage = message.toLowerCase().trim();
+        console.log('Анализируем запрос:', lowerMessage);
+        
+        // Английские фразы
+        if (/(hello|hi|hey)/.test(lowerMessage)) {
+            return "Hello! I'm Nutralux AI consultant. I speak English! How can I help you with vitamins and supplements?\n\nYou can ask me about:\n• Sleep and relaxation\n• Brain and memory \n• Energy and vitality\n• Immunity protection\n• Skin and beauty";
         }
-
-        // ФУНКЦИЯ ДОБАВЛЕНИЯ СООБЩЕНИЙ
-        function addMessage(text, type = 'bot') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}-message`;
-            
-            text = text.replace(/\n/g, '<br>');
-            
-            if (type === 'user') {
-                messageDiv.innerHTML = `<strong>Вы:</strong> ${text}`;
-            } else {
-                messageDiv.innerHTML = `<strong>Бот:</strong> ${text}`;
-            }
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        if (/(english|speak english|do you speak)/.test(lowerMessage)) {
+            return "Yes, I speak English! 🇬🇧 I'm here to help you choose the best supplements from Nutralux. What are your health goals?\n\n• Better sleep\n• More energy\n• Strong immunity\n• Brain focus\n• Weight management";
         }
-
-        // ФУНКЦИЯ ОТПРАВКИ
-        function sendMessage() {
-            const userMessage = chatInput.value.trim();
-            if (!userMessage) return;
-
-            addMessage(userMessage, 'user');
-            chatInput.value = '';
-            chatSend.disabled = true;
-
-            // Индикатор печати
-            const typingIndicator = document.createElement('div');
-            typingIndicator.id = 'typing-indicator';
-            typingIndicator.className = 'message bot-message';
-            typingIndicator.innerHTML = `<strong>Бот:</strong> <em>печатает...</em>`;
-            chatMessages.appendChild(typingIndicator);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            setTimeout(() => {
-                document.getElementById('typing-indicator')?.remove();
-                const aiResponse = getAIResponse(userMessage);
-                addMessage(aiResponse, 'bot');
-                chatSend.disabled = false;
-            }, 1000);
+        
+        // Sleep - Английский и Русский
+        if (/(sleep|sleeping|сон|спать|бессонниц|усталость|расслабл|tired|rest)/.test(lowerMessage)) {
+            const sleepProducts = products.filter(p => 
+                p.short.includes('сон') || p.short.includes('Спокойствие') || p.name.includes('Магний') || p.name.includes('Стресс')
+            );
+            
+            let response = "😴 **For better sleep and relaxation I recommend:**\n\n";
+            sleepProducts.forEach(product => {
+                response += `• **${product.name}** - ${product.short}\n`;
+            });
+            response += "\n🌟 **Best choice:** Magnesium B6 - most effective for sleep quality!";
+            return response;
         }
+        
+        // Brain - Английский и Русский 
+        if (/(brain|memory|focus|мозг|памят|концентрац|внимание|ум|голов)/.test(lowerMessage)) {
+            const brainProducts = products.filter(p => 
+                p.short.includes('мозг') || p.short.includes('память') || p.short.includes('Мозг') || p.name.includes('Гинкго') || p.name.includes('Омега')
+            );
+            
+            let response = "🧠 **For brain function and memory:**\n\n";
+            brainProducts.forEach(product => {
+                response += `• **${product.name}** - ${product.short}\n`;
+            });
+            response += "\n💡 **Top combination:** Omega-3 + Ginkgo Biloba for maximum effect!";
+            return response;
+        }
+        
+        // Energy - Английский и Русский
+        if (/(energy|tired|fatigue|устал|энерг|бодр|сил|слабост|вял)/.test(lowerMessage)) {
+            // ИСПРАВЛЕН: Убрано 'Железо', которого нет в датасете
+            const energyProducts = products.filter(p => 
+                p.short.includes('Энергия') || p.short.includes('энерги') || p.name.includes('B-комплекс') || p.name.includes('Мультивитамин')
+            );
+            
+            let response = "⚡ **For energy and vitality:**\n\n";
+            energyProducts.forEach(product => {
+                response += `• **${product.name}** - ${product.short}\n`;
+            });
+            response += "\n🔋 **Quick boost:** Vitamin B-Complex gives immediate energy!";
+            return response;
+        }
+        
+        // Immunity - Английский и Русский
+        if (/(immun|immune|health|здоровье|иммунит|защит|простуда|грипп)/.test(lowerMessage)) {
+            const immunityProducts = products.filter(p => 
+                p.short.includes('Иммунитет') || p.short.includes('иммунитет') || p.name.includes('Цинк') || p.name.includes('Витамин C') || p.name.includes('Витамин D')
+            );
+            
+            let response = "🛡️ **For strong immunity:**\n\n";
+            immunityProducts.forEach(product => {
+                response += `• **${product.name}** - ${product.short}\n`;
+            });
+            response += "\n🏆 **Best protection:** Vitamin C + Zinc + Vitamin D3 combination!";
+            return response;
+        }
+        
+        // Skin & Beauty - Английский и Русский
+        if (/(skin|beauty|hair|nails|кожа|волос|ногт|красот)/.test(lowerMessage)) {
+            const beautyProducts = products.filter(p => 
+                p.short.includes('кожа') || p.short.includes('Кожа') || p.name.includes('Коллаген') || p.name.includes('Цинк')
+            );
+            
+            let response = "💅 **For skin, hair & nails:**\n\n";
+            beautyProducts.forEach(product => {
+                response += `• **${product.name}** - ${product.short}\n`;
+            });
+            response += "\n✨ **Most popular:** Collagen 30 sachets - visible results in 2-3 weeks!";
+            return response;
+        }
+        
+        // Weight management - Английский и Русский
+        if (/(weight|slim|fit|fat|похуд|вес|стройн|диет)/.test(lowerMessage)) {
+            const weightProducts = products.filter(p => 
+                p.short.includes('метаболизм') || p.name.includes('Слимминг') || p.name.includes('Комплекс')
+            );
+            
+            let response = "🏃 **For weight management:**\n\n";
+            weightProducts.forEach(product => {
+                response += `• **${product.name}** - ${product.short}\n`;
+            });
+            response += "\n🔥 **Effective:** Slimming Complex boosts metabolism naturally!";
+            return response;
+        }
+        
+        // General health questions
+        if (/(what.*recommend|what.*advice|recommend|advice|посоветуй|рекоменд)/.test(lowerMessage)) {
+            return "🤔 **Tell me more about your goals:**\n\nWhat would you like to improve?\n• Sleep quality 😴\n• Brain function 🧠\n• Energy levels ⚡\n• Immune protection 🛡️\n• Skin & beauty 💅\n• Weight management 🏃\n\nOr ask: 'What for sleep?' 'Best for energy?'";
+        }
+        
+        // Приветствия (Русские)
+        if (/(привет|здравств|добр|хай|ку)/.test(lowerMessage)) {
+            return "Здравствуйте! 👋 Я AI-консультант Nutralux. Помогу выбрать витамины именно для ваших целей!\n\nЧто вас интересует:\n• Сон и расслабление 😴\n• Память и концентрация 🧠\n• Энергия и бодрость ⚡\n• Иммунитет и защита 🛡️\n• Кожа и красота 💅\n• Контроль веса 🏃";
+        }
+        
+        // По умолчанию - УМНЫЙ ответ на двух языках
+        return "🤔 **Please tell me more about your health goals:**\n\nWhat would you like to improve?\n• Sleep & relaxation 😴\n• Brain & memory 🧠\n• Energy & vitality ⚡\n• Immunity 🛡️\n• Skin & beauty 💅\n• Weight 🏃\n\nOr ask in Russian: 'Что для сна?' 'Что для энергии?'\n\n📞 WhatsApp: +905332452900";
+    }
 
-        // ОБРАБОТЧИКИ СОБЫТИЙ
+    // --------------------------------------------------------------------------------
+    // 4. ФУНКЦИИ И ОБРАБОТЧИКИ DOM
+    // --------------------------------------------------------------------------------
+    
+    function addMessage(text, type = 'bot') {
+        if (!chatMessages) return; // Проверка, что элемент существует
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}-message`;
+        
+        // УЛУЧШЕННЫЙ подход для разметки (вместо замены \n на <br>)
+        let htmlText = text;
+        
+        if (type === 'user') {
+            htmlText = `<strong>Вы:</strong> ${text}`;
+        } else if (type === 'error') {
+            htmlText = `<strong>Ошибка:</strong> ${text}`;
+        } else {
+            // Для бота заменяем \n на <br> для корректного отображения Markdown-списков
+            htmlText = `<strong>Бот:</strong> ${text.replace(/\n/g, '<br>')}`;
+        }
+        
+        messageDiv.innerHTML = htmlText;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendMessage() {
+        if (!chatInput || !chatSend || !chatMessages) return; // Проверка, что все элементы существуют
+
+        const userMessage = chatInput.value.trim();
+        if (!userMessage) return;
+
+        addMessage(userMessage, 'user');
+        chatInput.value = '';
+        chatSend.disabled = true;
+
+        // Показываем "Бот печатает..."
+        const typingIndicator = document.createElement('div');
+        typingIndicator.id = 'typing-indicator';
+        typingIndicator.className = 'message bot-message';
+        typingIndicator.innerHTML = `<strong>Бот:</strong> <em>печатает...</em>`;
+        chatMessages.appendChild(typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Имитируем асинхронную задержку AI
+        setTimeout(() => {
+            // Убираем индикатор печати
+            document.getElementById('typing-indicator')?.remove();
+            
+            // Генерируем умный ответ
+            const aiResponse = getAIResponse(userMessage);
+            addMessage(aiResponse, 'bot');
+            chatSend.disabled = false;
+        }, 1200); // Задержка 1.2 секунды
+    }
+    
+    // --------------------------------------------------------------------------------
+    // 5. ИНИЦИАЛИЗАЦИЯ
+    // --------------------------------------------------------------------------------
+
+    // Проверяем, что элементы DOM существуют, прежде чем добавлять слушатели
+    if (chatSend && chatInput) {
         chatSend.addEventListener('click', sendMessage);
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
-
+        
         // Фокус на поле ввода
         setTimeout(() => chatInput.focus(), 500);
-        
-        console.log('✅ Чат полностью инициализирован!');
+    } else {
+        console.error("Чат-бот: Не найден один или несколько элементов (chat-input, chat-send, chat-messages). Проверьте HTML.");
     }
+
 </script>
 
   </body>
