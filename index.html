@@ -1,327 +1,279 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nutralux — Интернет-магазин витаминов и добавок</title>
-    
-    <!-- Стили -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon"/>
+
+    <!-- SEO Meta Tags -->
+    <title>Nutralux — Online Vitamins & Supplements Store | Buy Vitamin C, Magnesium, Zinc</title>
+    <meta name="description" content="Nutralux is your trusted online store for vitamins and supplements. We offer quality products like Vitamin C, Magnesium, Zinc, Multivitamins, and Probiotics. Explore our catalog, detailed product descriptions, and enjoy fast shipping."/>
+    <meta name="keywords" content="Nutralux, vitamins, supplements, buy vitamins, vitamin C, magnesium, zinc, multivitamins, probiotics, health, online supplement store, wellness, daily support" />
+    <meta name="author" content="Nutralux" />
+    <link rel="canonical" href="https://yourwebsite.com/index.html" />
+
+    <!-- Open Graph Meta Tags (for social media) -->
+    <meta property="og:title" content="Nutralux — Online Vitamins & Supplements Store" />
+    <meta property="og:description" content="Nutralux is your trusted online store for vitamins and supplements. We offer quality products like Vitamin C, Magnesium, Zinc, Multivitamins, and Probiotics. Explore our catalog, detailed product descriptions, and enjoy fast shipping." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourwebsite.com/index.html" />
+    <meta property="og:image" content="/images/avatar.png" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nutralux — Online Vitamins & Supplements Store" />
+    <meta name="twitter:description" content="Nutralux is your trusted online store for vitamins and supplements. We offer quality products like Vitamin C, Magnesium, Zinc, Multivitamins, and Probiotics. Explore our catalog, detailed product descriptions, and enjoy fast shipping." />
+    <meta name="twitter:image" content="https://yourwebsite.com/images/avatar.png" />
+
+    <!-- box icons -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"/>
+
+    <!-- lang icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css"/>
+
+    <!-- css -->
+    <link rel="stylesheet" href="styles.css"/>
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Nutralux",
+      "url": "https://yourwebsite.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://yourwebsite.com/catalog.html?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Nutralux",
+      "url": "https://yourwebsite.com/",
+      "logo": "https://yourwebsite.com/images/favicon-32x32.png",
+      "sameAs": [
+        "https://wa.me/905332452900",
+        "https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1",
+        "https://t.me/nutralux",
+        "https://clck.ru/3NQNkm"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+905332452900",
+        "contactType": "customer service"
+      }
+    }
+    </script>
+
+    <!-- Chat Widget Style -->
     <style>
-        /* СТИЛИ ЧАТ-ВИДЖЕТА */
-        .chat-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .chat-toggle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            transition: all 0.3s ease;
-        }
-
-        .chat-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        .chat-window {
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .chat-header h3 {
-            margin: 0;
-            font-size: 16px;
-        }
-
-        .close-chat {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            background: #f8f9fa;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            border-radius: 18px;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
-
-        .bot-message {
-            background: #e8f5e8;
-            border-bottom-left-radius: 5px;
-            align-self: flex-start;
-        }
-
-        .user-message {
-            background: #4CAF50;
-            color: white;
-            border-bottom-right-radius: 5px;
-            align-self: flex-end;
-            margin-left: auto;
-        }
-
-        .chat-input {
-            padding: 15px;
-            border-top: 1px solid #eee;
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            outline: none;
-        }
-
-        .chat-input button {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .quick-replies {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 10px 15px;
-            background: #f8f9fa;
-        }
-
-        .quick-reply {
-            background: white;
-            border: 1px solid #4CAF50;
-            color: #4CAF50;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .quick-reply:hover {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .typing-indicator {
-            display: none;
-            padding: 10px 15px;
-            color: #666;
-            font-style: italic;
-        }
-
-        /* Анимации */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message {
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* Адаптивность */
-        @media (max-width: 480px) {
-            .chat-window {
-                width: 300px;
-                height: 400px;
-            }
-        }
+      #chat-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        border: 1px solid #ccc;
+        width: 400px;
+        height: 500px;
+        z-index: 9999;
+        background: #fff;
+      }
     </style>
-</head>
-<body>
-    <!-- Ваш существующий HTML код -->
+  </head>
+
+  <body>
+    <!-------------- HEADER -------------->
+
     <header class="header">
-        <!-- ... ваш header ... -->
+      <a href="#home" class="logo">Nutralux</a>
+      <i class="bx bx-menu" id="menu-icon"></i>
+      <nav class="navbar">
+        <a href="#about" class="active">About</a>
+        <a href="#services" class="active">Services</a>
+        <a href="catalog.html" class="active">Catalog</a>
+        <a href="#contact" class="active">Contact</a>
+        <a href="index-ru.html" class="active lang" aria-label="Русская версия">
+          <span class="fi fi-ru"></span>
+        </a>
+      </nav>
     </header>
 
+    <!-------------- HOME -------------->
+
     <section class="home" id="home">
-        <!-- ... ваш home section ... -->
+      <div class="home-content">
+        <h1>Nutralux</h1>
+        <h3>Your <span class="multiple-text"></span></h3>
+        <p>
+          Vitamins and supplements for daily wellness: Vitamin C, Magnesium, Zinc,
+          Women’s Multivitamin, Probiotics, and more. Clear labels, sensible doses, and
+          friendly guidance.
+        </p>
+        <div class="social-media">
+          <a href="https://wa.me/905332452900" target="_blank" aria-label="WhatsApp Nutralux"><i class="bx bxl-whatsapp"></i></a>
+          <a href="https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1" target="_blank" aria-label="TikTok Nutralux"><i class="bx bxl-tiktok"></i></a>
+          <a href="https://t.me/nutralux" target="_blank" aria-label="Telegram Nutralux"><i class="bx bxl-telegram"></i></a>
+          <a href="https://clck.ru/3NQNkm" target="_blank" aria-label="Instagram Nutralux"><i class="bx bxl-instagram"></i></a>
+        </div>
+        <a href="catalog.html" class="btn">Browse catalog</a>
+      </div>
+
+      <div class="home-img">
+        <img src="images/avatar.png" alt="Woman holding Nutralux vitamin bottle" />
+      </div>
     </section>
 
-    <!-- ЧАТ-ВИДЖЕТ -->
-    <div class="chat-widget">
-        <button class="chat-toggle">💬</button>
-        <div class="chat-window">
-            <div class="chat-header">
-                <h3>Чат поддержки Nutralux</h3>
-                <button class="close-chat">×</button>
-            </div>
-            <div class="chat-messages">
-                <div class="message bot-message">
-                    Здравствуйте! Чем могу помочь? 😊
-                </div>
-            </div>
-            <div class="typing-indicator">
-                Сотрудник печатает...
-            </div>
-            <div class="quick-replies">
-                <div class="quick-reply">💊 Каталог продуктов</div>
-                <div class="quick-reply">🚚 Доставка</div>
-                <div class="quick-reply">💰 Скидки</div>
-                <div class="quick-reply">📞 Контакты</div>
-            </div>
-            <div class="chat-input">
-                <input type="text" placeholder="Введите ваше сообщение...">
-                <button>➤</button>
-            </div>
+    <!-------------- ABOUT -------------->
+
+    <section class="about" id="about">
+      <div class="about-img">
+        <img src="images/about-image.png" alt="Various Nutralux vitamins and supplements on a white background" />
+      </div>
+      <div class="about-content">
+        <h2 class="heading">About <span>Nutralux Store</span></h2>
+        <h3>Daily support with trusted supplements</h3>
+        <p>
+          We curate straightforward formulas with transparent dosing. Whether it’s
+          immunity, energy, sleep, or skin health — we’ll help you pick what fits.
+        </p>
+        <p>
+          Focus products: Vitamin C, Magnesium, Zinc, Women’s Multivitamin, Probiotics and basic wellness stacks.
+        </p>
+      </div>
+    </section>
+
+    <!-------------- SERVICES -------------->
+
+    <section class="services" id="services">
+      <h2 class="heading">Our <span>Nutralux Services</span></h2>
+      <div class="services-container">
+        <div class="services-box">
+          <i class="bx bx-support"></i>
+          <h3>Personal guidance</h3>
+          <ul>
+            <li>Help choosing formulas and doses</li>
+            <li>Simple intake recommendations</li>
+          </ul>
         </div>
-    </div>
 
-    <!-- JavaScript для чата -->
+        <div class="services-box">
+          <i class="bx bx-package"></i>
+          <h3>Fast shipping</h3>
+          <ul>
+            <li>Same-day dispatch</li>
+            <li>Order tracking</li>
+          </ul>
+        </div>
+
+        <div class="services-box">
+          <i class="bx bx-check-shield"></i>
+          <h3>Quality & transparency</h3>
+          <ul>
+            <li>Trusted suppliers</li>
+            <li>Clear labels and ingredients</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-------------- FEATURED -------------->
+
+    <section class="portfolio" id="portfolio">
+      <h2 class="heading">Featured <span>Nutralux Products</span></h2>
+      <div class="portfolio-container">
+        <div class="portfolio-box">
+          <div class="portfolio-img">
+            <img src="images/omega-3.jpg" alt="Bottle of Nutralux Omega-3 1000 mg supplements" />
+          </div>
+          <div class="portfolio-content">
+            <h4>Omega-3 1000 mg</h4>
+            <p>Brain, heart & vision support</p>
+            <a href="product-en.html?slug=omega-3-1000" class="btn">View</a>
+          </div>
+        </div>
+
+        <div class="portfolio-box">
+          <div class="portfolio-img">
+            <img src="images/womens-multivitamin.jpg" alt="Bottle of Nutralux Women’s Multivitamin" />
+          </div>
+          <div class="portfolio-content">
+            <h4>Women’s Multivitamin</h4>
+            <p>Daily balance, broad-spectrum</p>
+            <a href="product-en.html?slug=womens-multivitamin" class="btn">View</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top: 1.5rem;">
+        <a href="catalog-en.html" class="btn">See Full Catalog</a>
+      </div>
+    </section>
+
+    <!-------------- CONTACT -------------->
+
+    <section class="faq" id="faq">
+      <h2 class="heading">Frequently Asked <span>Questions about Nutralux</span></h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <h3>How fast is delivery?</h3>
+          <p>Delivery usually takes 1–2 business days. We ship orders on the same day they are placed.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Can children take your vitamins?</h3>
+          <p>Yes, we offer special complexes for children. Please check the “For Kids” section in our catalog.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Do you offer discounts for multiple items?</h3>
+          <p>Yes, when ordering 3 or more products, discounts apply and shipping is free.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>How can I pay for my order?</h3>
+          <p>We accept payment by card, e-wallets, and cash on delivery.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-------------- FOOTER -------------->
+
+    <footer class="footer">
+      <div class="footer-text">
+        <p>© 2025 Nutralux</p>
+      </div>
+      <div class="footer-icon-top">
+        <a href="#home"><i class="bx bx-up-arrow-alt"></i></a>
+      </div>
+    </footer>
+
+    <!-------------- SCROLL REVEAL --------------> 
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-------------- TYPED JS --------------> 
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <!-------------- CUSTOM JS --------------> 
+    <script src="script.js"></script>
     <script>
-        // Элементы чата
-        const chatToggle = document.querySelector('.chat-toggle');
-        const chatWindow = document.querySelector('.chat-window');
-        const closeChat = document.querySelector('.close-chat');
-        const chatMessages = document.querySelector('.chat-messages');
-        const chatInput = document.querySelector('.chat-input input');
-        const sendButton = document.querySelector('.chat-input button');
-        const quickReplies = document.querySelectorAll('.quick-reply');
-        const typingIndicator = document.querySelector('.typing-indicator');
-
-        // Открытие/закрытие чата
-        chatToggle.addEventListener('click', () => {
-            chatWindow.style.display = 'flex';
+      if (typeof Typed !== 'undefined' && document.querySelector('.multiple-text')) {
+        new Typed('.multiple-text', {
+          strings: ['supplements partner', 'daily wellness guide'],
+          typeSpeed: 100,
+          backSpeed: 100,
+          backDelay: 1000,
+          loop: true
         });
-
-        closeChat.addEventListener('click', () => {
-            chatWindow.style.display = 'none';
-        });
-
-        // Отправка сообщения
-        function sendMessage() {
-            const message = chatInput.value.trim();
-            if (message) {
-                addMessage(message, 'user');
-                chatInput.value = '';
-                
-                // Показать индикатор набора
-                typingIndicator.style.display = 'block';
-                
-                // Имитация ответа бота
-                setTimeout(() => {
-                    typingIndicator.style.display = 'none';
-                    let botResponse = getBotResponse(message);
-                    addMessage(botResponse, 'bot');
-                }, 1500);
-            }
-        }
-
-        // Обработчики отправки
-        sendButton.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-
-        // Быстрые ответы
-        quickReplies.forEach(reply => {
-            reply.addEventListener('click', () => {
-                const text = reply.textContent;
-                addMessage(text, 'user');
-                
-                typingIndicator.style.display = 'block';
-                
-                setTimeout(() => {
-                    typingIndicator.style.display = 'none';
-                    let botResponse = getQuickReplyResponse(text);
-                    addMessage(botResponse, 'bot');
-                }, 1000);
-            });
-        });
-
-        // Добавление сообщения в чат
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(sender + '-message');
-            messageDiv.textContent = text;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Логика ответов бота
-        function getBotResponse(message) {
-            const lowerMessage = message.toLowerCase();
-            
-            if (lowerMessage.includes('каталог') || lowerMessage.includes('продукт')) {
-                return 'Весь наш каталог доступен по ссылке: <a href="catalog.html" style="color: #4CAF50; text-decoration: underline;">Перейти в каталог</a>. Есть вопросы по конкретным продуктам?';
-            } else if (lowerMessage.includes('доставк') || lowerMessage.includes('достав')) {
-                return 'Доставка занимает 1-2 рабочих дня. Отправляем заказы в день оформления! 🚚';
-            } else if (lowerMessage.includes('скидк') || lowerMessage.includes('акци')) {
-                return 'При заказе от 3 товаров действуют скидки и бесплатная доставка! 🎁';
-            } else if (lowerMessage.includes('контакт') || lowerMessage.includes('телефон')) {
-                return 'Наши контакты: WhatsApp +905332452900, Telegram @nutralux. Работаем с 9:00 до 21:00 📞';
-            } else if (lowerMessage.includes('витамин') || lowerMessage.includes('добавк')) {
-                return 'У нас широкий ассортимент: витамин C, магний, цинк, омега-3, пробиотики. Что вас интересует? 💊';
-            } else {
-                return 'Спасибо за ваш вопрос! Для более точной информации свяжитесь с нами по WhatsApp +905332452900 или Telegram @nutralux 😊';
-            }
-        }
-
-        // Ответы на быстрые кнопки
-        function getQuickReplyResponse(text) {
-            if (text.includes('Каталог')) {
-                return 'Наш каталог: витамины, минералы, добавки для всей семьи. Смотрите по ссылке: <a href="catalog.html" style="color: #4CAF50; text-decoration: underline;">Перейти в каталог</a> 📋';
-            } else if (text.includes('Доставка')) {
-                return '🚚 Доставка 1-2 дня, отправка в день заказа! Бесплатная доставка при заказе от 3 товаров.';
-            } else if (text.includes('Скидки')) {
-                return '🎁 Скидки на наборы! При покупке 3+ товаров - специальные цены + бесплатная доставка.';
-            } else if (text.includes('Контакты')) {
-                return '📞 Наши контакты:\n• WhatsApp: +905332452900\n• Telegram: @nutralux\n• Работаем: 9:00-21:00';
-            }
-            return 'Чем еще могу помочь?';
-        }
+      }
     </script>
-</body>
+
+    <!-- Chat Widget -->
+    <iframe id="chat-widget" src="ChatWidget.html"></iframe>
+
+  </body>
 </html>
