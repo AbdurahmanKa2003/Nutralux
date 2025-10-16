@@ -73,19 +73,20 @@
     </script>
      <style>
   #chat-widget {
-            position: fixed;
-            bottom: 90px; /* Поднимаем выше, чтобы не перекрывать FAB */
-            right: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            width: 350px;
-            height: 450px;
-            z-index: 9999;
-            background: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            /* ! Важно: используем 'flex' для правильной компоновки */
-            flex-direction: column; 
-        }
+        position: fixed;
+        bottom: 90px; /* NEW: Поднято выше, чтобы быть НАД обеими кнопками (Fab и Наверх) */
+        right: 20px;  /* Выравнивается по правому краю с кнопкой "Наверх" */
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        width: 350px;
+        height: 450px;
+        z-index: 9999;
+        background: #fff;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        display: flex; /* Важно для корректного отображения содержимого */
+        flex-direction: column; 
+    }
+    
         /* Стиль для кнопки-переключателя (FAB) */
        
         /* Стили контейнеров чата (из вашего кода) */
@@ -162,18 +163,24 @@
             text-align: center;
         }
       /* Убедитесь, что эти стили есть и работают */
-#chat-fab {
-    position: fixed; /* ГЛАВНОЕ: закрепляет элемент на экране */
-    bottom: 20px;   /* Смещение от нижнего края */
-    right: 20px;    /* Смещение от правого края (уберет из левого угла) */
-    width: 60px;    /* Размер кнопки */
-    height: 60px;   /* Размер кнопки */
-    z-index: 10000; /* Гарантирует, что кнопка поверх всего */
-    background: #4CAF50; /* Зеленый цвет */
-    color: white; /* Цвет иконки */
-    border-radius: 50%; /* Круглая форма */
-    /* ... остальные стили ... */
-}
+ #chat-fab {
+        position: fixed;
+        bottom: 20px;   /* На той же высоте, что и "Наверх" */
+        right: 90px;    /* Сдвинуто ВЛЕВО на ~70px, чтобы не перекрывать "Наверх" */
+        width: 60px;    
+        height: 60px;   
+        z-index: 10000; /* Под кнопкой "Наверх" */
+        background: #4CAF50;
+        color: white; 
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Добавьте тень, чтобы выделить */
+    }
+
      </style>
   </head>
 
