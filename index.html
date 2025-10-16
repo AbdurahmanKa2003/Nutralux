@@ -276,7 +276,171 @@
     </script>
 
     <!-- Chat Widget -->
-    <iframe id="chat-widget" src="ChatWidget.html"></iframe>
+  <!-- Chat Widget -->
+<div id="chat-widget">
+  <style>
+    .chat-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .chat-header {
+      background: #4CAF50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+    
+    .chat-input-container {
+      display: flex;
+      padding: 15px;
+      background: white;
+      border-top: 1px solid #ddd;
+    }
+    
+    .chat-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    
+    .chat-send {
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .chat-send:hover {
+      background: #45a049;
+    }
+    
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 80%;
+    }
+    
+    .user-message {
+      background: #e3f2fd;
+      margin-left: auto;
+      text-align: right;
+    }
+    
+    .bot-message {
+      background: #f1f1f1;
+      margin-right: auto;
+    }
+    
+    .error-message {
+      background: #ffebee;
+      color: #c62828;
+      text-align: center;
+    }
+  </style>
+
+  <div class="chat-container">
+    <div class="chat-header">Чат-бот Nutralux</div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="message bot-message">
+        <strong>Бот:</strong> Здравствуйте! Я чат-бот Nutralux. Чем могу помочь?
+      </div>
+    </div>
+    <div class="chat-input-container">
+      <input type="text" class="chat-input" id="chat-input" placeholder="Напишите сообщение...">
+      <button class="chat-send" id="chat-send">Отправить</button>
+    </div>
+  </div>
+
+  <script>
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+
+    // URL вашего Worker - УБЕДИТЕСЬ ЧТО ПРАВИЛЬНЫЙ!
+    const WORKER_URL = 'https://broken-limit-ea39.030721109.workers.dev';
+
+    function addMessage(text, type = 'bot') {
+      const messageDiv = document.createElement('div');
+      
+      if (type === 'user') {
+        messageDiv.className = 'message user-message';
+        messageDiv.innerHTML = `<strong>Вы:</strong> ${text}`;
+      } else if (type === 'error') {
+        messageDiv.className = 'message error-message';
+        messageDiv.innerHTML = `<strong>Ошибка:</strong> ${text}`;
+      } else {
+        messageDiv.className = 'message bot-message';
+        messageDiv.innerHTML = `<strong>Бот:</strong> ${text}`;
+      }
+      
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    chatSend.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const userMessage = chatInput.value.trim();
+      if (!userMessage) return;
+
+      addMessage(userMessage, 'user');
+      chatInput.value = '';
+      chatSend.disabled = true;
+
+      try {
+        console.log('Отправка запроса на:', WORKER_URL);
+        
+        const response = await fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ message: userMessage })
+        });
+
+        console.log('Статус ответа:', response.status);
+        
+        if (!response.ok) {
+          throw new Error(`Ошибка сервера! Статус: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Данные ответа:', data);
+
+        const botReply = data.reply || data.error || 'Нет ответа от бота';
+        addMessage(botReply, 'bot');
+
+      } catch (err) {
+        console.error('Полная ошибка:', err);
+        addMessage('Не удалось подключиться к серверу. Попробуйте позже.', 'error');
+      } finally {
+        chatSend.disabled = false;
+      }
+    }
+  </script>
+</div>
 
   </body>
 </html>
