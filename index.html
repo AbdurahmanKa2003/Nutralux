@@ -378,27 +378,7 @@
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
 
-    // Локальные ответы пока не работает Worker
-    const localResponses = {
-        'привет': 'Здравствуйте! Чем могу помочь с выбором витаминов?',
-        'здравствуйте': 'Добрый день! Рад вас видеть в магазине Nutralux!',
-        'витамины': 'У нас есть Vitamin C, Magnesium, Zinc, Omega-3, Women’s Multivitamin. Что вас интересует?',
-        'цена': 'Цены уточняйте в каталоге. Все продукты высокого качества!',
-        'доставка': 'Доставка 1-2 дня. Бесплатная доставка при заказе от 3 товаров!',
-        'каталог': 'Посмотрите наш каталог: https://yourwebsite.com/catalog.html'
-    };
-
-    function getBotResponse(message) {
-        const lowerMessage = message.toLowerCase();
-        
-        for (const [key, response] of Object.entries(localResponses)) {
-            if (lowerMessage.includes(key)) {
-                return response;
-            }
-        }
-        
-        return 'Извините, я еще обучаюсь. Для подробной информации напишите нам в WhatsApp: +905332452900';
-    }
+    const WORKER_URL = 'https://broken-limit-ea39.030721109.workers.dev';
 
     function addMessage(text, type = 'bot') {
         const messageDiv = document.createElement('div');
@@ -425,46 +405,58 @@
         chatSend.disabled = true;
 
         try {
-            // Локальный ответ (работает сразу)
-            setTimeout(() => {
-                const botReply = getBotResponse(userMessage);
-                addMessage(botReply, 'bot');
-                chatSend.disabled = false;
-            }, 1000);
+            console.log('📨 Отправка POST на:', WORKER_URL);
+            console.log('Сообщение:', userMessage);
+            
+            // ВАЖНО: Правильный POST запрос
+            const response = await fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    message: userMessage 
+                })
+            });
 
-            // Параллельно пробуем Worker (если заработает)
-            try {
-                const response = await fetch('https://broken-limit-ea39.030721109.workers.dev/', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ message: userMessage })
-                });
+            console.log('📩 Статус ответа:', response.status);
+            console.log('OK:', response.ok);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('❌ Текст ошибки:', errorText);
+                throw new Error(`HTTP ${response.status}: ${errorText}`);
+            }
 
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.reply && data.reply !== 'No response from AI') {
-                        // Заменяем локальный ответ на ответ от AI
-                        chatMessages.lastChild.innerHTML = `<strong>Бот:</strong> ${data.reply}`;
-                    }
-                }
-            } catch (workerError) {
-                // Worker все еще не работает - используем локальный ответ
-                console.log('Worker недоступен, используем локальный ответ');
+            const data = await response.json();
+            console.log('✅ Данные ответа:', data);
+
+            // Показываем ответ от бота
+            if (data.reply) {
+                addMessage(data.reply, 'bot');
+            } else if (data.error) {
+                addMessage(`Ошибка: ${data.error}`, 'error');
+            } else {
+                addMessage('Непонятный ответ от сервера', 'error');
             }
 
         } catch (err) {
-            console.error('Ошибка:', err);
+            console.error('💥 Полная ошибка:', err);
+            addMessage(`Ошибка отправки: ${err.message}`, 'error');
+        } finally {
             chatSend.disabled = false;
         }
     }
 
+    // Обработчики событий
     chatSend.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
+
+    // Фокус на поле ввода при загрузке
+    chatInput.focus();
 </script>
 </div>
 
