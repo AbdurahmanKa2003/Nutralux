@@ -276,7 +276,7 @@
     </script>
 
     <!-- Chat Widget -->
-  <!-- Chat Widget -->
+ <!-- Chat Widget -->
 <div id="chat-widget">
   <style>
     .chat-container {
@@ -287,56 +287,58 @@
       background: white;
       border-radius: 10px;
       overflow: hidden;
+      font-family: Arial, sans-serif;
     }
     
     .chat-header {
       background: #4CAF50;
       color: white;
-      padding: 15px;
+      padding: 12px;
       text-align: center;
       font-weight: bold;
+      font-size: 14px;
     }
     
     .chat-messages {
       flex: 1;
-      padding: 15px;
+      padding: 10px;
       overflow-y: auto;
       background: #f9f9f9;
+      font-size: 13px;
     }
     
     .chat-input-container {
       display: flex;
-      padding: 15px;
+      padding: 10px;
       background: white;
       border-top: 1px solid #ddd;
     }
     
     .chat-input {
       flex: 1;
-      padding: 10px;
+      padding: 8px;
       border: 1px solid #ddd;
-      border-radius: 5px;
-      margin-right: 10px;
+      border-radius: 4px;
+      margin-right: 8px;
+      font-size: 13px;
     }
     
     .chat-send {
-      padding: 10px 20px;
+      padding: 8px 15px;
       background: #4CAF50;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
       cursor: pointer;
-    }
-    
-    .chat-send:hover {
-      background: #45a049;
+      font-size: 13px;
     }
     
     .message {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
-      max-width: 80%;
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      max-width: 85%;
+      word-wrap: break-word;
     }
     
     .user-message {
@@ -375,31 +377,25 @@
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
 
-    // URL вашего Worker - УБЕДИТЕСЬ ЧТО ПРАВИЛЬНЫЙ!
+    // ТЕСТОВЫЙ РЕЖИМ - сначала проверим без Worker
+    const TEST_MODE = true;
     const WORKER_URL = 'https://broken-limit-ea39.030721109.workers.dev';
 
     function addMessage(text, type = 'bot') {
       const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}-message`;
       
       if (type === 'user') {
-        messageDiv.className = 'message user-message';
         messageDiv.innerHTML = `<strong>Вы:</strong> ${text}`;
       } else if (type === 'error') {
-        messageDiv.className = 'message error-message';
         messageDiv.innerHTML = `<strong>Ошибка:</strong> ${text}`;
       } else {
-        messageDiv.className = 'message bot-message';
         messageDiv.innerHTML = `<strong>Бот:</strong> ${text}`;
       }
       
       chatMessages.appendChild(messageDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
-    chatSend.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
-    });
 
     async function sendMessage() {
       const userMessage = chatInput.value.trim();
@@ -410,7 +406,14 @@
       chatSend.disabled = true;
 
       try {
-        console.log('Отправка запроса на:', WORKER_URL);
+        // Сначала тестовый режим
+        if (TEST_MODE) {
+          addMessage(`Я получил: "${userMessage}". Worker в тестовом режиме.`, 'bot');
+          chatSend.disabled = false;
+          return;
+        }
+
+        console.log('Отправка на:', WORKER_URL);
         
         const response = await fetch(WORKER_URL, {
           method: 'POST',
@@ -420,25 +423,26 @@
           body: JSON.stringify({ message: userMessage })
         });
 
-        console.log('Статус ответа:', response.status);
-        
         if (!response.ok) {
-          throw new Error(`Ошибка сервера! Статус: ${response.status}`);
+          throw new Error(`HTTP ошибка: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('Данные ответа:', data);
-
-        const botReply = data.reply || data.error || 'Нет ответа от бота';
+        const botReply = data.reply || data.error || 'Нет ответа';
         addMessage(botReply, 'bot');
 
       } catch (err) {
-        console.error('Полная ошибка:', err);
-        addMessage('Не удалось подключиться к серверу. Попробуйте позже.', 'error');
+        console.error('Ошибка:', err);
+        addMessage('Ошибка подключения. Проверьте Worker URL.', 'error');
       } finally {
         chatSend.disabled = false;
       }
     }
+
+    chatSend.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
   </script>
 </div>
 
