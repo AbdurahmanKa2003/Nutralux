@@ -404,11 +404,17 @@
         chatInput.value = '';
         chatSend.disabled = true;
 
+        // Показываем "Бот печатает..."
+        const typingIndicator = document.createElement('div');
+        typingIndicator.id = 'typing-indicator';
+        typingIndicator.className = 'message bot-message';
+        typingIndicator.innerHTML = `<strong>Бот:</strong> <em>печатает...</em>`;
+        chatMessages.appendChild(typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
         try {
-            console.log('📨 Отправка POST на:', WORKER_URL);
-            console.log('Сообщение:', userMessage);
+            console.log('🔄 Отправка запроса к AI...');
             
-            // ВАЖНО: Правильный POST запрос
             const response = await fetch(WORKER_URL, {
                 method: 'POST',
                 headers: { 
@@ -416,47 +422,65 @@
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({ 
-                    message: userMessage 
+                    message: `Ты консультант магазина витаминов Nutralux. Ответь на вопрос: ${userMessage}`
                 })
             });
 
-            console.log('📩 Статус ответа:', response.status);
-            console.log('OK:', response.ok);
+            // Убираем индикатор печати
+            document.getElementById('typing-indicator')?.remove();
+
+            console.log('📨 Статус:', response.status);
             
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('❌ Текст ошибки:', errorText);
-                throw new Error(`HTTP ${response.status}: ${errorText}`);
+                const errorData = await response.json();
+                throw new Error(errorData.error || `HTTP ошибка: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('✅ Данные ответа:', data);
+            console.log('✅ Ответ AI:', data);
 
-            // Показываем ответ от бота
-            if (data.reply) {
+            if (data.reply && data.reply !== 'No response from AI') {
                 addMessage(data.reply, 'bot');
-            } else if (data.error) {
-                addMessage(`Ошибка: ${data.error}`, 'error');
             } else {
-                addMessage('Непонятный ответ от сервера', 'error');
+                throw new Error('AI не вернул ответ');
             }
 
         } catch (err) {
-            console.error('💥 Полная ошибка:', err);
-            addMessage(`Ошибка отправки: ${err.message}`, 'error');
+            console.error('❌ Ошибка AI:', err);
+            // Убираем индикатор печати при ошибке
+            document.getElementById('typing-indicator')?.remove();
+            
+            // Локальный ответ как запасной вариант
+            const localResponse = getLocalResponse(userMessage);
+            addMessage(localResponse, 'bot');
         } finally {
             chatSend.disabled = false;
         }
     }
 
-    // Обработчики событий
+    // Локальные ответы как запасной вариант
+    function getLocalResponse(message) {
+        const lowerMessage = message.toLowerCase();
+        
+        if (lowerMessage.includes('привет') || lowerMessage.includes('здравств')) {
+            return 'Здравствуйте! Я AI-консультант Nutralux. Расскажите, какие витамины вас интересуют?';
+        } else if (lowerMessage.includes('мозг') || lowerMessage.includes('brain') || lowerMessage.includes('памят')) {
+            return 'Для улучшения работы мозга рекомендую Omega-3 и витамины группы B. Они поддерживают когнитивные функции и концентрацию.';
+        } else if (lowerMessage.includes('сон') || lowerMessage.includes('sleep') || lowerMessage.includes('спать')) {
+            return 'Для улучшения сна отлично подходит Magnesium. Он помогает расслабиться и улучшает качество сна.';
+        } else if (lowerMessage.includes('витамин') || lowerMessage.includes('vitamin')) {
+            return 'У нас есть широкий ассортимент: Vitamin C для иммунитета, Magnesium для сна, Zinc для кожи, Omega-3 для мозга. Что вас интересует?';
+        } else if (lowerMessage.includes('доставк') || lowerMessage.includes('delivery')) {
+            return 'Доставка 1-2 дня по всей стране. Бесплатная доставка при заказе от 3 товаров!';
+        } else {
+            return 'Свяжитесь с нами в WhatsApp +905332452900 для персональной консультации!';
+        }
+    }
+
     chatSend.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
-
-    // Фокус на поле ввода при загрузке
-    chatInput.focus();
 </script>
 </div>
 
