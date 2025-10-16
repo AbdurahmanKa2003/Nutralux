@@ -74,18 +74,41 @@
     <!-- Chat Widget Style -->
    /* Chat Widget Style */
 <style>
-  #chat-widget {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 350px;
-    height: 450px;
-    z-index: 9999;
-    background: #fff;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
+  #chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 350px;
+    height: 450px;
+    z-index: 9999;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    /* <-- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: СКРЫВАЕМ ЧАТ ПО УМОЛЧАНИЮ --> */
+    display: none; 
+  }
+    /* <-- КЛЮЧЕВОЕ ДОБАВЛЕНИЕ: СТИЛИ ДЛЯ КНОПКИ --> */
+    #chat-fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: #4CAF50; /* Цвет кнопки */
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 60px;
+        font-size: 30px;
+        cursor: pointer;
+        z-index: 10000;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    #chat-fab i {
+        vertical-align: middle;
+        line-height: 1; 
+    }
 </style>
   </head>
 
