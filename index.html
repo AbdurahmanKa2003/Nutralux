@@ -402,6 +402,11 @@
 
     // --- ФУНКЦИЯ ДЛЯ ПЕРЕКЛЮЧЕНИЯ ЧАТА (ОСНОВНАЯ ЛОГИКА) ---
     function toggleChat() {
+        if (!chatWidget || !chatFab || !chatInput) {
+            console.error("Элементы чата не найдены в DOM.");
+            return;
+        }
+
         // Проверяем, скрыт ли чат (display === 'none' или пусто)
         const isHidden = chatWidget.style.display === 'none' || chatWidget.style.display === '';
 
@@ -413,22 +418,16 @@
 
         // Фокусируемся на поле ввода при открытии
         if (isHidden) {
-            // Используйте .focus() на input, чтобы пользователь мог сразу печатать
             setTimeout(() => chatInput.focus(), 100);
         }
     }
 
-    // --- НАЗНАЧАЕМ ОБРАБОТЧИКИ ---
+    // --- НАЗНАЧАЕМ ОБРАБОТЧИК ДЛЯ КНОПКИ-ПЕРЕКЛЮЧАТЕЛЯ (FAB) ---
     if (chatFab) {
         chatFab.addEventListener('click', toggleChat);
     }
-
-    // --- ДАЛЬНЕЙШИЙ КОД ЧАТ-БОТА (продукты, getAIResponse, addMessage, sendMessage) ОСТАВЛЯЕТЕ БЕЗ ИЗМЕНЕНИЙ ---
-    /* (Здесь идет ваш код с const products = [...], getAIResponse, addMessage, sendMessage) */
     
-    // Вставьте сюда весь ваш JavaScript-код, начиная от const products = [...]
-    // и заканчивая проверкой на ошибки в самом конце:
-
+    // --- ДАННЫЕ ПРОДУКТОВ ---
     const products = [
         { "slug": "ginkgo-biloba-500", "name": "Гинкго Билоба 500 мг", "short": "Память, внимание, кровообращение мозга", "category": "Растительные экстракты", "description": "Поддержка мозгового кровообращения и когнитивных функций: память, концентрация, координация. Снижение шума в ушах и головокружения, помощь при утомлении." },
         { "slug": "magnesium-b6", "name": "Магний B6", "short": "Нервная система, сон, усвоение магния", "category": "Минералы", "description": "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна. Витамин B6 поддерживает нервную систему." },
@@ -443,6 +442,8 @@
         { "slug": "womens-multivitamin", "name": "Женский Мультивитамин", "short": "Ежедневный баланс, усвоение до 98%", "category": "Комплексы", "description": "Сбалансированный комплекс для женского организма: пищеварение, иммунитет, метаболизм, поддержка кожи и энергии." },
         { "slug": "slimming-complex", "name": "Слимминг Комплекс", "short": "Тонус, метаболизм и контроль аппетита", "category": "Комплексы", "description": "Тонизация и поддержка снижения веса: гуарана, зелёный чай, CLA, L-карнитин, гарциния, корица, гимнема, 5-HTP и хром." }
     ];
+
+    // --- ОСНОВНАЯ ЛОГИКА ЧАТ-БОТА ---
 
     function getAIResponse(message) {
         const lowerMessage = message.toLowerCase().trim();
@@ -459,7 +460,7 @@
         
         const keywordsFound = Object.keys(productMap).filter(key => productMap[key].test(lowerMessage));
         
-        // --- 1. АДМИНИСТРАТИВНЫЕ И СОЦИАЛЬНЫЕ ОТВЕТЫ (ОБНОВЛЕНИЕ ЯЗЫКА) ---
+        // --- 1. АДМИНИСТРАТИВНЫЕ И СОЦИАЛЬНЫЕ ОТВЕТЫ ---
         
         // Приветствие и обновление языка
         if (/(привет|здравств|добр|хай|ку|начать)/.test(lowerMessage)) {
@@ -597,7 +598,8 @@
         }
     }
 
-    // --- ФУНКЦИИ И ОБРАБОТЧИКИ DOM (из вашего кода) ---
+    // --- ФУНКЦИИ УПРАВЛЕНИЯ СООБЩЕНИЯМИ ---
+
     function addMessage(text, type = 'bot') {
         if (!chatMessages) return;
 
@@ -652,11 +654,20 @@
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
-        
     } else {
-        console.error("Чат-бот: Не найден один или несколько элементов (chat-input, chat-send, chat-messages).");
+        console.error("Чат-бот не смог найти все элементы DOM (кнопки или инпут).");
     }
 
+    // --- ДОПОЛНИТЕЛЬНЫЙ КОД ДЛЯ TYPED.JS ---
+    if (typeof Typed !== 'undefined' && document.querySelector('.multiple-text')) {
+        new Typed('.multiple-text', {
+            strings: ['supplements partner', 'daily wellness guide'],
+            typeSpeed: 100,
+            backSpeed: 100,
+            backDelay: 1000,
+            loop: true
+        });
+    }
 </script>
   </body>
 </html>
