@@ -71,41 +71,157 @@
       }
     }
     </script>
-    <style>
- #chat-widget {
+   <style>
+   /* ====== 🌟 ОСНОВНОЙ СТИЛЬ ВИДЖЕТА ЧАТА ====== */
+#chat-widget {
   position: fixed;
   bottom: 90px;
   right: 20px;
   z-index: 9999;
-  display: none;
-  width: 350px;
-  height: 450px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  display: none; /* Скрыт по умолчанию */
+  width: 360px;
+  height: 480px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateY(20px);
+  opacity: 0;
 }
 
+#chat-widget.open {
+  display: flex;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ====== 💬 ЗАГОЛОВОК ЧАТА ====== */
+.chat-header {
+  background: linear-gradient(135deg, #4CAF50, #3e8e41);
+  color: white;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.chat-header button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.chat-header button:hover {
+  opacity: 0.8;
+}
+
+/* ====== 💌 ОБЛАСТЬ СООБЩЕНИЙ ====== */
+.chat-messages {
+  flex-grow: 1;
+  padding: 12px 16px;
+  overflow-y: auto;
+  background-color: #f6f7f8;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+
+/* ====== 💬 ОДИНОЧНЫЕ СООБЩЕНИЯ ====== */
+.message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.4;
+  animation: messageFadeIn 0.3s ease;
+}
+@keyframes messageFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bot-message {
+  background-color: #e8f5e9;
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+}
+
+.user-message {
+  background-color: #4CAF50;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+}
+
+/* ====== ✏️ ИНПУТ ====== */
+.chat-input-container {
+  display: flex;
+  padding: 10px 12px;
+  background-color: #ffffff;
+  border-top: 1px solid #eee;
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px 0 0 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s;
+}
+.chat-input:focus {
+  border-color: #4CAF50;
+}
+
+.chat-send {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0 8px 8px 0;
+  transition: background-color 0.2s;
+}
+.chat-send:hover {
+  background-color: #45a049;
+}
+
+/* ====== 💬 КНОПКА FAB (открытие чата) ====== */
 #chat-fab {
   position: fixed;
   bottom: 20px;
-  right: 90px;
+  right: 80px;
   z-index: 10000;
-  display: flex;
   width: 60px;
   height: 60px;
-  background: #4CAF50;
+  background: linear-gradient(135deg, #4CAF50, #3e8e41);
   color: white;
   border-radius: 50%;
+  display: flex;
   justify-content: center;
   align-items: center;
   font-size: 28px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#chat-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
+/* ====== 🔝 КНОПКА "НАВЕРХ" ====== */
 .footer-icon-top {
   position: fixed;
   bottom: 20px;
@@ -118,75 +234,48 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 .footer-icon-top a {
+  color: white;
+  font-size: 22px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: white;
-  font-size: 24px;
-  line-height: 1;
+  justify-content: center;
 }
 
-.chat-messages {
-  flex-grow: 1;
-  padding: 10px 15px;
-  overflow-y: auto;
-  background-color: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+/* ====== 📱 МОБИЛЬНАЯ ВЕРСИЯ ====== */
+@media (max-width: 600px) {
+  #chat-widget {
+    width: 95%;
+    height: 80vh;
+    right: 2.5%;
+    bottom: 90px;
+    border-radius: 12px;
+  }
 
-.chat-input-container {
-  display: flex;
-  padding: 10px 15px;
-  border-top: 1px solid #eee;
-  background-color: #fff;
-  flex-shrink: 0;
-}
+  #chat-fab {
+    width: 55px;
+    height: 55px;
+    right: 20px;
+    bottom: 20px;
+    font-size: 26px;
+  }
 
-.chat-input-container .chat-input {
-  flex-grow: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
-  margin-right: -1px;
-  font-size: 14px;
-}
+  .chat-header {
+    font-size: 15px;
+    padding: 12px;
+  }
 
-.chat-input-container .chat-send {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 0 5px 5px 0;
-  font-weight: bold;
-  flex-shrink: 0;
-}
+  .chat-input {
+    font-size: 13px;
+  }
 
-.message {
-  max-width: 80%;
-  padding: 6px 10px;
-  border-radius: 10px;
-  word-wrap: break-word;
-  font-size: 14px;
+  .message {
+    font-size: 13px;
+  }
 }
-
-.bot-message {
-  background-color: #e0f2f1;
-  align-self: flex-start;
-}
-
-.user-message {
-  background-color: #4CAF50;
-  color: white;
-  align-self: flex-end;
-}
-  </style>
+</style>
   </head>
 
  <body>
