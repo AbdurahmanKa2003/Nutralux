@@ -71,40 +71,72 @@ look in my code styles very bad please solve it <!DOCTYPE html>
       }
     }
     </script>
-      <style>
-/* ... (Ваши существующие стили позиционирования: #chat-widget, #chat-fab, .footer-icon-top) ... */
+ <style>
 
-/* --- СТИЛИЗАЦИЯ ВНУТРЕННИХ ЭЛЕМЕНТОВ ВИДЖЕТА (#chat-widget) --- */
 
+/* 1. Позиционирование самого виджета чата (Скрытый блок) */
 #chat-widget {
-    /* ... (Ваши существующие стили для позиционирования) ... */
-    
-    /* Важно: #chat-widget должен быть flex-контейнером для вертикального стекирования */
-    display: flex; /* Убедитесь, что это стоит (вы уже прописали flex-direction: column) */
-    flex-direction: column;
+    /* Основные параметры для плавающего блока */
+    position: fixed;
+    bottom: 90px; /* Должен быть выше, чем обе кнопки (90px) */
+    right: 20px;
+    z-index: 9999; /* Самый низкий из трех, но высокий */
+    display: none; /* Гарантированно скрываем по умолчанию */
+
+    /* Добавьте остальные стили, если их нет в styles.css: */
+    width: 350px;
+    height: 450px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    flex-direction: column; 
 }
 
-.chat-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column; /* Размещает Header, Messages и Input друг над другом */
-    overflow: hidden; /* Предотвращает прокрутку всего виджета */
+/* 2. Позиционирование кнопки ЧАТА (FAB) */
+#chat-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 90px; /* Сдвинуто влево, чтобы не перекрывать кнопку "Наверх" */
+    z-index: 10000;
+    display: flex; /* Делаем видимой по умолчанию */
+
+    /* Добавьте остальные стили, если их нет в styles.css: */
+    width: 60px;
+    height: 60px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* 1. Стилизация Шапки (Header) */
-.chat-header {
-    background-color: #4CAF50; /* Ваш зеленый цвет */
-    color: white;
-    padding: 10px 15px;
-    font-weight: bold;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    flex-shrink: 0; /* Шапка не должна сжиматься */
-}
+/* 3. Позиционирование кнопки "Наверх" (Самый высокий слой) */
+.footer-icon-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10001; /* САМЫЙ ВЫСОКИЙ: всегда сверху */
 
-/* 2. Стилизация Области Сообщений */
-.chat-messages {
+    /* Добавьте остальные стили, если их нет в styles.css: */
+    background: #4CAF50;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.footer-icon-top a {
+    color: white;
+    font-size: 24px;
+    line-height: 1;
+}
+   .chat-messages {
     flex-grow: 1; /* Область сообщений занимает всё доступное место */
     padding: 10px 15px;
     overflow-y: auto; /* Делает область прокручиваемой */
@@ -160,7 +192,7 @@ look in my code styles very bad please solve it <!DOCTYPE html>
     color: white;
     align-self: flex-end; /* Сообщения пользователя справа */
 }
-</style>
+     </style>
   </head>
 
  <body>
