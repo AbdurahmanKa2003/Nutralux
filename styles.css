@@ -634,5 +634,11 @@ section.catalog-header {
   box-shadow: 0 6px 14px rgba(44,168,74,0.25);
   transform: translateY(-2px);
 }
+@media (max-width: 768px) {
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}
 
       
