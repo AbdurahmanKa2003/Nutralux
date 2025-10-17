@@ -71,65 +71,70 @@
       }
     }
     </script>
-  <style>
-/* ... (Ваши существующие стили чата: #chat-widget, #chat-fab и т.д.) ... */
+ /* --- ГАРАНТИЯ КОРРЕКТНОГО ПОЗИЦИОНИРОВАНИЯ --- */
 
-/* Убеждаемся, что #chat-widget и #chat-fab остаются на месте */
+/* 1. Позиционирование самого виджета чата (Скрытый блок) */
 #chat-widget {
+    /* Основные параметры для плавающего блока */
     position: fixed;
-    bottom: 90px;
+    bottom: 90px; /* Должен быть выше, чем обе кнопки (90px) */
     right: 20px;
-    /* ... остальные стили ... */
-    z-index: 9999;
+    z-index: 9999; /* Самый низкий из трех, но высокий */
+    display: none; /* Гарантированно скрываем по умолчанию */
+
+    /* Добавьте остальные стили, если их нет в styles.css: */
+    width: 350px;
+    height: 450px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    flex-direction: column; 
 }
 
+/* 2. Позиционирование кнопки ЧАТА (FAB) */
 #chat-fab {
     position: fixed;
     bottom: 20px;
-    right: 90px; 
-    /* ... остальные стили ... */
-    z-index: 10000; 
-}
+    right: 90px; /* Сдвинуто влево, чтобы не перекрывать кнопку "Наверх" */
+    z-index: 10000;
+    display: flex; /* Делаем видимой по умолчанию */
 
-
-/* !!! НОВЫЕ/ИСПРАВЛЕННЫЕ СТИЛИ ДЛЯ КНОПКИ "НАВЕРХ" !!! */
-
-/* 1. Стилизация контейнера кнопки "Наверх" (footer-icon-top) */
-.footer-icon-top {
-    /* Делаем ее фиксированной, чтобы она всегда была видна внизу справа */
-    position: fixed; 
-    bottom: 20px; /* NEW: На той же высоте, что и FAB, но правее */
-    right: 20px;  /* NEW: Отступ от правого края */
-    z-index: 10001; /* NEW: Самый высокий слой, поверх FAB и чата */
-    
-    /* Добавьте базовые размеры, чтобы стрелка выглядела как круглая кнопка */
-    background: #4CAF50; /* Ваш зеленый цвет */
+    /* Добавьте остальные стили, если их нет в styles.css: */
+    width: 60px;
+    height: 60px;
+    background: #4CAF50;
     color: white;
-    width: 50px; /* Размер немного меньше FAB, чтобы не мешать */
-    height: 50px;
     border-radius: 50%;
-    display: flex; /* Для центрирования иконки */
     justify-content: center;
     align-items: center;
-    text-align: center;
+    font-size: 28px;
+    cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
+/* 3. Позиционирование кнопки "Наверх" (Самый высокий слой) */
+.footer-icon-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10001; /* САМЫЙ ВЫСОКИЙ: всегда сверху */
+
+    /* Добавьте остальные стили, если их нет в styles.css: */
+    background: #4CAF50;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
 .footer-icon-top a {
-    color: white; /* Цвет самой стрелки внутри ссылки */
+    color: white;
     font-size: 24px;
-    display: block;
-    line-height: 1; /* Убираем лишние отступы */
+    line-height: 1;
 }
-
-/* 2. Важно: Удаляем позиционирование из футера, если оно там есть */
-.footer {
-    /* Если у вас в styles.css есть position: relative/absolute, лучше его убрать, 
-       либо убедитесь, что оно не мешает фиксированной кнопке. */
-}
-
-/* ... (остальные ваши стили) ... */
-     </style>
   </head>
 
  <body>
