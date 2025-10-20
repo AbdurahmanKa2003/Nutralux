@@ -87,7 +87,6 @@
         border: 1px solid #e0e0e0;
         border-radius: 16px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-        display: flex;
         flex-direction: column;
         font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         overflow: hidden;
@@ -399,23 +398,23 @@
         #chat-widget {
           width: calc(100vw - 40px);
           height: 70vh;
-          bottom: 100px;
+          bottom: 120px;
           right: 20px;
           left: 20px;
           border-radius: 16px;
         }
 
         #chat-fab {
-          bottom: 35px;
-          right: 35px;
+          bottom: 40px;
+          right: 40px;
           width: 55px;
           height: 55px;
           font-size: 22px;
         }
 
         .footer-icon-top {
-          bottom: 35px;
-          right: 105px;
+          bottom: 40px;
+          right: 110px;
           width: 45px;
           height: 45px;
         }
@@ -440,17 +439,17 @@
           right: 15px;
           left: 15px;
           height: 65vh;
-          bottom: 90px;
+          bottom: 110px;
         }
 
         #chat-fab {
-          bottom: 30px;
-          right: 30px;
+          bottom: 35px;
+          right: 35px;
         }
 
         .footer-icon-top {
-          bottom: 30px;
-          right: 95px;
+          bottom: 35px;
+          right: 100px;
         }
 
         .chat-header {
@@ -485,22 +484,22 @@
       @supports (-webkit-touch-callout: none) {
         #chat-widget {
           position: fixed;
-          bottom: env(safe-area-inset-bottom, 100px);
+          bottom: env(safe-area-inset-bottom, 120px);
         }
         
         #chat-fab {
-          bottom: env(safe-area-inset-bottom, 30px);
+          bottom: env(safe-area-inset-bottom, 40px);
         }
         
         .footer-icon-top {
-          bottom: env(safe-area-inset-bottom, 30px);
+          bottom: env(safe-area-inset-bottom, 40px);
         }
       }
     </style>
   </head>
 
   <body>
-    <!-- Остальная часть вашего HTML остается без изменений -->
+    <!-- Остальная часть вашего HTML -->
     <header class="header">
       <a href="#home" class="logo">Nutralux</a>
 
@@ -687,7 +686,7 @@
 
     <!-- УЛУЧШЕННЫЙ СКРИПТ ЧАТ-БОТА -->
     <script>
-      /* === Nutralux Chatbot v5.0 — Fixed Issues & Enhanced Intelligence === */
+      /* === Nutralux Chatbot v6.0 — Fixed All Issues & Full Catalog === */
       (function() {
         document.addEventListener('DOMContentLoaded', function() {
           // --- DOM Elements ---
@@ -713,7 +712,7 @@
           let isFirstInteraction = true;
           let conversationHistory = [];
 
-          // --- Полный каталог продуктов ---
+          // --- ПОЛНЫЙ КАТАЛОГ ПРОДУКТОВ (все 20+ препаратов) ---
           const products = [
             {
               "slug": "ginkgo-biloba-500",
@@ -749,6 +748,42 @@
               "benefits": {
                 "ru": ["Улучшает качество сна", "Снижает стресс и раздражительность", "Помогает при мышечных спазмах", "Поддерживает нервную систему"],
                 "en": ["Improves sleep quality", "Reduces stress and irritability", "Helps with muscle spasms", "Supports nervous system"]
+              }
+            },
+            {
+              "slug": "burdock-extract",
+              "name": { "ru": "Экстракт Лопуха 500 мг", "en": "Burdock Extract 500 mg" },
+              "short": { "ru": "Общий тонус, противовоспалительный эффект", "en": "General tone, anti-inflammatory effect" },
+              "category": "Растительные экстракты",
+              "description": { 
+                "ru": "Оказывает оздоравливающий эффект на организм, способствует заживлению, помогает при воспалениях, нормализует вес и давление, выводит токсины и уменьшает отёки.",
+                "en": "Has a healing effect on the body, promotes healing, helps with inflammation, normalizes weight and blood pressure, removes toxins and reduces swelling."
+              },
+              "usage": {
+                "ru": "Принимать по 1 капсуле в день во время еды. Курс - 1-2 месяца.",
+                "en": "Take 1 capsule daily with meals. Course - 1-2 months."
+              },
+              "benefits": {
+                "ru": ["Противовоспалительное действие", "Выводит токсины из организма", "Нормализует давление", "Уменьшает отеки"],
+                "en": ["Anti-inflammatory action", "Removes toxins from the body", "Normalizes blood pressure", "Reduces swelling"]
+              }
+            },
+            {
+              "slug": "spirulina-1000",
+              "name": { "ru": "Спирулина 1000 мг", "en": "Spirulina 1000 mg" },
+              "short": { "ru": "Иммунитет, белок, обмен веществ", "en": "Immunity, protein, metabolism" },
+              "category": "Суперфуды",
+              "description": { 
+                "ru": "Поддерживает иммунитет и микрофлору кишечника, богата белком и пищевыми волокнами, помогает регулировать сахар крови и обмен веществ.",
+                "en": "Supports immunity and gut microflora, rich in protein and dietary fiber, helps regulate blood sugar and metabolism."
+              },
+              "usage": {
+                "ru": "Принимать по 2 капсулы 2 раза в день во время еды. Курс - 1 месяц.",
+                "en": "Take 2 capsules twice daily with meals. Course - 1 month."
+              },
+              "benefits": {
+                "ru": ["Укрепляет иммунитет", "Богатый источник белка", "Улучшает обмен веществ", "Поддерживает микрофлору кишечника"],
+                "en": ["Strengthens immunity", "Rich source of protein", "Improves metabolism", "Supports gut microflora"]
               }
             },
             {
@@ -788,6 +823,60 @@
               }
             },
             {
+              "slug": "iron-kids",
+              "name": { "ru": "Iron Kids (Железо)", "en": "Iron Kids" },
+              "short": { "ru": "Детское железо, иммунитет и рост", "en": "Children's iron, immunity and growth" },
+              "category": "Для детей",
+              "description": { 
+                "ru": "Поддерживает иммунитет, участвует в росте и восстановлении тканей. Дефицит железа может приводить к анемии.",
+                "en": "Supports immunity, participates in tissue growth and repair. Iron deficiency can lead to anemia."
+              },
+              "usage": {
+                "ru": "Детям принимать по 1 мл в день. Перед применением проконсультироваться с врачом.",
+                "en": "Children take 1 ml daily. Consult a doctor before use."
+              },
+              "benefits": {
+                "ru": ["Поддерживает иммунитет у детей", "Участвует в росте тканей", "Предотвращает анемию", "Поддерживает развитие"],
+                "en": ["Supports children's immunity", "Participates in tissue growth", "Prevents anemia", "Supports development"]
+              }
+            },
+            {
+              "slug": "propolis-multivitamin",
+              "name": { "ru": "Прополис Мультивитамин", "en": "Propolis Multivitamin" },
+              "short": { "ru": "Иммуномодулятор, поддержка слизистых", "en": "Immunomodulator, mucosal support" },
+              "category": "Комплексы",
+              "description": { 
+                "ru": "Натуральный иммуномодулятор с прополисом и набором витаминов и минералов. Поддержка при воспалениях, заживление, помощь ЖКТ.",
+                "en": "Natural immunomodulator with propolis and a set of vitamins and minerals. Support for inflammation, healing, gastrointestinal aid."
+              },
+              "usage": {
+                "ru": "Принимать по 10 мл 1 раз в день. Перед применением взболтать.",
+                "en": "Take 10 ml once daily. Shake before use."
+              },
+              "benefits": {
+                "ru": ["Укрепляет иммунитет", "Поддерживает слизистые оболочки", "Помогает при воспалениях", "Поддерживает ЖКТ"],
+                "en": ["Strengthens immunity", "Supports mucous membranes", "Helps with inflammation", "Supports gastrointestinal tract"]
+              }
+            },
+            {
+              "slug": "womens-multivitamin",
+              "name": { "ru": "Женский Мультивитамин", "en": "Women's Multivitamin" },
+              "short": { "ru": "Ежедневный баланс, усвоение до 98%", "en": "Daily balance, absorption up to 98%" },
+              "category": "Комплексы",
+              "description": { 
+                "ru": "Сбалансированный комплекс для женского организма: пищеварение, иммунитет, метаболизм, поддержка кожи и энергии.",
+                "en": "Balanced complex for the female body: digestion, immunity, metabolism, skin and energy support."
+              },
+              "usage": {
+                "ru": "Принимать по 1 капсуле 2 раза в день (утром и днем) во время еды. Курс - 1 месяц.",
+                "en": "Take 1 capsule twice daily (morning and afternoon) with meals. Course - 1 month."
+              },
+              "benefits": {
+                "ru": ["Поддерживает женское здоровье", "Улучшает пищеварение", "Повышает энергию", "Улучшает состояние кожи"],
+                "en": ["Supports women's health", "Improves digestion", "Increases energy", "Improves skin condition"]
+              }
+            },
+            {
               "slug": "vitamin-d3-10000",
               "name": { "ru": "Витамин D3 10 000 МЕ", "en": "Vitamin D3 10,000 IU" },
               "short": { "ru": "Иммунитет, кости, сосуды", "en": "Immunity, bones, vessels" },
@@ -806,21 +895,75 @@
               }
             },
             {
-              "slug": "zinc-complex",
-              "name": { "ru": "Цинк (комплекс)", "en": "Zinc Complex" },
-              "short": { "ru": "Иммунитет, кожа, обмен", "en": "Immunity, skin, metabolism" },
-              "category": "Минералы",
+              "slug": "anti-stress",
+              "name": { "ru": "Анти-Стресс", "en": "Anti-Stress" },
+              "short": { "ru": "Спокойствие, сон, снижение тревожности", "en": "Calm, sleep, anxiety reduction" },
+              "category": "Растительные экстракты",
               "description": { 
-                "ru": "Поддержка иммунитета, кожи и обменных процессов. Усилен витамином C, D и селеном.",
-                "en": "Supports immunity, skin, and metabolic processes. Enhanced with vitamins C, D and selenium."
+                "ru": "Поддержка при тревоге и напряжении, нормализация сна. Растительные экстракты зверобоя, пассифлоры и валерианы.",
+                "en": "Support for anxiety and tension, sleep normalization. Herbal extracts of St. John's wort, passionflower and valerian."
               },
               "usage": {
-                "ru": "Принимать по 1 таблетке в день во время еды. Рекомендуемый курс - 1 месяц.",
-                "en": "Take 1 tablet daily with meals. Recommended course - 1 month."
+                "ru": "Принимать по 1 капсуле 2 раза в день (утром и вечером). Для улучшения сна можно принять 2 капсулы за час до сна.",
+                "en": "Take 1 capsule twice daily (morning and evening). For better sleep, take 2 capsules 1 hour before bedtime."
               },
               "benefits": {
-                "ru": ["Укрепляет иммунитет", "Улучшает состояние кожи", "Поддерживает обмен веществ", "Антиоксидантная защита"],
-                "en": ["Strengthens immunity", "Improves skin condition", "Supports metabolism", "Antioxidant protection"]
+                "ru": ["Снижает стресс и тревожность", "Улучшает качество сна", "Расслабляет нервную систему", "Помогает при бессоннице"],
+                "en": ["Reduces stress and anxiety", "Improves sleep quality", "Relaxes the nervous system", "Helps with insomnia"]
+              }
+            },
+            {
+              "slug": "ca-mg-fe-d3",
+              "name": { "ru": "Ca-Mg-Fe-D3", "en": "Ca-Mg-Fe-D3" },
+              "short": { "ru": "Кости, кровь, обмен, профилактика дефицитов", "en": "Bones, blood, metabolism, deficiency prevention" },
+              "category": "Минералы",
+              "description": { 
+                "ru": "Сбалансированная комбинация кальция, магния, железа и витамина D для костей, крови и обмена веществ.",
+                "en": "Balanced combination of calcium, magnesium, iron and vitamin D for bones, blood and metabolism."
+              },
+              "usage": {
+                "ru": "Принимать по 2 таблетки в день во время еды. Курс - 1 месяц.",
+                "en": "Take 2 tablets daily with meals. Course - 1 month."
+              },
+              "benefits": {
+                "ru": ["Укрепляет кости и зубы", "Поддерживает кроветворение", "Улучшает обмен веществ", "Профилактика дефицитов"],
+                "en": ["Strengthens bones and teeth", "Supports hematopoiesis", "Improves metabolism", "Deficiency prevention"]
+              }
+            },
+            {
+              "slug": "artichoke-dandelion",
+              "name": { "ru": "Экстракты Артишока и Одуванчика", "en": "Artichoke and Dandelion Extracts" },
+              "short": { "ru": "Печень, желчегонный эффект, обмен", "en": "Liver, choleretic effect, metabolism" },
+              "category": "Растительные экстракты",
+              "description": { 
+                "ru": "Поддержка печени и желчевыводящих путей, антиоксидантная защита, мягкий мочегонный эффект.",
+                "en": "Liver and biliary tract support, antioxidant protection, mild diuretic effect."
+              },
+              "usage": {
+                "ru": "Принимать по 1 капсуле в день во время еды. Курс - 1-2 месяца.",
+                "en": "Take 1 capsule daily with meals. Course - 1-2 months."
+              },
+              "benefits": {
+                "ru": ["Поддерживает здоровье печени", "Улучшает отток желчи", "Антиоксидантная защита", "Мочегонный эффект"],
+                "en": ["Supports liver health", "Improves bile flow", "Antioxidant protection", "Diuretic effect"]
+              }
+            },
+            {
+              "slug": "st-johns-wort-parsley",
+              "name": { "ru": "Зверобой + Петрушка", "en": "St. John's Wort + Parsley" },
+              "short": { "ru": "Антисептический и седативный эффект", "en": "Antiseptic and sedative effect" },
+              "category": "Растительные экстракты",
+              "description": { 
+                "ru": "Растительная поддержка: антибактериальные, седативные и регенерирующие свойства; помощь при стрессах и сезонных простудах.",
+                "en": "Herbal support: antibacterial, sedative and regenerative properties; help with stress and seasonal colds."
+              },
+              "usage": {
+                "ru": "Принимать по 2 капсулы в день во время еды. Курс - 1 месяц.",
+                "en": "Take 2 capsules daily with meals. Course - 1 month."
+              },
+              "benefits": {
+                "ru": ["Антибактериальное действие", "Успокаивающий эффект", "Помогает при стрессе", "Поддержка при простудах"],
+                "en": ["Antibacterial action", "Calming effect", "Helps with stress", "Support for colds"]
               }
             },
             {
@@ -842,6 +985,24 @@
               }
             },
             {
+              "slug": "zinc-complex",
+              "name": { "ru": "Цинк (комплекс)", "en": "Zinc Complex" },
+              "short": { "ru": "Иммунитет, кожа, обмен", "en": "Immunity, skin, metabolism" },
+              "category": "Минералы",
+              "description": { 
+                "ru": "Поддержка иммунитета, кожи и обменных процессов. Усилен витамином C, D и селеном.",
+                "en": "Supports immunity, skin, and metabolic processes. Enhanced with vitamins C, D and selenium."
+              },
+              "usage": {
+                "ru": "Принимать по 1 таблетке в день во время еды. Рекомендуемый курс - 1 месяц.",
+                "en": "Take 1 tablet daily with meals. Recommended course - 1 month."
+              },
+              "benefits": {
+                "ru": ["Укрепляет иммунитет", "Улучшает состояние кожи", "Поддерживает обмен веществ", "Антиоксидантная защита"],
+                "en": ["Strengthens immunity", "Improves skin condition", "Supports metabolism", "Antioxidant protection"]
+              }
+            },
+            {
               "slug": "probiotic-30b",
               "name": { "ru": "Пробиотик", "en": "Probiotic" },
               "short": { "ru": "Микробиом и пищеварение", "en": "Microbiome and digestion" },
@@ -858,6 +1019,78 @@
                 "ru": ["Улучшает пищеварение", "Восстанавливает микрофлору", "Укрепляет иммунитет", "Улучшает усвоение питательных веществ"],
                 "en": ["Improves digestion", "Restores microflora", "Strengthens immunity", "Enhances nutrient absorption"]
               }
+            },
+            {
+              "slug": "slimming-complex",
+              "name": { "ru": "Слимминг Комплекс", "en": "Slimming Complex" },
+              "short": { "ru": "Тонус, метаболизм и контроль аппетита", "en": "Tone, metabolism and appetite control" },
+              "category": "Комплексы",
+              "description": { 
+                "ru": "Тонизация и поддержка снижения веса: гуарана, зелёный чай, CLA, L-карнитин, гарциния, корица, гимнема, 5-HTP и хром. Повышает выносливость, улучшает концентрацию и ускоряет обмен.",
+                "en": "Toning and weight loss support: guarana, green tea, CLA, L-carnitine, garcinia, cinnamon, gymnema, 5-HTP and chromium. Increases endurance, improves concentration and accelerates metabolism."
+              },
+              "usage": {
+                "ru": "Принимать по 2 капсулы 2 раза в день за 30 минут до еды (утром и в обед), запивая стаканом воды.",
+                "en": "Take 2 capsules twice daily 30 minutes before meals (morning and lunch), with a glass of water."
+              },
+              "benefits": {
+                "ru": ["Ускоряет метаболизм", "Контролирует аппетит", "Повышает энергию", "Поддерживает тонус"],
+                "en": ["Accelerates metabolism", "Controls appetite", "Increases energy", "Supports tone"]
+              }
+            },
+            {
+              "slug": "ginkgo-syrup",
+              "name": { "ru": "Гинкго Билоба — сироп", "en": "Ginkgo Biloba Syrup" },
+              "short": { "ru": "Память, мозговое кровообращение", "en": "Memory, cerebral circulation" },
+              "category": "Сиропы",
+              "description": { 
+                "ru": "Поддерживает память, ясность мышления и концентрацию; улучшает мозговое кровообращение, расширяет сосуды и нормализует давление.",
+                "en": "Supports memory, mental clarity and concentration; improves cerebral circulation, dilates blood vessels and normalizes blood pressure."
+              },
+              "usage": {
+                "ru": "Принимать по 5 мл (1 чайная ложка) 2 раза в день. Курс - 1 месяц.",
+                "en": "Take 5 ml (1 teaspoon) twice daily. Course - 1 month."
+              },
+              "benefits": {
+                "ru": ["Улучшает память и концентрацию", "Улучшает мозговое кровообращение", "Нормализует давление", "Расширяет сосуды"],
+                "en": ["Improves memory and concentration", "Enhances cerebral circulation", "Normalizes blood pressure", "Dilates blood vessels"]
+              }
+            },
+            {
+              "slug": "tribulus-complex",
+              "name": { "ru": "Трибулус комплекс", "en": "Tribulus Complex" },
+              "short": { "ru": "Мужское здоровье, тонус", "en": "Men's health, tone" },
+              "category": "Растительные экстракты",
+              "description": { 
+                "ru": "Поддержка мужской репродуктивной функции, выносливости и сосудистой системы. Содержит трибулус, эпимедиум, женьшень, L-аргинин и L-карнитин.",
+                "en": "Support for male reproductive function, endurance and vascular system. Contains tribulus, epimedium, ginseng, L-arginine and L-carnitine."
+              },
+              "usage": {
+                "ru": "Принимать по 2 капсулы в день во время еды. Курс - 1 месяц.",
+                "en": "Take 2 capsules daily with meals. Course - 1 month."
+              },
+              "benefits": {
+                "ru": ["Поддерживает мужское здоровье", "Повышает выносливость", "Улучшает репродуктивную функцию", "Поддерживает сосудистую систему"],
+                "en": ["Supports men's health", "Increases endurance", "Improves reproductive function", "Supports vascular system"]
+              }
+            },
+            {
+              "slug": "vitamin-c-effervescent-1000",
+              "name": { "ru": "Витамин C 1000 мг (шипучий)", "en": "Vitamin C 1000 mg (effervescent)" },
+              "short": { "ru": "Иммунитет, антиоксидант, коллаген", "en": "Immunity, antioxidant, collagen" },
+              "category": "Витамины",
+              "description": { 
+                "ru": "Поддерживает иммунитет, состояние сосудов и кожи, улучшает усвоение железа и синтез коллагена.",
+                "en": "Supports immunity, vascular and skin condition, improves iron absorption and collagen synthesis."
+              },
+              "usage": {
+                "ru": "Растворить 1 шипучую таблетку в стакане воды (200 мл). Принимать 1 раз в день во время еды. Курс 10-20 дней.",
+                "en": "Dissolve 1 effervescent tablet in a glass of water (200 ml). Take once daily with meals. Course 10-20 days."
+              },
+              "benefits": {
+                "ru": ["Укрепляет иммунитет", "Антиоксидантная защита", "Улучшает синтез коллагена", "Помогает усвоению железа"],
+                "en": ["Strengthens immunity", "Antioxidant protection", "Improves collagen synthesis", "Helps iron absorption"]
+              }
             }
           ];
 
@@ -865,9 +1098,11 @@
           function toggleChat() {
             const isOpen = chatWidget.classList.contains('is-open');
             if (isOpen) {
+              // Закрыть чат
               chatWidget.classList.remove('is-open');
               chatFab.innerHTML = '<i class="bx bx-chat"></i>';
             } else {
+              // Открыть чат
               chatWidget.classList.add('is-open');
               chatFab.innerHTML = '<i class="bx bx-x"></i>';
               if (isFirstInteraction) {
@@ -1240,11 +1475,11 @@
             chatMinimize.addEventListener('click', toggleChat);
           }
 
-          // Initial welcome message after delay
-          setTimeout(() => {
-            if (!isFirstInteraction) return;
-            showWelcomeMessage();
-          }, 1000);
+          // Убедимся, что чат изначально закрыт
+          chatWidget.classList.remove('is-open');
+          chatFab.innerHTML = '<i class="bx bx-chat"></i>';
+
+          // Initial welcome message after delay (только при открытии чата)
         });
       })();
     </script>
