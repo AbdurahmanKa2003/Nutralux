@@ -6,26 +6,10 @@
 
     <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon" />
 
-    <!-- SEO Meta Tags -->
     <title>Nutralux — Vitamins and Supplements Store | Buy Vitamin C, Magnesium, Zinc</title>
     <meta name="description" content="Nutralux — your reliable online store for vitamins and supplements. We offer quality products: vitamin C, magnesium, zinc, multivitamins, probiotics. Extensive catalog, detailed descriptions, fast delivery worldwide." />
     <meta name="keywords" content="Nutralux, vitamins, supplements, buy vitamins, vitamin C, magnesium, zinc, multivitamins, probiotics, health, supplement store, online vitamin store, immunity supplements, energy vitamins" />
     <meta name="author" content="Nutralux" />
-    <link rel="canonical" href="https://yourwebsite.com/index.html" />
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Nutralux — Vitamins and Supplements Store" />
-    <meta property="og:description" content="Nutralux — your reliable online store for vitamins and supplements. We offer quality products: vitamin C, magnesium, zinc, multivitamins, probiotics. Extensive catalog, detailed descriptions, fast delivery worldwide." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://yourwebsite.com/index.html" />
-    <meta property="og:image" content="https://yourwebsite.com/images/avatar.png" />
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Nutralux — Vitamins and Supplements Store" />
-    <meta name="twitter:description" content="Nutralux — your reliable online store for vitamins and supplements. We offer quality products: vitamin C, magnesium, zinc, multivitamins, probiotics. Extensive catalog, detailed descriptions, fast delivery worldwide." />
-    <meta name="twitter:image" content="https://yourwebsite.com/images/avatar.png" />
 
     <!-- box icons -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
@@ -36,50 +20,27 @@
     <!-- css -->
     <link rel="stylesheet" href="styles.css" />
 
-    <!-- Schema.org JSON-LD Markup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Nutralux",
-      "url": "https://yourwebsite.com/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://yourwebsite.com/catalog.html?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Nutralux",
-      "url": "https://yourwebsite.com/",
-      "logo": "https://yourwebsite.com/images/favicon-32x32.png",
-      "sameAs": [
-        "https://wa.me/905332452900",
-        "https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1",
-        "https://t.me/nutralux",
-        "https://clck.ru/3NQNkm"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+905332452900",
-        "contactType": "customer service",
-        "areaServed": "US"
-      }
-    }
-    </script>
-
     <!-- УЛУЧШЕННЫЕ СТИЛИ ЧАТА -->
     <style>
+      /* FIX: Исправление белой страницы при скролле */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      body {
+        min-height: 100vh;
+        position: relative;
+      }
+
       /* Основные стили чата */
       #chat-widget {
         position: fixed;
         bottom: 100px;
         right: 20px;
-        z-index: 9999;
+        z-index: 10002;
         display: none;
         width: 380px;
         height: 500px;
@@ -96,11 +57,12 @@
         display: flex;
       }
 
+      /* FIX: Увеличил z-index и исправил позиционирование кнопок */
       #chat-fab {
         position: fixed;
-        bottom: 30px;
-        right: 100px;
-        z-index: 10000;
+        bottom: 25px;
+        right: 95px;
+        z-index: 10003;
         display: flex;
         width: 60px;
         height: 60px;
@@ -123,9 +85,9 @@
 
       .footer-icon-top {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 10001;
+        bottom: 25px;
+        right: 25px;
+        z-index: 10001; /* Понизил z-index чтобы был ПОД кнопкой чата */
         background: linear-gradient(135deg, #4CAF50, #45a049);
         width: 50px;
         height: 50px;
@@ -163,7 +125,7 @@
 
       /* Шапка чата */
       .chat-header {
-        background: linear-gradient(135deg, #2E7D32, #4CAF50);
+        background: linear-gradient(135deg, #4CAF50, #45a049);
         color: white;
         padding: 16px 20px;
         font-weight: 600;
@@ -172,7 +134,6 @@
         justify-content: space-between;
         align-items: center;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
       }
 
       .chat-header-actions {
@@ -181,7 +142,7 @@
       }
 
       .chat-header-btn {
-        background: rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.2);
         border: none;
         color: white;
         width: 28px;
@@ -193,11 +154,10 @@
         cursor: pointer;
         font-size: 14px;
         transition: all 0.2s ease;
-        text-shadow: none;
       }
 
       .chat-header-btn:hover {
-        background: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.3);
         transform: scale(1.1);
       }
 
@@ -280,32 +240,14 @@
       }
 
       .bot-message strong {
-        color: #666;
+        color: #4CAF50;
         font-weight: 600;
       }
 
-      /* Нормальный цвет для текста сообщений */
+      /* Зеленый цвет для текста бота */
       .bot-message span {
-        color: #333;
-        line-height: 1.5;
-      }
-
-      .user-message span {
-        color: white;
-        line-height: 1.5;
-      }
-
-      /* Ссылки в сообщениях бота */
-      .bot-message a {
-        color: #4CAF50;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
-      }
-
-      .bot-message a:hover {
         color: #2E7D32;
-        text-decoration: underline;
+        line-height: 1.5;
       }
 
       /* Быстрые ответы */
@@ -406,30 +348,33 @@
         50% { opacity: 0.7; }
       }
 
-      /* Мобильная адаптация */
+      /* FIX: Улучшенная мобильная адаптация */
       @media (max-width: 768px) {
         #chat-widget {
           width: calc(100vw - 40px);
           height: 70vh;
-          bottom: 140px;
+          bottom: 90px;
           right: 20px;
           left: 20px;
           border-radius: 16px;
+          z-index: 10004;
         }
 
         #chat-fab {
-          bottom: 50px;
-          right: 50px;
+          bottom: 30px;
+          right: 30px;
           width: 55px;
           height: 55px;
           font-size: 22px;
+          z-index: 10005;
         }
 
         .footer-icon-top {
-          bottom: 50px;
-          right: 120px;
+          bottom: 30px;
+          right: 100px;
           width: 45px;
           height: 45px;
+          z-index: 10003;
         }
 
         .chat-messages {
@@ -452,17 +397,17 @@
           right: 15px;
           left: 15px;
           height: 65vh;
-          bottom: 130px;
+          bottom: 85px;
         }
 
         #chat-fab {
-          bottom: 45px;
-          right: 45px;
+          bottom: 25px;
+          right: 25px;
         }
 
         .footer-icon-top {
-          bottom: 45px;
-          right: 110px;
+          bottom: 25px;
+          right: 90px;
         }
 
         .chat-header {
@@ -484,40 +429,44 @@
         }
       }
 
-      /* Исправление для iOS */
+      /* FIX: Исправление для iOS и скролла */
       input, textarea, select {
         font-size: 16px !important;
-      }
-
-      html, body {
-        overscroll-behavior: none;
-        height: 100%;
       }
 
       @supports (-webkit-touch-callout: none) {
         #chat-widget {
           position: fixed;
-          bottom: env(safe-area-inset-bottom, 140px);
+          bottom: env(safe-area-inset-bottom, 100px);
         }
         
         #chat-fab {
-          bottom: env(safe-area-inset-bottom, 50px);
+          bottom: env(safe-area-inset-bottom, 25px);
         }
         
         .footer-icon-top {
-          bottom: env(safe-area-inset-bottom, 50px);
+          bottom: env(safe-area-inset-bottom, 25px);
         }
+      }
+
+      /* FIX: Гарантия что весь контент будет виден */
+      .home, .about, .services, .portfolio, .faq, .footer {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* FIX: Предотвращение скрытия контента */
+      main {
+        min-height: 100vh;
+        position: relative;
       }
     </style>
   </head>
 
   <body>
-    <!-- Остальная часть вашего HTML -->
     <header class="header">
       <a href="#home" class="logo">Nutralux</a>
-
       <i class="bx bx-menu" id="menu-icon"></i>
-
       <nav class="navbar">
         <a href="#about" class="active">About</a>
         <a href="#services" class="active">Services</a>
@@ -543,7 +492,6 @@
         </div>
         <a href="catalog.html" class="btn">Go to Catalog</a>
       </div>
-
       <div class="home-img">
         <img src="images/avatar.png" alt="Woman holding a bottle of Nutralux vitamins with green label" />
       </div>
@@ -553,7 +501,6 @@
       <div class="about-img">
         <img src="images/about-image.png" alt="Collection of various Nutralux vitamin and supplement bottles on white background" />
       </div>
-
       <div class="about-content">
         <h2 class="heading">About <span>Nutralux Store</span></h2>
         <h3>Supplements and vitamins for daily support</h3>
@@ -567,7 +514,6 @@
 
     <section class="services" id="services">
       <h2 class="heading">Our <span>Nutralux Services</span></h2>
-
       <div class="services-container">
         <div class="services-box">
           <i class="bx bx-support"></i>
@@ -577,7 +523,6 @@
             <li>Basic intake recommendations</li>
           </ul>
         </div>
-
         <div class="services-box">
           <i class="bx bx-package"></i>
           <h3>Fast Worldwide Delivery</h3>
@@ -586,7 +531,6 @@
             <li>Order status tracking</li>
           </ul>
         </div>
-
         <div class="services-box">
           <i class="bx bx-check-shield"></i>
           <h3>Quality and Supplement Transparency</h3>
@@ -600,7 +544,6 @@
 
     <section class="portfolio" id="portfolio">
       <h2 class="heading">Popular <span>Nutralux Products</span></h2>
-  
       <div class="portfolio-container">
         <div class="portfolio-box">
           <div class="portfolio-img">
@@ -612,7 +555,6 @@
             <a href="product.html?slug=omega-3-1000" class="btn">Learn More</a>
           </div>
         </div>
-  
         <div class="portfolio-box">
           <div class="portfolio-img">
             <img src="images/womens-multivitamin.jpg" alt="Nutralux Women's Multivitamin bottle" />
@@ -624,7 +566,6 @@
           </div>
         </div>
       </div>
-  
       <div style="text-align:center; margin-top: 1.5rem;">
         <a href="catalog.html" class="btn">View Full Catalog</a>
       </div>
@@ -632,23 +573,19 @@
 
     <section class="faq" id="faq">
       <h2 class="heading">Frequently Asked <span>Questions about Nutralux</span></h2>
-  
       <div class="faq-container">
         <div class="faq-item">
           <h3>How fast is delivery?</h3>
           <p>Delivery usually takes 1-2 business days. We ship orders on the same day they are placed.</p>
         </div>
-  
         <div class="faq-item">
           <h3>Can children take your vitamins?</h3>
           <p>Yes, we have special complexes for children. Please check the "For Kids" section in our catalog.</p>
         </div>
-  
         <div class="faq-item">
           <h3>Are there discounts for multiple items?</h3>
           <p>Yes, for orders of 3 or more items, we offer discounts and free shipping.</p>
         </div>
-  
         <div class="faq-item">
           <h3>What payment methods are available?</h3>
           <p>We accept card payments, e-wallets, and cash on delivery.</p>
@@ -660,7 +597,6 @@
       <div class="footer-text">
         <p>© 2025 Nutralux</p>
       </div>
-
       <div class="footer-icon-top">
         <a href="#home"><i class="bx bx-up-arrow-alt"></i></a>
       </div>
@@ -699,7 +635,7 @@
 
     <!-- УЛУЧШЕННЫЙ СКРИПТ ЧАТ-БОТА -->
     <script>
-      /* === Nutralux Chatbot v7.0 — Fixed All Issues & Complete Catalog === */
+      /* === Nutralux Chatbot v4.5 — Fixed Mobile Issues === */
       (function() {
         document.addEventListener('DOMContentLoaded', function() {
           // --- DOM Elements ---
@@ -725,384 +661,72 @@
           let isFirstInteraction = true;
           let conversationHistory = [];
 
-          // --- ПОЛНЫЙ КАТАЛОГ ПРОДУКТОВ (все 20+ препаратов с полной информацией) ---
+          // --- Enhanced Product Data ---
           const products = [
             {
-              "slug": "ginkgo-biloba-500",
-              "name": { "ru": "Гинкго Билоба 500 мг", "en": "Ginkgo Biloba 500 mg" },
-              "short": { "ru": "Память, внимание, кровообращение мозга", "en": "Memory, focus, brain circulation" },
-              "category": "Растительные экстракты",
-              "description": { 
-                "ru": "Поддержка мозгового кровообращения и когнитивных функций: память, концентрация, координация. Снижение шума в ушах и головокружения, помощь при утомлении.",
-                "en": "Supports brain circulation and cognitive functions: memory, concentration, coordination. Reduces tinnitus and dizziness, helps with fatigue."
+              slug: "omega-3-1000", 
+              name: { ru: "Омега-3 1000 мг", en: "Omega-3 1000 mg" }, 
+              short: { ru: "Мозг, сердце, зрение", en: "Brain, heart, vision" },
+              category: "Жирные кислоты",
+              description: { 
+                ru: "Незаменимые жирные кислоты для работы мозга и сердечно-сосудистой системы, иммунитета и состояния кожи и зрения.",
+                en: "Essential fatty acids for brain function, cardiovascular health, immunity, and skin and vision condition."
               },
-              "usage": {
-                "ru": "Принимать по 1 капсуле в день во время еды. Рекомендуемый курс - 3 месяца.",
-                "en": "Take 1 capsule daily with meals. Recommended course - 3 months."
-              },
-              "benefits": {
-                "ru": ["Улучшает память и концентрацию", "Улучшает мозговое кровообращение", "Снижает головокружение и шум в ушах", "Помогает при умственном утомлении"],
-                "en": ["Improves memory and concentration", "Enhances brain circulation", "Reduces dizziness and tinnitus", "Helps with mental fatigue"]
+              usage: { 
+                ru: "Принимать по 1 капсуле 2 раза в день во время еды. Курс приема - 1-2 месяца.",
+                en: "Take 1 capsule twice daily with meals. Course duration - 1-2 months."
               }
             },
             {
-              "slug": "magnesium-b6",
-              "name": { "ru": "Магний B6", "en": "Magnesium B6" },
-              "short": { "ru": "Нервная система, сон, усвоение магния", "en": "Nervous system, sleep, magnesium absorption" },
-              "category": "Минералы",
-              "description": { 
-                "ru": "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна. Витамин B6 поддерживает нервную систему и улучшает усвоение магния.",
-                "en": "Magnesium participates in numerous metabolic processes, helps with irritability, muscle spasms, and sleep disorders. Vitamin B6 supports the nervous system and improves magnesium absorption."
+              slug: "magnesium-b6", 
+              name: { ru: "Магний B6", en: "Magnesium B6" }, 
+              short: { ru: "Сон, нервы, усвоение магния", en: "Sleep, nerves, magnesium absorption" },
+              category: "Минералы",
+              description: { 
+                ru: "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна.",
+                en: "Magnesium participates in numerous metabolic processes, helps with irritability, muscle spasms, and sleep disorders."
               },
-              "usage": {
-                "ru": "Взрослым принимать по 1-2 таблетки 2 раза в день во время еды. Продолжительность приема - 1 месяц.",
-                "en": "Adults take 1-2 tablets twice daily with meals. Duration - 1 month."
-              },
-              "benefits": {
-                "ru": ["Улучшает качество сна", "Снижает стресс и раздражительность", "Помогает при мышечных спазмах", "Поддерживает нервную систему"],
-                "en": ["Improves sleep quality", "Reduces stress and irritability", "Helps with muscle spasms", "Supports nervous system"]
+              usage: { 
+                ru: "Взрослым принимать по 1-2 таблетки 2 раза в день во время еды. Продолжительность приема - 1 месяц.",
+                en: "Adults take 1-2 tablets twice daily with meals. Duration - 1 month."
               }
             },
             {
-              "slug": "burdock-extract",
-              "name": { "ru": "Экстракт Лопуха 500 мг", "en": "Burdock Extract 500 mg" },
-              "short": { "ru": "Общий тонус, противовоспалительный эффект", "en": "General tone, anti-inflammatory effect" },
-              "category": "Растительные экстракты",
-              "description": { 
-                "ru": "Оказывает оздоравливающий эффект на организм, способствует заживлению, помогает при воспалениях, нормализует вес и давление, выводит токсины и уменьшает отёки.",
-                "en": "Has a healing effect on the body, promotes healing, helps with inflammation, normalizes weight and blood pressure, removes toxins and reduces swelling."
+              slug: "vitamin-d3-10000", 
+              name: { ru: "Витамин D3 10 000 МЕ", en: "Vitamin D3 10,000 IU" }, 
+              short: { ru: "Иммунитет, кости, сосуды", en: "Immunity, bones, vessels" },
+              category: "Витамины",
+              description: { 
+                ru: "Поддерживает иммунитет и здоровый кальциевый обмен, способствует эластичности сосудов.",
+                en: "Supports immunity and healthy calcium metabolism, promotes vascular elasticity."
               },
-              "usage": {
-                "ru": "Принимать по 1 капсуле в день во время еды. Курс - 1-2 месяца.",
-                "en": "Take 1 capsule daily with meals. Course - 1-2 months."
-              },
-              "benefits": {
-                "ru": ["Противовоспалительное действие", "Выводит токсины из организма", "Нормализует давление", "Уменьшает отеки"],
-                "en": ["Anti-inflammatory action", "Removes toxins from the body", "Normalizes blood pressure", "Reduces swelling"]
+              usage: { 
+                ru: "Принимать по 1 капсуле 1 раз в 2 дня утром во время еды.",
+                en: "Take 1 capsule every 2 days in the morning with meals."
               }
             },
             {
-              "slug": "spirulina-1000",
-              "name": { "ru": "Спирулина 1000 мг", "en": "Spirulina 1000 mg" },
-              "short": { "ru": "Иммунитет, белок, обмен веществ", "en": "Immunity, protein, metabolism" },
-              "category": "Суперфуды",
-              "description": { 
-                "ru": "Поддерживает иммунитет и микрофлору кишечника, богата белком и пищевыми волокнами, помогает регулировать сахар крови и обмен веществ.",
-                "en": "Supports immunity and gut microflora, rich in protein and dietary fiber, helps regulate blood sugar and metabolism."
+              slug: "zinc-complex", 
+              name: { ru: "Цинк (комплекс)", en: "Zinc Complex" }, 
+              short: { ru: "Иммунитет, кожа, обмен", en: "Immunity, skin, metabolism" },
+              category: "Минералы",
+              description: { 
+                ru: "Поддержка иммунитета, кожи и обменных процессов. Усилен витамином C, D и селеном.",
+                en: "Supports immunity, skin, and metabolic processes. Enhanced with vitamins C, D and selenium."
               },
-              "usage": {
-                "ru": "Принимать по 2 капсулы 2 раза в день во время еды. Курс - 1 месяц.",
-                "en": "Take 2 capsules twice daily with meals. Course - 1 month."
-              },
-              "benefits": {
-                "ru": ["Укрепляет иммунитет", "Богатый источник белка", "Улучшает обмен веществ", "Поддерживает микрофлору кишечника"],
-                "en": ["Strengthens immunity", "Rich source of protein", "Improves metabolism", "Supports gut microflora"]
+              usage: { 
+                ru: "Принимать по 1 таблетке в день во время еды. Рекомендуемый курс - 1 месяц.",
+                en: "Take 1 tablet daily with meals. Recommended course - 1 month."
               }
             },
             {
-              "slug": "omega-3-1000",
-              "name": { "ru": "Омега-3 1000 мг", "en": "Omega-3 1000 mg" },
-              "short": { "ru": "Мозг, сердце, зрение", "en": "Brain, heart, vision" },
-              "category": "Жирные кислоты",
-              "description": { 
-                "ru": "Незаменимые жирные кислоты для работы мозга и сердечно-сосудистой системы, иммунитета и состояния кожи и зрения. Способствуют нормализации липидного обмена.",
-                "en": "Essential fatty acids for brain function, cardiovascular health, immunity, and skin and vision condition. Helps normalize lipid metabolism."
-              },
-              "usage": {
-                "ru": "Принимать по 1 капсуле 2 раза в день во время еды. Курс приема - 1-2 месяца.",
-                "en": "Take 1 capsule twice daily with meals. Course duration - 1-2 months."
-              },
-              "benefits": {
-                "ru": ["Поддерживает здоровье мозга", "Улучшает работу сердца", "Укрепляет зрение", "Улучшает состояние кожи"],
-                "en": ["Supports brain health", "Improves heart function", "Strengthens vision", "Enhances skin condition"]
-              }
-            },
-            {
-              "slug": "b-complex",
-              "name": { "ru": "Витамин B-комплекс", "en": "Vitamin B-Complex" },
-              "short": { "ru": "Энергия, нервная система, кровь", "en": "Energy, nervous system, blood" },
-              "category": "Витамины",
-              "description": { 
-                "ru": "Комплекс витаминов группы B для энергообмена, работы ЦНС и кроветворения. Поддерживает синтез гемоглобина и эритроцитов, обмен углеводов.",
-                "en": "B-complex vitamins for energy metabolism, CNS function, and hematopoiesis. Supports hemoglobin and red blood cell synthesis, carbohydrate metabolism."
-              },
-              "usage": {
-                "ru": "Принимать по 1 капсуле в день утром во время еды.",
-                "en": "Take 1 capsule daily in the morning with meals."
-              },
-              "benefits": {
-                "ru": ["Повышает энергетический уровень", "Поддерживает нервную систему", "Улучшает кроветворение", "Помогает при усталости"],
-                "en": ["Increases energy levels", "Supports nervous system", "Improves blood formation", "Helps with fatigue"]
-              }
-            },
-            {
-              "slug": "iron-kids",
-              "name": { "ru": "Iron Kids (Железо)", "en": "Iron Kids" },
-              "short": { "ru": "Детское железо, иммунитет и рост", "en": "Children's iron, immunity and growth" },
-              "category": "Для детей",
-              "description": { 
-                "ru": "Поддерживает иммунитет, участвует в росте и восстановлении тканей. Дефицит железа может приводить к анемии.",
-                "en": "Supports immunity, participates in tissue growth and repair. Iron deficiency can lead to anemia."
-              },
-              "usage": {
-                "ru": "Детям принимать по 1 мл в день. Перед применением проконсультироваться с врачом.",
-                "en": "Children take 1 ml daily. Consult a doctor before use."
-              },
-              "benefits": {
-                "ru": ["Поддерживает иммунитет у детей", "Участвует в росте тканей", "Предотвращает анемию", "Поддерживает развитие"],
-                "en": ["Supports children's immunity", "Participates in tissue growth", "Prevents anemia", "Supports development"]
-              }
-            },
-            {
-              "slug": "propolis-multivitamin",
-              "name": { "ru": "Прополис Мультивитамин", "en": "Propolis Multivitamin" },
-              "short": { "ru": "Иммуномодулятор, поддержка слизистых", "en": "Immunomodulator, mucosal support" },
-              "category": "Комплексы",
-              "description": { 
-                "ru": "Натуральный иммуномодулятор с прополисом и набором витаминов и минералов. Поддержка при воспалениях, заживление, помощь ЖКТ.",
-                "en": "Natural immunomodulator with propolis and a set of vitamins and minerals. Support for inflammation, healing, gastrointestinal aid."
-              },
-              "usage": {
-                "ru": "Принимать по 10 мл 1 раз в день. Перед применением взболтать.",
-                "en": "Take 10 ml once daily. Shake before use."
-              },
-              "benefits": {
-                "ru": ["Укрепляет иммунитет", "Поддерживает слизистые оболочки", "Помогает при воспалениях", "Поддерживает ЖКТ"],
-                "en": ["Strengthens immunity", "Supports mucous membranes", "Helps with inflammation", "Supports gastrointestinal tract"]
-              }
-            },
-            {
-              "slug": "womens-multivitamin",
-              "name": { "ru": "Женский Мультивитамин", "en": "Women's Multivitamin" },
-              "short": { "ru": "Ежедневный баланс, усвоение до 98%", "en": "Daily balance, absorption up to 98%" },
-              "category": "Комплексы",
-              "description": { 
-                "ru": "Сбалансированный комплекс для женского организма: пищеварение, иммунитет, метаболизм, поддержка кожи и энергии.",
-                "en": "Balanced complex for the female body: digestion, immunity, metabolism, skin and energy support."
-              },
-              "usage": {
-                "ru": "Принимать по 1 капсуле 2 раза в день (утром и днем) во время еды. Курс - 1 месяц.",
-                "en": "Take 1 capsule twice daily (morning and afternoon) with meals. Course - 1 month."
-              },
-              "benefits": {
-                "ru": ["Поддерживает женское здоровье", "Улучшает пищеварение", "Повышает энергию", "Улучшает состояние кожи"],
-                "en": ["Supports women's health", "Improves digestion", "Increases energy", "Improves skin condition"]
-              }
-            },
-            {
-              "slug": "vitamin-d3-10000",
-              "name": { "ru": "Витамин D3 10 000 МЕ", "en": "Vitamin D3 10,000 IU" },
-              "short": { "ru": "Иммунитет, кости, сосуды", "en": "Immunity, bones, vessels" },
-              "category": "Витамины",
-              "description": { 
-                "ru": "Поддерживает иммунитет и здоровый кальциевый обмен, способствует эластичности сосудов и профилактике кальцификации тканей.",
-                "en": "Supports immunity and healthy calcium metabolism, promotes vascular elasticity and prevents tissue calcification."
-              },
-              "usage": {
-                "ru": "Принимать по 1 капсуле 1 раз в 2 дня утром во время еды.",
-                "en": "Take 1 capsule every 2 days in the morning with meals."
-              },
-              "benefits": {
-                "ru": ["Укрепляет иммунную систему", "Поддерживает здоровье костей", "Улучшает состояние сосудов", "Помогает усвоению кальция"],
-                "en": ["Strengthens immune system", "Supports bone health", "Improves vascular condition", "Helps calcium absorption"]
-              }
-            },
-            {
-              "slug": "anti-stress",
-              "name": { "ru": "Анти-Стресс", "en": "Anti-Stress" },
-              "short": { "ru": "Спокойствие, сон, снижение тревожности", "en": "Calm, sleep, anxiety reduction" },
-              "category": "Растительные экстракты",
-              "description": { 
-                "ru": "Поддержка при тревоге и напряжении, нормализация сна. Растительные экстракты зверобоя, пассифлоры и валерианы.",
-                "en": "Support for anxiety and tension, sleep normalization. Herbal extracts of St. John's wort, passionflower and valerian."
-              },
-              "usage": {
-                "ru": "Принимать по 1 капсуле 2 раза в день (утром и вечером). Для улучшения сна можно принять 2 капсулы за час до сна.",
-                "en": "Take 1 capsule twice daily (morning and evening). For better sleep, take 2 capsules 1 hour before bedtime."
-              },
-              "benefits": {
-                "ru": ["Снижает стресс и тревожность", "Улучшает качество сна", "Расслабляет нервную систему", "Помогает при бессоннице"],
-                "en": ["Reduces stress and anxiety", "Improves sleep quality", "Relaxes the nervous system", "Helps with insomnia"]
-              }
-            },
-            {
-              "slug": "ca-mg-fe-d3",
-              "name": { "ru": "Ca-Mg-Fe-D3", "en": "Ca-Mg-Fe-D3" },
-              "short": { "ru": "Кости, кровь, обмен, профилактика дефицитов", "en": "Bones, blood, metabolism, deficiency prevention" },
-              "category": "Минералы",
-              "description": { 
-                "ru": "Сбалансированная комбинация кальция, магния, железа и витамина D для костей, крови и обмена веществ.",
-                "en": "Balanced combination of calcium, magnesium, iron and vitamin D for bones, blood and metabolism."
-              },
-              "usage": {
-                "ru": "Принимать по 2 таблетки в день во время еды. Курс - 1 месяц.",
-                "en": "Take 2 tablets daily with meals. Course - 1 month."
-              },
-              "benefits": {
-                "ru": ["Укрепляет кости и зубы", "Поддерживает кроветворение", "Улучшает обмен веществ", "Профилактика дефицитов"],
-                "en": ["Strengthens bones and teeth", "Supports hematopoiesis", "Improves metabolism", "Deficiency prevention"]
-              }
-            },
-            {
-              "slug": "artichoke-dandelion",
-              "name": { "ru": "Экстракты Артишока и Одуванчика", "en": "Artichoke and Dandelion Extracts" },
-              "short": { "ru": "Печень, желчегонный эффект, обмен", "en": "Liver, choleretic effect, metabolism" },
-              "category": "Растительные экстракты",
-              "description": { 
-                "ru": "Поддержка печени и желчевыводящих путей, антиоксидантная защита, мягкий мочегонный эффект.",
-                "en": "Liver and biliary tract support, antioxidant protection, mild diuretic effect."
-              },
-              "usage": {
-                "ru": "Принимать по 1 капсуле в день во время еды. Курс - 1-2 месяца.",
-                "en": "Take 1 capsule daily with meals. Course - 1-2 months."
-              },
-              "benefits": {
-                "ru": ["Поддерживает здоровье печени", "Улучшает отток желчи", "Антиоксидантная защита", "Мочегонный эффект"],
-                "en": ["Supports liver health", "Improves bile flow", "Antioxidant protection", "Diuretic effect"]
-              }
-            },
-            {
-              "slug": "st-johns-wort-parsley",
-              "name": { "ru": "Зверобой + Петрушка", "en": "St. John's Wort + Parsley" },
-              "short": { "ru": "Антисептический и седативный эффект", "en": "Antiseptic and sedative effect" },
-              "category": "Растительные экстракты",
-              "description": { 
-                "ru": "Растительная поддержка: антибактериальные, седативные и регенерирующие свойства; помощь при стрессах и сезонных простудах.",
-                "en": "Herbal support: antibacterial, sedative and regenerative properties; help with stress and seasonal colds."
-              },
-              "usage": {
-                "ru": "Принимать по 2 капсулы в день во время еды. Курс - 1 месяц.",
-                "en": "Take 2 capsules daily with meals. Course - 1 month."
-              },
-              "benefits": {
-                "ru": ["Антибактериальное действие", "Успокаивающий эффект", "Помогает при стрессе", "Поддержка при простудах"],
-                "en": ["Antibacterial action", "Calming effect", "Helps with stress", "Support for colds"]
-              }
-            },
-            {
-              "slug": "collagen-30-sachets",
-              "name": { "ru": "Коллаген — 30 саше", "en": "Collagen — 30 sachets" },
-              "short": { "ru": "Кожа, суставы, волосы и ногти", "en": "Skin, joints, hair and nails" },
-              "category": "Коллаген",
-              "description": { 
-                "ru": "Три типа коллагена + витамин C, гиалуроновая кислота, коэнзим Q10, цинк, биотин и витамины группы B для кожи, суставов и общего тонуса.",
-                "en": "Three types of collagen + vitamin C, hyaluronic acid, coenzyme Q10, zinc, biotin and B vitamins for skin, joints and overall tone."
-              },
-              "usage": {
-                "ru": "Растворить содержимое 1 саше в 100-150 мл воды или сока. Принимать 1 раз в день натощак, за 30 минут до еды.",
-                "en": "Dissolve contents of 1 sachet in 100-150 ml of water or juice. Take once daily on an empty stomach, 30 minutes before meals."
-              },
-              "benefits": {
-                "ru": ["Улучшает эластичность кожи", "Укрепляет суставы", "Улучшает состояние волос и ногтей", "Повышает общий тонус"],
-                "en": ["Improves skin elasticity", "Strengthens joints", "Enhances hair and nail condition", "Boosts overall tone"]
-              }
-            },
-            {
-              "slug": "zinc-complex",
-              "name": { "ru": "Цинк (комплекс)", "en": "Zinc Complex" },
-              "short": { "ru": "Иммунитет, кожа, обмен", "en": "Immunity, skin, metabolism" },
-              "category": "Минералы",
-              "description": { 
-                "ru": "Поддержка иммунитета, кожи и обменных процессов. Усилен витамином C, D и селеном.",
-                "en": "Supports immunity, skin, and metabolic processes. Enhanced with vitamins C, D and selenium."
-              },
-              "usage": {
-                "ru": "Принимать по 1 таблетке в день во время еды. Рекомендуемый курс - 1 месяц.",
-                "en": "Take 1 tablet daily with meals. Recommended course - 1 month."
-              },
-              "benefits": {
-                "ru": ["Укрепляет иммунитет", "Улучшает состояние кожи", "Поддерживает обмен веществ", "Антиоксидантная защита"],
-                "en": ["Strengthens immunity", "Improves skin condition", "Supports metabolism", "Antioxidant protection"]
-              }
-            },
-            {
-              "slug": "probiotic-30b",
-              "name": { "ru": "Пробиотик", "en": "Probiotic" },
-              "short": { "ru": "Микробиом и пищеварение", "en": "Microbiome and digestion" },
-              "category": "Пробиотики",
-              "description": { 
-                "ru": "Мультиштаммовый пробиотик: защита от патогенов, синтез витаминов, улучшение всасывания минералов и поддержка иммунитета.",
-                "en": "Multi-strain probiotic: protection against pathogens, vitamin synthesis, improved mineral absorption and immune support."
-              },
-              "usage": {
-                "ru": "Принимать по 1 капсуле в день, желательно натощак или перед сном. Курс - 30 дней.",
-                "en": "Take 1 capsule daily, preferably on an empty stomach or before bedtime. Course - 30 days."
-              },
-              "benefits": {
-                "ru": ["Улучшает пищеварение", "Восстанавливает микрофлору", "Укрепляет иммунитет", "Улучшает усвоение питательных веществ"],
-                "en": ["Improves digestion", "Restores microflora", "Strengthens immunity", "Enhances nutrient absorption"]
-              }
-            },
-            {
-              "slug": "slimming-complex",
-              "name": { "ru": "Слимминг Комплекс", "en": "Slimming Complex" },
-              "short": { "ru": "Тонус, метаболизм и контроль аппетита", "en": "Tone, metabolism and appetite control" },
-              "category": "Комплексы",
-              "description": { 
-                "ru": "Тонизация и поддержка снижения веса: гуарана, зелёный чай, CLA, L-карнитин, гарциния, корица, гимнема, 5-HTP и хром. Повышает выносливость, улучшает концентрацию и ускоряет обмен.",
-                "en": "Toning and weight loss support: guarana, green tea, CLA, L-carnitine, garcinia, cinnamon, gymnema, 5-HTP and chromium. Increases endurance, improves concentration and accelerates metabolism."
-              },
-              "usage": {
-                "ru": "Принимать по 2 капсулы 2 раза в день за 30 минут до еды (утром и в обед), запивая стаканом воды.",
-                "en": "Take 2 capsules twice daily 30 minutes before meals (morning and lunch), with a glass of water."
-              },
-              "benefits": {
-                "ru": ["Ускоряет метаболизм", "Контролирует аппетит", "Повышает энергию", "Поддерживает тонус"],
-                "en": ["Accelerates metabolism", "Controls appetite", "Increases energy", "Supports tone"]
-              }
-            },
-            {
-              "slug": "ginkgo-syrup",
-              "name": { "ru": "Гинкго Билоба — сироп", "en": "Ginkgo Biloba Syrup" },
-              "short": { "ru": "Память, мозговое кровообращение", "en": "Memory, cerebral circulation" },
-              "category": "Сиропы",
-              "description": { 
-                "ru": "Поддерживает память, ясность мышления и концентрацию; улучшает мозговое кровообращение, расширяет сосуды и нормализует давление.",
-                "en": "Supports memory, mental clarity and concentration; improves cerebral circulation, dilates blood vessels and normalizes blood pressure."
-              },
-              "usage": {
-                "ru": "Принимать по 5 мл (1 чайная ложка) 2 раза в день. Курс - 1 месяц.",
-                "en": "Take 5 ml (1 teaspoon) twice daily. Course - 1 month."
-              },
-              "benefits": {
-                "ru": ["Улучшает память и концентрацию", "Улучшает мозговое кровообращение", "Нормализует давление", "Расширяет сосуды"],
-                "en": ["Improves memory and concentration", "Enhances cerebral circulation", "Normalizes blood pressure", "Dilates blood vessels"]
-              }
-            },
-            {
-              "slug": "tribulus-complex",
-              "name": { "ru": "Трибулус комплекс", "en": "Tribulus Complex" },
-              "short": { "ru": "Мужское здоровье, тонус", "en": "Men's health, tone" },
-              "category": "Растительные экстракты",
-              "description": { 
-                "ru": "Поддержка мужской репродуктивной функции, выносливости и сосудистой системы. Содержит трибулус, эпимедиум, женьшень, L-аргинин и L-карнитин.",
-                "en": "Support for male reproductive function, endurance and vascular system. Contains tribulus, epimedium, ginseng, L-arginine and L-carnitine."
-              },
-              "usage": {
-                "ru": "Принимать по 2 капсулы в день во время еды. Курс - 1 месяц.",
-                "en": "Take 2 capsules daily with meals. Course - 1 month."
-              },
-              "benefits": {
-                "ru": ["Поддерживает мужское здоровье", "Повышает выносливость", "Улучшает репродуктивную функцию", "Поддерживает сосудистую систему"],
-                "en": ["Supports men's health", "Increases endurance", "Improves reproductive function", "Supports vascular system"]
-              }
-            },
-            {
-              "slug": "vitamin-c-effervescent-1000",
-              "name": { "ru": "Витамин C 1000 мг (шипучий)", "en": "Vitamin C 1000 mg (effervescent)" },
-              "short": { "ru": "Иммунитет, антиоксидант, коллаген", "en": "Immunity, antioxidant, collagen" },
-              "category": "Витамины",
-              "description": { 
-                "ru": "Поддерживает иммунитет, состояние сосудов и кожи, улучшает усвоение железа и синтез коллагена.",
-                "en": "Supports immunity, vascular and skin condition, improves iron absorption and collagen synthesis."
-              },
-              "usage": {
-                "ru": "Растворить 1 шипучую таблетку в стакане воды (200 мл). Принимать 1 раз в день во время еды. Курс 10-20 дней.",
-                "en": "Dissolve 1 effervescent tablet in a glass of water (200 ml). Take once daily with meals. Course 10-20 days."
-              },
-              "benefits": {
-                "ru": ["Укрепляет иммунитет", "Антиоксидантная защита", "Улучшает синтез коллагена", "Помогает усвоению железа"],
-                "en": ["Strengthens immunity", "Antioxidant protection", "Improves collagen synthesis", "Helps iron absorption"]
+              slug: "b-complex", 
+              name: { ru: "Витамин B-комплекс", en: "Vitamin B-Complex" }, 
+              short: { ru: "Энергия, кровь, нервы", en: "Energy, blood, nerves" },
+              category: "Витамины",
+              description: { 
+                ru: "Комплекс витаминов группы B для энергообмена, работы ЦНС и кроветворения.",
+                en: "B-complex vitamins for energy metabolism, CNS function, and hematopoiesis."
               }
             }
           ];
@@ -1111,11 +735,9 @@
           function toggleChat() {
             const isOpen = chatWidget.classList.contains('is-open');
             if (isOpen) {
-              // Закрыть чат
               chatWidget.classList.remove('is-open');
               chatFab.innerHTML = '<i class="bx bx-chat"></i>';
             } else {
-              // Открыть чат
               chatWidget.classList.add('is-open');
               chatFab.innerHTML = '<i class="bx bx-x"></i>';
               if (isFirstInteraction) {
@@ -1132,10 +754,9 @@
               : "👋 Hello! I'm Nutralux AI assistant. Tell me about your health goals, and I'll find perfect supplements for you!";
             
             addMessage(welcomeMsg, 'bot');
-            // Кнопка "Каталог" теперь в самом начале
             renderQuickReplies(lastLanguage === 'ru' 
-              ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
-              : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
+              ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+              : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
           }
 
           // --- Enhanced NLP Functions ---
@@ -1165,10 +786,7 @@
 
               // Agreement patterns
               'да': 'yes', 'yes': 'yes', 'yeah': 'yes', 'конечно': 'yes', 'ага': 'yes',
-              'нет': 'no', 'no': 'no', 'not': 'no', 'друг': 'other',
-
-              // Catalog
-              'каталог': 'каталог', 'каталог': 'каталог', 'товары': 'каталог', 'продукты': 'каталог'
+              'нет': 'no', 'no': 'no', 'not': 'no'
             };
 
             let normalized = lowerText;
@@ -1218,29 +836,19 @@
                 if (suggestedProduct) {
                   conversationHistory.pop(); // Clear the suggestion context
                   renderQuickReplies(detectedLang === 'ru' 
-                    ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
-                    : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
+                    ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
+                    : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
                   
-                  let response = detectedLang === 'ru'
-                    ? `**${suggestedProduct.name.ru}** 🌟\n\n${suggestedProduct.description.ru}\n\n`
-                    : `**${suggestedProduct.name.en}** 🌟\n\n${suggestedProduct.description.en}\n\n`;
-                  
-                  response += detectedLang === 'ru'
-                    ? `💡 **Применение:** ${suggestedProduct.usage.ru}\n\n`
-                    : `💡 **Usage:** ${suggestedProduct.usage.en}\n\n`;
-                  
-                  response += detectedLang === 'ru'
-                    ? `✨ **Польза:** ${suggestedProduct.benefits.ru.join(', ')}\n\nХотите узнать о других продуктах?`
-                    : `✨ **Benefits:** ${suggestedProduct.benefits.en.join(', ')}\n\nWant to know about other products?`;
-                  
-                  return response;
+                  return detectedLang === 'ru'
+                    ? `**${suggestedProduct.name.ru}** 🌟\n\n${suggestedProduct.description.ru}\n\n💡 **Применение:** ${suggestedProduct.usage?.ru || 'Принимать согласно инструкции'}\n\n✨ Отлично подходит для ваших целей! Хотите узнать о других продуктах?`
+                    : `**${suggestedProduct.name.en}** 🌟\n\n${suggestedProduct.description.en}\n\n💡 **Usage:** ${suggestedProduct.usage?.en || 'Take according to instructions'}\n\n✨ Perfect for your goals! Want to know about other products?`;
                 }
               }
-              if (/(no|нет|не|друг|other)/.test(normalizedMessage)) {
+              if (/(no|нет|не|друг)/.test(normalizedMessage)) {
                 conversationHistory.pop();
                 renderQuickReplies(detectedLang === 'ru' 
-                  ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
-                  : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
+                  ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+                  : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
                 return detectedLang === 'ru'
                   ? "Хорошо! Может быть, вас интересует что-то другое? Например, для сна, энергии или иммунитета?"
                   : "Okay! Maybe you're interested in something else? For example, sleep, energy or immunity?";
@@ -1250,33 +858,11 @@
             // Greeting patterns
             if (/(привет|здравств|добр|хай|ку|hi|hello|hey|start)/.test(normalizedMessage)) {
               renderQuickReplies(detectedLang === 'ru' 
-                ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
-                : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
+                ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+                : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
               return detectedLang === 'ru'
                 ? "👋 Здравствуйте! Я AI-консультант Nutralux. Спросите меня о вашей цели здоровья, и я подберу идеальные добавки!\n\nНапример: «Что для сна и иммунитета?» или просто «иммунитет»"
                 : "👋 Hello! I'm Nutralux AI consultant. Tell me your health goal, and I'll find perfect supplements for you!\n\nExample: «What for sleep and immunity?» or just «immunity»";
-            }
-
-            // Catalog request - ПЕРВЫЙ ПРИОРИТЕТ
-            if (/(каталог|все товары|продукты|товары|catalog|products|all)/.test(normalizedMessage)) {
-              renderQuickReplies(detectedLang === 'ru' 
-                ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-                : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
-              
-              let response = detectedLang === 'ru' 
-                ? "📦 **Полный каталог Nutralux:**\n\n" 
-                : "📦 **Complete Nutralux Catalog:**\n\n";
-              
-              products.forEach(p => {
-                // Каждый продукт - это ссылка на страницу продукта
-                response += `• <a href="product.html?slug=${p.slug}" target="_blank"><strong>${p.name[detectedLang]}</strong></a> — ${p.short[detectedLang]}\n`;
-              });
-              
-              response += detectedLang === 'ru' 
-                ? `\n💡 Нажмите на любой продукт, чтобы узнать подробности! Или выберите категорию.`
-                : `\n💡 Click on any product to learn more! Or choose a category.`;
-              
-              return response;
             }
 
             // Category patterns
@@ -1308,13 +894,13 @@
               }
 
               if (has('brain') && has('energy')) {
-                setContext({ type: 'product_suggestion', productSlug: 'b-complex' });
+                setContext({ type: 'product_suggestion', productSlug: 'omega-3-1000' });
                 renderQuickReplies(detectedLang === 'ru' 
                   ? ['✅ Да, расскажите!', '❌ Нет, что-то другое', '📋 Каталог'] 
                   : ['✅ Yes, tell me!', '❌ No, something else', '📋 Catalog']);
                 return detectedLang === 'ru'
-                  ? "🧠⚡ **Для памяти и энергии рекомендую B-комплекс!**\n\n• Улучшает когнитивные функции и память\n• Повышает концентрацию внимания\n• Дает энергию и снижает усталость\n• Поддерживает нервную систему\n\n✨ **Хотите узнать подробнее о B-комплексе?**"
-                  : "🧠⚡ **For memory and energy, I recommend B-Complex!**\n\n• Improves cognitive functions and memory\n• Increases concentration\n• Provides energy and reduces fatigue\n• Supports nervous system\n\n✨ **Want to know more about B-Complex?**";
+                  ? "🧠⚡ **Для памяти и энергии рекомендую Омега-3!**\n\n• Улучшает когнитивные функции и память\n• Повышает концентрацию внимания\n• Дает энергию и снижает усталость\n• Поддерживает здоровье мозга\n\n✨ **Хотите узнать подробнее об Омега-3?**"
+                  : "🧠⚡ **For memory and energy, I recommend Omega-3!**\n\n• Improves cognitive functions and memory\n• Increases concentration\n• Provides energy and reduces fatigue\n• Supports brain health\n\n✨ **Want to know more about Omega-3?**";
               }
             }
 
@@ -1323,28 +909,20 @@
               const category = foundCategories[0];
               const categoryData = {
                 sleep: {
-                  ru: { name: "сна", productSlug: "magnesium-b6", replies: ['✅ Узнать о Магнии', '⚡ Энергия', '📋 Каталог'] },
-                  en: { name: "sleep", productSlug: "magnesium-b6", replies: ['✅ About Magnesium', '⚡ Energy', '📋 Catalog'] }
+                  ru: { name: "сна", productSlug: "magnesium-b6", replies: ['✅ Узнать о Магнии', '⚡ Энергия', '🛡️ Иммунитет'] },
+                  en: { name: "sleep", productSlug: "magnesium-b6", replies: ['✅ About Magnesium', '⚡ Energy', '🛡️ Immunity'] }
                 },
                 energy: {
-                  ru: { name: "энергии", productSlug: "b-complex", replies: ['✅ Узнать о B-комплексе', '💤 Сон', '📋 Каталог'] },
-                  en: { name: "energy", productSlug: "b-complex", replies: ['✅ About B-Complex', '💤 Sleep', '📋 Catalog'] }
+                  ru: { name: "энергии", productSlug: "b-complex", replies: ['✅ Узнать о B-комплексе', '💤 Сон', '🧠 Память'] },
+                  en: { name: "energy", productSlug: "b-complex", replies: ['✅ About B-Complex', '💤 Sleep', '🧠 Focus'] }
                 },
                 immunity: {
-                  ru: { name: "иммунитета", productSlug: "vitamin-d3-10000", replies: ['✅ Узнать о Витамине D3', '💤 Сон', '📋 Каталог'] },
-                  en: { name: "immunity", productSlug: "vitamin-d3-10000", replies: ['✅ About Vitamin D3', '💤 Sleep', '📋 Catalog'] }
+                  ru: { name: "иммунитета", productSlug: "vitamin-d3-10000", replies: ['✅ Узнать о Витамине D3', '💤 Сон', '⚡ Энергия'] },
+                  en: { name: "immunity", productSlug: "vitamin-d3-10000", replies: ['✅ About Vitamin D3', '💤 Sleep', '⚡ Energy'] }
                 },
                 brain: {
-                  ru: { name: "памяти и концентрации", productSlug: "ginkgo-biloba-500", replies: ['✅ Узнать о Гинкго', '⚡ Энергия', '📋 Каталог'] },
-                  en: { name: "memory and focus", productSlug: "ginkgo-biloba-500", replies: ['✅ About Ginkgo', '⚡ Energy', '📋 Catalog'] }
-                },
-                beauty: {
-                  ru: { name: "красоты", productSlug: "collagen-30-sachets", replies: ['✅ Узнать о Коллагене', '💤 Сон', '📋 Каталог'] },
-                  en: { name: "beauty", productSlug: "collagen-30-sachets", replies: ['✅ About Collagen', '💤 Sleep', '📋 Catalog'] }
-                },
-                stomach: {
-                  ru: { name: "пищеварения", productSlug: "probiotic-30b", replies: ['✅ Узнать о Пробиотике', '⚡ Энергия', '📋 Каталог'] },
-                  en: { name: "digestion", productSlug: "probiotic-30b", replies: ['✅ About Probiotic', '⚡ Energy', '📋 Catalog'] }
+                  ru: { name: "памяти и концентрации", productSlug: "omega-3-1000", replies: ['✅ Узнать об Омега-3', '⚡ Энергия', '📋 Каталог'] },
+                  en: { name: "memory and focus", productSlug: "omega-3-1000", replies: ['✅ About Omega-3', '⚡ Energy', '📋 Catalog'] }
                 }
               };
 
@@ -1368,26 +946,29 @@
               const productName = product.name[detectedLang].toLowerCase();
               if (normalizedMessage.includes(productName.toLowerCase()) || 
                   normalizedMessage.includes(product.slug) ||
-                  (product.slug === 'magnesium-b6' && /(магн|magnesium)/.test(normalizedMessage)) ||
-                  (product.slug === 'ginkgo-biloba-500' && /(гинг|ginkgo)/.test(normalizedMessage))) {
+                  (product.slug === 'magnesium-b6' && /(магн|magnesium)/.test(normalizedMessage))) {
                 renderQuickReplies(detectedLang === 'ru' 
-                  ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
-                  : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
-                
-                let response = detectedLang === 'ru'
-                  ? `**${product.name.ru}** 🌟\n\n${product.description.ru}\n\n`
-                  : `**${product.name.en}** 🌟\n\n${product.description.en}\n\n`;
-                
-                response += detectedLang === 'ru'
-                  ? `💡 **Применение:** ${product.usage.ru}\n\n`
-                  : `💡 **Usage:** ${product.usage.en}\n\n`;
-                
-                response += detectedLang === 'ru'
-                  ? `✨ **Польза:** ${product.benefits.ru.join(', ')}`
-                  : `✨ **Benefits:** ${product.benefits.en.join(', ')}`;
-                
-                return response;
+                  ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
+                  : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
+                return detectedLang === 'ru'
+                  ? `**${product.name[detectedLang]}** 🌟\n\n${product.description[detectedLang]}\n\n💡 **Применение:** ${product.usage?.[detectedLang] || 'Принимать согласно инструкции'}\n\n✨ Отлично подходит для ваших целей!`
+                  : `**${product.name[detectedLang]}** 🌟\n\n${product.description[detectedLang]}\n\n💡 **Usage:** ${product.usage?.[detectedLang] || 'Take according to instructions'}\n\n✨ Perfect for your goals!`;
               }
+            }
+
+            // Catalog request
+            if (/(каталог|все товары|продукты|товары|catalog|products|all)/.test(normalizedMessage)) {
+              renderQuickReplies(detectedLang === 'ru' 
+                ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+                : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+              let response = detectedLang === 'ru' ? "📦 **Наш каталог:**\n\n" : "📦 **Our catalog:**\n\n";
+              products.forEach(p => {
+                response += `• **${p.name[detectedLang]}** — ${p.short[detectedLang]}\n`;
+              });
+              response += detectedLang === 'ru' 
+                ? `\n💡 Выберите категорию или спросите о конкретном продукте!`
+                : `\n💡 Choose a category or ask about a specific product!`;
+              return response;
             }
 
             // Default response with context awareness
@@ -1396,11 +977,11 @@
             }
 
             renderQuickReplies(detectedLang === 'ru' 
-              ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
-              : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
+              ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
+              : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
             return detectedLang === 'ru'
-              ? "🤔 Пожалуйста, уточните ваш запрос! Я могу помочь с:\n\n• 📋 **Полным каталогом**\n• 💤 **Сном и расслаблением**\n• ⚡ **Энергией и тонусом**\n• 🛡️ **Иммунитетом и защитой**\n\nНапишите, например: «каталог» или «сон и энергия»"
-              : "🤔 Please clarify your request! I can help with:\n\n• 📋 **Complete catalog**\n• 💤 **Sleep and relaxation**\n• ⚡ **Energy and vitality**\n• 🛡️ **Immunity and protection**\n\nWrite, for example: «catalog» or «sleep and energy»";
+              ? "🤔 Пожалуйста, уточните ваш запрос! Я могу помочь с:\n\n• 💤 **Сном и расслаблением**\n• ⚡ **Энергией и тонусом**\n• 🛡️ **Иммунитетом и защитой**\n• 🧠 **Памятью и концентрацией**\n\nНапишите, например: «сон» или «энергия и иммунитет»"
+              : "🤔 Please clarify your request! I can help with:\n\n• 💤 **Sleep and relaxation**\n• ⚡ **Energy and vitality**\n• 🛡️ **Immunity and protection**\n• 🧠 **Memory and focus**\n\nWrite, for example: «sleep» or «energy and immunity»";
           }
 
           // --- UI Functions ---
@@ -1409,19 +990,20 @@
             messageDiv.className = `message ${type}-message`;
             
             const title = document.createElement('strong');
-            title.textContent = type === 'user' 
-              ? (lastLanguage === 'ru' ? 'Вы: ' : 'You: ')
-              : (lastLanguage === 'ru' ? 'Бот: ' : 'Bot: ');
-            
-            const content = document.createElement('span');
             if (type === 'user') {
+              title.textContent = lastLanguage === 'ru' ? 'Вы: ' : 'You: ';
+              const content = document.createElement('span');
               content.textContent = text;
+              messageDiv.appendChild(title);
+              messageDiv.appendChild(content);
             } else {
+              title.textContent = lastLanguage === 'ru' ? 'Бот: ' : 'Bot: ';
+              const content = document.createElement('span');
               content.innerHTML = text.replace(/\n/g, '<br>');
+              messageDiv.appendChild(title);
+              messageDiv.appendChild(content);
             }
             
-            messageDiv.appendChild(title);
-            messageDiv.appendChild(content);
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
           }
@@ -1499,11 +1081,11 @@
             chatMinimize.addEventListener('click', toggleChat);
           }
 
-          // Убедимся, что чат изначально закрыт
-          chatWidget.classList.remove('is-open');
-          chatFab.innerHTML = '<i class="bx bx-chat"></i>';
-
-          // Initial welcome message after delay (только при открытии чата)
+          // Initial welcome message after delay
+          setTimeout(() => {
+            if (!isFirstInteraction) return;
+            showWelcomeMessage();
+          }, 1000);
         });
       })();
     </script>
