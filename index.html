@@ -6,10 +6,26 @@
 
     <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon" />
 
+    <!-- SEO Meta Tags -->
     <title>Nutralux — Vitamins and Supplements Store | Buy Vitamin C, Magnesium, Zinc</title>
     <meta name="description" content="Nutralux — your reliable online store for vitamins and supplements. We offer quality products: vitamin C, magnesium, zinc, multivitamins, probiotics. Extensive catalog, detailed descriptions, fast delivery worldwide." />
     <meta name="keywords" content="Nutralux, vitamins, supplements, buy vitamins, vitamin C, magnesium, zinc, multivitamins, probiotics, health, supplement store, online vitamin store, immunity supplements, energy vitamins" />
     <meta name="author" content="Nutralux" />
+    <link rel="canonical" href="https://yourwebsite.com/index.html" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Nutralux — Vitamins and Supplements Store" />
+    <meta property="og:description" content="Nutralux — your reliable online store for vitamins and supplements. We offer quality products: vitamin C, magnesium, zinc, multivitamins, probiotics. Extensive catalog, detailed descriptions, fast delivery worldwide." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourwebsite.com/index.html" />
+    <meta property="og:image" content="https://yourwebsite.com/images/avatar.png" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nutralux — Vitamins and Supplements Store" />
+    <meta name="twitter:description" content="Nutralux — your reliable online store for vitamins and supplements. We offer quality products: vitamin C, magnesium, zinc, multivitamins, probiotics. Extensive catalog, detailed descriptions, fast delivery worldwide." />
+    <meta name="twitter:image" content="https://yourwebsite.com/images/avatar.png" />
 
     <!-- box icons -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
@@ -20,27 +36,50 @@
     <!-- css -->
     <link rel="stylesheet" href="styles.css" />
 
+    <!-- Schema.org JSON-LD Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Nutralux",
+      "url": "https://yourwebsite.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://yourwebsite.com/catalog.html?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Nutralux",
+      "url": "https://yourwebsite.com/",
+      "logo": "https://yourwebsite.com/images/favicon-32x32.png",
+      "sameAs": [
+        "https://wa.me/905332452900",
+        "https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1",
+        "https://t.me/nutralux",
+        "https://clck.ru/3NQNkm"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+905332452900",
+        "contactType": "customer service",
+        "areaServed": "US"
+      }
+    }
+    </script>
+
     <!-- УЛУЧШЕННЫЕ СТИЛИ ЧАТА -->
     <style>
-      /* FIX: Исправление белой страницы при скролле */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-      }
-
-      body {
-        min-height: 100vh;
-        position: relative;
-      }
-
       /* Основные стили чата */
       #chat-widget {
         position: fixed;
         bottom: 100px;
         right: 20px;
-        z-index: 10002;
+        z-index: 9999;
         display: none;
         width: 380px;
         height: 500px;
@@ -48,6 +87,7 @@
         border: 1px solid #e0e0e0;
         border-radius: 16px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        display: flex;
         flex-direction: column;
         font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         overflow: hidden;
@@ -57,12 +97,11 @@
         display: flex;
       }
 
-      /* FIX: Увеличил z-index и исправил позиционирование кнопок */
       #chat-fab {
         position: fixed;
         bottom: 25px;
         right: 95px;
-        z-index: 10003;
+        z-index: 10000;
         display: flex;
         width: 60px;
         height: 60px;
@@ -87,7 +126,7 @@
         position: fixed;
         bottom: 25px;
         right: 25px;
-        z-index: 10001; /* Понизил z-index чтобы был ПОД кнопкой чата */
+        z-index: 10001;
         background: linear-gradient(135deg, #4CAF50, #45a049);
         width: 50px;
         height: 50px;
@@ -348,7 +387,7 @@
         50% { opacity: 0.7; }
       }
 
-      /* FIX: Улучшенная мобильная адаптация */
+      /* Мобильная адаптация */
       @media (max-width: 768px) {
         #chat-widget {
           width: calc(100vw - 40px);
@@ -357,7 +396,6 @@
           right: 20px;
           left: 20px;
           border-radius: 16px;
-          z-index: 10004;
         }
 
         #chat-fab {
@@ -366,7 +404,6 @@
           width: 55px;
           height: 55px;
           font-size: 22px;
-          z-index: 10005;
         }
 
         .footer-icon-top {
@@ -374,7 +411,6 @@
           right: 100px;
           width: 45px;
           height: 45px;
-          z-index: 10003;
         }
 
         .chat-messages {
@@ -429,9 +465,14 @@
         }
       }
 
-      /* FIX: Исправление для iOS и скролла */
+      /* Исправление для iOS */
       input, textarea, select {
         font-size: 16px !important;
+      }
+
+      html, body {
+        overscroll-behavior: none;
+        height: 100%;
       }
 
       @supports (-webkit-touch-callout: none) {
@@ -448,25 +489,16 @@
           bottom: env(safe-area-inset-bottom, 25px);
         }
       }
-
-      /* FIX: Гарантия что весь контент будет виден */
-      .home, .about, .services, .portfolio, .faq, .footer {
-        position: relative;
-        z-index: 1;
-      }
-
-      /* FIX: Предотвращение скрытия контента */
-      main {
-        min-height: 100vh;
-        position: relative;
-      }
     </style>
   </head>
 
   <body>
+    <!-- Остальная часть вашего HTML остается без изменений -->
     <header class="header">
       <a href="#home" class="logo">Nutralux</a>
+
       <i class="bx bx-menu" id="menu-icon"></i>
+
       <nav class="navbar">
         <a href="#about" class="active">About</a>
         <a href="#services" class="active">Services</a>
@@ -492,6 +524,7 @@
         </div>
         <a href="catalog.html" class="btn">Go to Catalog</a>
       </div>
+
       <div class="home-img">
         <img src="images/avatar.png" alt="Woman holding a bottle of Nutralux vitamins with green label" />
       </div>
@@ -501,6 +534,7 @@
       <div class="about-img">
         <img src="images/about-image.png" alt="Collection of various Nutralux vitamin and supplement bottles on white background" />
       </div>
+
       <div class="about-content">
         <h2 class="heading">About <span>Nutralux Store</span></h2>
         <h3>Supplements and vitamins for daily support</h3>
@@ -514,6 +548,7 @@
 
     <section class="services" id="services">
       <h2 class="heading">Our <span>Nutralux Services</span></h2>
+
       <div class="services-container">
         <div class="services-box">
           <i class="bx bx-support"></i>
@@ -523,6 +558,7 @@
             <li>Basic intake recommendations</li>
           </ul>
         </div>
+
         <div class="services-box">
           <i class="bx bx-package"></i>
           <h3>Fast Worldwide Delivery</h3>
@@ -531,6 +567,7 @@
             <li>Order status tracking</li>
           </ul>
         </div>
+
         <div class="services-box">
           <i class="bx bx-check-shield"></i>
           <h3>Quality and Supplement Transparency</h3>
@@ -544,6 +581,7 @@
 
     <section class="portfolio" id="portfolio">
       <h2 class="heading">Popular <span>Nutralux Products</span></h2>
+  
       <div class="portfolio-container">
         <div class="portfolio-box">
           <div class="portfolio-img">
@@ -555,6 +593,7 @@
             <a href="product.html?slug=omega-3-1000" class="btn">Learn More</a>
           </div>
         </div>
+  
         <div class="portfolio-box">
           <div class="portfolio-img">
             <img src="images/womens-multivitamin.jpg" alt="Nutralux Women's Multivitamin bottle" />
@@ -566,6 +605,7 @@
           </div>
         </div>
       </div>
+  
       <div style="text-align:center; margin-top: 1.5rem;">
         <a href="catalog.html" class="btn">View Full Catalog</a>
       </div>
@@ -573,19 +613,23 @@
 
     <section class="faq" id="faq">
       <h2 class="heading">Frequently Asked <span>Questions about Nutralux</span></h2>
+  
       <div class="faq-container">
         <div class="faq-item">
           <h3>How fast is delivery?</h3>
           <p>Delivery usually takes 1-2 business days. We ship orders on the same day they are placed.</p>
         </div>
+  
         <div class="faq-item">
           <h3>Can children take your vitamins?</h3>
           <p>Yes, we have special complexes for children. Please check the "For Kids" section in our catalog.</p>
         </div>
+  
         <div class="faq-item">
           <h3>Are there discounts for multiple items?</h3>
           <p>Yes, for orders of 3 or more items, we offer discounts and free shipping.</p>
         </div>
+  
         <div class="faq-item">
           <h3>What payment methods are available?</h3>
           <p>We accept card payments, e-wallets, and cash on delivery.</p>
@@ -597,6 +641,7 @@
       <div class="footer-text">
         <p>© 2025 Nutralux</p>
       </div>
+
       <div class="footer-icon-top">
         <a href="#home"><i class="bx bx-up-arrow-alt"></i></a>
       </div>
@@ -635,7 +680,7 @@
 
     <!-- УЛУЧШЕННЫЙ СКРИПТ ЧАТ-БОТА -->
     <script>
-      /* === Nutralux Chatbot v4.5 — Fixed Mobile Issues === */
+      /* === Nutralux Chatbot v4.5 — Enhanced Intelligence & UI === */
       (function() {
         document.addEventListener('DOMContentLoaded', function() {
           // --- DOM Elements ---
