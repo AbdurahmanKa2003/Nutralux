@@ -295,6 +295,19 @@
         line-height: 1.5;
       }
 
+      /* Ссылки в сообщениях бота */
+      .bot-message a {
+        color: #4CAF50;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+
+      .bot-message a:hover {
+        color: #2E7D32;
+        text-decoration: underline;
+      }
+
       /* Быстрые ответы */
       .chat-quick-replies {
         padding: 12px 20px;
@@ -398,23 +411,23 @@
         #chat-widget {
           width: calc(100vw - 40px);
           height: 70vh;
-          bottom: 120px;
+          bottom: 140px;
           right: 20px;
           left: 20px;
           border-radius: 16px;
         }
 
         #chat-fab {
-          bottom: 40px;
-          right: 40px;
+          bottom: 50px;
+          right: 50px;
           width: 55px;
           height: 55px;
           font-size: 22px;
         }
 
         .footer-icon-top {
-          bottom: 40px;
-          right: 110px;
+          bottom: 50px;
+          right: 120px;
           width: 45px;
           height: 45px;
         }
@@ -439,17 +452,17 @@
           right: 15px;
           left: 15px;
           height: 65vh;
-          bottom: 110px;
+          bottom: 130px;
         }
 
         #chat-fab {
-          bottom: 35px;
-          right: 35px;
+          bottom: 45px;
+          right: 45px;
         }
 
         .footer-icon-top {
-          bottom: 35px;
-          right: 100px;
+          bottom: 45px;
+          right: 110px;
         }
 
         .chat-header {
@@ -484,15 +497,15 @@
       @supports (-webkit-touch-callout: none) {
         #chat-widget {
           position: fixed;
-          bottom: env(safe-area-inset-bottom, 120px);
+          bottom: env(safe-area-inset-bottom, 140px);
         }
         
         #chat-fab {
-          bottom: env(safe-area-inset-bottom, 40px);
+          bottom: env(safe-area-inset-bottom, 50px);
         }
         
         .footer-icon-top {
-          bottom: env(safe-area-inset-bottom, 40px);
+          bottom: env(safe-area-inset-bottom, 50px);
         }
       }
     </style>
@@ -686,7 +699,7 @@
 
     <!-- УЛУЧШЕННЫЙ СКРИПТ ЧАТ-БОТА -->
     <script>
-      /* === Nutralux Chatbot v6.0 — Fixed All Issues & Full Catalog === */
+      /* === Nutralux Chatbot v7.0 — Fixed All Issues & Complete Catalog === */
       (function() {
         document.addEventListener('DOMContentLoaded', function() {
           // --- DOM Elements ---
@@ -712,7 +725,7 @@
           let isFirstInteraction = true;
           let conversationHistory = [];
 
-          // --- ПОЛНЫЙ КАТАЛОГ ПРОДУКТОВ (все 20+ препаратов) ---
+          // --- ПОЛНЫЙ КАТАЛОГ ПРОДУКТОВ (все 20+ препаратов с полной информацией) ---
           const products = [
             {
               "slug": "ginkgo-biloba-500",
@@ -1119,9 +1132,10 @@
               : "👋 Hello! I'm Nutralux AI assistant. Tell me about your health goals, and I'll find perfect supplements for you!";
             
             addMessage(welcomeMsg, 'bot');
+            // Кнопка "Каталог" теперь в самом начале
             renderQuickReplies(lastLanguage === 'ru' 
-              ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-              : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+              ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
+              : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
           }
 
           // --- Enhanced NLP Functions ---
@@ -1151,7 +1165,10 @@
 
               // Agreement patterns
               'да': 'yes', 'yes': 'yes', 'yeah': 'yes', 'конечно': 'yes', 'ага': 'yes',
-              'нет': 'no', 'no': 'no', 'not': 'no', 'друг': 'other'
+              'нет': 'no', 'no': 'no', 'not': 'no', 'друг': 'other',
+
+              // Catalog
+              'каталог': 'каталог', 'каталог': 'каталог', 'товары': 'каталог', 'продукты': 'каталог'
             };
 
             let normalized = lowerText;
@@ -1201,8 +1218,8 @@
                 if (suggestedProduct) {
                   conversationHistory.pop(); // Clear the suggestion context
                   renderQuickReplies(detectedLang === 'ru' 
-                    ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
-                    : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
+                    ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
+                    : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
                   
                   let response = detectedLang === 'ru'
                     ? `**${suggestedProduct.name.ru}** 🌟\n\n${suggestedProduct.description.ru}\n\n`
@@ -1222,8 +1239,8 @@
               if (/(no|нет|не|друг|other)/.test(normalizedMessage)) {
                 conversationHistory.pop();
                 renderQuickReplies(detectedLang === 'ru' 
-                  ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-                  : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+                  ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
+                  : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
                 return detectedLang === 'ru'
                   ? "Хорошо! Может быть, вас интересует что-то другое? Например, для сна, энергии или иммунитета?"
                   : "Okay! Maybe you're interested in something else? For example, sleep, energy or immunity?";
@@ -1233,11 +1250,33 @@
             // Greeting patterns
             if (/(привет|здравств|добр|хай|ку|hi|hello|hey|start)/.test(normalizedMessage)) {
               renderQuickReplies(detectedLang === 'ru' 
-                ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-                : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+                ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
+                : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
               return detectedLang === 'ru'
                 ? "👋 Здравствуйте! Я AI-консультант Nutralux. Спросите меня о вашей цели здоровья, и я подберу идеальные добавки!\n\nНапример: «Что для сна и иммунитета?» или просто «иммунитет»"
                 : "👋 Hello! I'm Nutralux AI consultant. Tell me your health goal, and I'll find perfect supplements for you!\n\nExample: «What for sleep and immunity?» or just «immunity»";
+            }
+
+            // Catalog request - ПЕРВЫЙ ПРИОРИТЕТ
+            if (/(каталог|все товары|продукты|товары|catalog|products|all)/.test(normalizedMessage)) {
+              renderQuickReplies(detectedLang === 'ru' 
+                ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+                : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+              
+              let response = detectedLang === 'ru' 
+                ? "📦 **Полный каталог Nutralux:**\n\n" 
+                : "📦 **Complete Nutralux Catalog:**\n\n";
+              
+              products.forEach(p => {
+                // Каждый продукт - это ссылка на страницу продукта
+                response += `• <a href="product.html?slug=${p.slug}" target="_blank"><strong>${p.name[detectedLang]}</strong></a> — ${p.short[detectedLang]}\n`;
+              });
+              
+              response += detectedLang === 'ru' 
+                ? `\n💡 Нажмите на любой продукт, чтобы узнать подробности! Или выберите категорию.`
+                : `\n💡 Click on any product to learn more! Or choose a category.`;
+              
+              return response;
             }
 
             // Category patterns
@@ -1284,24 +1323,24 @@
               const category = foundCategories[0];
               const categoryData = {
                 sleep: {
-                  ru: { name: "сна", productSlug: "magnesium-b6", replies: ['✅ Узнать о Магнии', '⚡ Энергия', '🛡️ Иммунитет'] },
-                  en: { name: "sleep", productSlug: "magnesium-b6", replies: ['✅ About Magnesium', '⚡ Energy', '🛡️ Immunity'] }
+                  ru: { name: "сна", productSlug: "magnesium-b6", replies: ['✅ Узнать о Магнии', '⚡ Энергия', '📋 Каталог'] },
+                  en: { name: "sleep", productSlug: "magnesium-b6", replies: ['✅ About Magnesium', '⚡ Energy', '📋 Catalog'] }
                 },
                 energy: {
-                  ru: { name: "энергии", productSlug: "b-complex", replies: ['✅ Узнать о B-комплексе', '💤 Сон', '🧠 Память'] },
-                  en: { name: "energy", productSlug: "b-complex", replies: ['✅ About B-Complex', '💤 Sleep', '🧠 Focus'] }
+                  ru: { name: "энергии", productSlug: "b-complex", replies: ['✅ Узнать о B-комплексе', '💤 Сон', '📋 Каталог'] },
+                  en: { name: "energy", productSlug: "b-complex", replies: ['✅ About B-Complex', '💤 Sleep', '📋 Catalog'] }
                 },
                 immunity: {
-                  ru: { name: "иммунитета", productSlug: "vitamin-d3-10000", replies: ['✅ Узнать о Витамине D3', '💤 Сон', '⚡ Энергия'] },
-                  en: { name: "immunity", productSlug: "vitamin-d3-10000", replies: ['✅ About Vitamin D3', '💤 Sleep', '⚡ Energy'] }
+                  ru: { name: "иммунитета", productSlug: "vitamin-d3-10000", replies: ['✅ Узнать о Витамине D3', '💤 Сон', '📋 Каталог'] },
+                  en: { name: "immunity", productSlug: "vitamin-d3-10000", replies: ['✅ About Vitamin D3', '💤 Sleep', '📋 Catalog'] }
                 },
                 brain: {
                   ru: { name: "памяти и концентрации", productSlug: "ginkgo-biloba-500", replies: ['✅ Узнать о Гинкго', '⚡ Энергия', '📋 Каталог'] },
                   en: { name: "memory and focus", productSlug: "ginkgo-biloba-500", replies: ['✅ About Ginkgo', '⚡ Energy', '📋 Catalog'] }
                 },
                 beauty: {
-                  ru: { name: "красоты", productSlug: "collagen-30-sachets", replies: ['✅ Узнать о Коллагене', '💤 Сон', '🛡️ Иммунитет'] },
-                  en: { name: "beauty", productSlug: "collagen-30-sachets", replies: ['✅ About Collagen', '💤 Sleep', '🛡️ Immunity'] }
+                  ru: { name: "красоты", productSlug: "collagen-30-sachets", replies: ['✅ Узнать о Коллагене', '💤 Сон', '📋 Каталог'] },
+                  en: { name: "beauty", productSlug: "collagen-30-sachets", replies: ['✅ About Collagen', '💤 Sleep', '📋 Catalog'] }
                 },
                 stomach: {
                   ru: { name: "пищеварения", productSlug: "probiotic-30b", replies: ['✅ Узнать о Пробиотике', '⚡ Энергия', '📋 Каталог'] },
@@ -1332,8 +1371,8 @@
                   (product.slug === 'magnesium-b6' && /(магн|magnesium)/.test(normalizedMessage)) ||
                   (product.slug === 'ginkgo-biloba-500' && /(гинг|ginkgo)/.test(normalizedMessage))) {
                 renderQuickReplies(detectedLang === 'ru' 
-                  ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
-                  : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
+                  ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
+                  : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
                 
                 let response = detectedLang === 'ru'
                   ? `**${product.name.ru}** 🌟\n\n${product.description.ru}\n\n`
@@ -1351,32 +1390,17 @@
               }
             }
 
-            // Catalog request
-            if (/(каталог|все товары|продукты|товары|catalog|products|all)/.test(normalizedMessage)) {
-              renderQuickReplies(detectedLang === 'ru' 
-                ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-                : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
-              let response = detectedLang === 'ru' ? "📦 **Наш каталог:**\n\n" : "📦 **Our catalog:**\n\n";
-              products.forEach(p => {
-                response += `• **${p.name[detectedLang]}** — ${p.short[detectedLang]}\n`;
-              });
-              response += detectedLang === 'ru' 
-                ? `\n💡 Выберите категорию или спросите о конкретном продукте!`
-                : `\n💡 Choose a category or ask about a specific product!`;
-              return response;
-            }
-
             // Default response with context awareness
             if (lastContext) {
               conversationHistory.pop(); // Clear context if not understood
             }
 
             renderQuickReplies(detectedLang === 'ru' 
-              ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
-              : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
+              ? ['📋 Каталог', '💤 Сон', '⚡ Энергия', '🛡️ Иммунитет'] 
+              : ['📋 Catalog', '💤 Sleep', '⚡ Energy', '🛡️ Immunity']);
             return detectedLang === 'ru'
-              ? "🤔 Пожалуйста, уточните ваш запрос! Я могу помочь с:\n\n• 💤 **Сном и расслаблением**\n• ⚡ **Энергией и тонусом**\n• 🛡️ **Иммунитетом и защитой**\n• 🧠 **Памятью и концентрацией**\n\nНапишите, например: «сон» или «энергия и иммунитет»"
-              : "🤔 Please clarify your request! I can help with:\n\n• 💤 **Sleep and relaxation**\n• ⚡ **Energy and vitality**\n• 🛡️ **Immunity and protection**\n• 🧠 **Memory and focus**\n\nWrite, for example: «sleep» or «energy and immunity»";
+              ? "🤔 Пожалуйста, уточните ваш запрос! Я могу помочь с:\n\n• 📋 **Полным каталогом**\n• 💤 **Сном и расслаблением**\n• ⚡ **Энергией и тонусом**\n• 🛡️ **Иммунитетом и защитой**\n\nНапишите, например: «каталог» или «сон и энергия»"
+              : "🤔 Please clarify your request! I can help with:\n\n• 📋 **Complete catalog**\n• 💤 **Sleep and relaxation**\n• ⚡ **Energy and vitality**\n• 🛡️ **Immunity and protection**\n\nWrite, for example: «catalog» or «sleep and energy»";
           }
 
           // --- UI Functions ---
