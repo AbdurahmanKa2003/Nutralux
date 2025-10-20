@@ -399,32 +399,26 @@
                 loop: true
             });
         }
-<!-- === 🧠 NUTRALUX CHATBOT v3.0 === -->
-<!-- Исправлено: увеличение при фокусе (мобильные), добавлен интеллект, автопредложения, плавный UX -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script>
-/* === Nutralux Chatbot v3.1 — stable init, smarter NLP, mobile fix === */
+/* === 🧠 Nutralux Chatbot v4.0 — Full intelligent version, mobile fix, multi-language, product logic === */
 (function () {
-  // Инициализация после полной загрузки DOM
   document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM
+
+    // --- DOM elements
     const chatWidget = document.getElementById('chat-widget');
     const chatFab = document.getElementById('chat-fab');
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     const chatMessages = document.getElementById('chat-messages');
-
-    // Жёсткая проверка: без этих элементов ничего не делаем
     if (!chatWidget || !chatFab || !chatInput || !chatSend || !chatMessages) {
-      console.error('[NutraluxChat] Missing DOM elements:', { chatWidget, chatFab, chatInput, chatSend, chatMessages });
-      return;
+      console.error('[NutraluxChat] Missing elements.'); return;
     }
 
-    // --- CSS: управляем видимостью классом
+    // --- Visibility toggle (open/close)
     const style = document.createElement('style');
     style.textContent = `
-      #chat-widget { display: none; }
-      #chat-widget.is-open { display: flex; }
+      #chat-widget { display:none; flex-direction:column; }
+      #chat-widget.is-open { display:flex; }
       @media (max-width:600px){
         #chat-widget { width:90%; height:80%; bottom:80px; left:5%; right:5%; border-radius:15px; }
       }
@@ -433,10 +427,9 @@
     `;
     document.head.appendChild(style);
 
-    // --- Безопасное хранение языка
     let lastLanguage = 'ru';
 
-    // --- Открыть/закрыть
+    // --- Open / close chat
     function toggleChat() {
       chatWidget.classList.toggle('is-open');
       const opened = chatWidget.classList.contains('is-open');
@@ -445,24 +438,18 @@
     }
     chatFab.addEventListener('click', toggleChat);
 
-    // --- Автоприветствие (один раз)
-    function greetUser() {
-      if (!localStorage.getItem('nutraluxGreeted')) {
-        addMessage("👋 Hello! / Здравствуйте! I'm Nutralux AI assistant. Ask me about vitamins, goals or say: 'show all products'.");
-        localStorage.setItem('nutraluxGreeted', 'true');
-      }
+    // --- Add message
+    function addMessage(text, type = 'bot') {
+      const div = document.createElement('div');
+      div.className = `message ${type}-message`;
+      div.innerHTML = type === 'user'
+        ? `<strong>${lastLanguage === 'ru' ? 'Вы' : 'You'}:</strong> ${text}`
+        : `<strong>${lastLanguage === 'ru' ? 'Бот' : 'Bot'}:</strong> ${text.replace(/\n/g, '<br>')}`;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
     }
 
-    // --- История
-    function saveHistory() {
-      localStorage.setItem('nutraluxChatHistory', chatMessages.innerHTML);
-    }
-    function loadHistory() {
-      const saved = localStorage.getItem('nutraluxChatHistory');
-      if (saved) chatMessages.innerHTML = saved;
-    }
-
-    // --- Язык
+    // --- Detect language
     function detectLanguage(text) {
       const hasRu = /[а-яё]/i.test(text);
       const hasEn = /[a-z]/i.test(text);
@@ -471,7 +458,12 @@
       return lastLanguage;
     }
 
-    // --- Продукты (RU/EN)
+    // --- Normalize text
+    function normalizeText(text) {
+      return text.toLowerCase().replace(/[^\wа-яё\s]/gi, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    // --- Products
     const products = [
       {slug:"ginkgo-biloba-500", name:{ru:"Гинкго Билоба 500 мг", en:"Ginkgo Biloba 500 mg"}, short:{ru:"Память, внимание, кровообращение мозга", en:"Memory, focus, brain circulation"}},
       {slug:"magnesium-b6", name:{ru:"Магний B6", en:"Magnesium B6"}, short:{ru:"Сон, нервы, усвоение магния", en:"Sleep, nerves, magnesium absorption"}},
@@ -483,22 +475,7 @@
       {slug:"probiotic-30b", name:{ru:"Пробиотик", en:"Probiotic"}, short:{ru:"ЖКТ, иммунитет", en:"Gut health, immunity"}}
     ];
 
-    // --- Сообщения
-    function addMessage(text, type='bot') {
-      const div = document.createElement('div');
-      div.className = `message ${type}-message`;
-      div.innerHTML = type === 'user'
-        ? `<strong>${lastLanguage==='ru'?'Вы':'You'}:</strong> ${text}`
-        : `<strong>${lastLanguage==='ru'?'Бот':'Bot'}:</strong> ${text.replace(/\n/g,'<br>')}`;
-      chatMessages.appendChild(div);
-      chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
-    }
-
-    function normalizeText(text) {
-      return text.toLowerCase().replace(/[^\wа-яё\s]/gi, ' ').replace(/\s+/g,' ').trim();
-    }
-
-    // --- Умные паттерны
+    // --- Smart keyword patterns
     const patterns = {
       sleep: /(сон|спать|уснуть|sleep|insomnia|night|relax)/,
       energy: /(энерг|устал|сил|вял|energy|tired|fatigue|vitality)/,
@@ -510,20 +487,20 @@
       weight: /(вес|похуд|диет|slim|weight|fat|metabol)/
     };
 
-    // --- AI-логика
+    // --- Main AI logic
     function getAIResponse(message) {
       const lang = detectLanguage(message);
       lastLanguage = lang;
       const msg = normalizeText(message);
 
-      // Приветствие
+      // Greeting
       if (/(привет|здравств|hi|hello|hey|start|начать)/.test(msg)) {
         return lang === 'ru'
-          ? "Здравствуйте! 👋 Я консультант Nutralux. Я могу порекомендовать добавки для сна, энергии, иммунитета, кожи, сердца и пищеварения. Напишите, что актуально, или скажите «покажи весь каталог»."
-          : "Hello! 👋 I'm Nutralux consultant. I can recommend supplements for sleep, energy, immunity, skin, heart and digestion. Tell me your goal, or say 'show all products'.";
+          ? "Здравствуйте! 👋 Я консультант Nutralux. Я могу помочь подобрать витамины для сна, энергии, иммунитета, кожи, сердца и пищеварения. Напишите, что актуально, или скажите «покажи каталог»."
+          : "Hello! 👋 I'm Nutralux consultant. I can recommend supplements for sleep, energy, immunity, skin, heart and digestion. Tell me your goal, or say 'show catalog'.";
       }
 
-      // Каталог
+      // Show all catalog
       if (/(весь каталог|все товары|покажи каталог|show all|all products|catalog)/.test(msg)) {
         let text = lang === 'ru' ? "📦 <b>Каталог Nutralux:</b><br>" : "📦 <b>Nutralux Catalog:</b><br>";
         products.forEach(p => {
@@ -532,105 +509,99 @@
         return text;
       }
 
-      // Категория
+      // Find categories
       const found = Object.keys(patterns).filter(k => patterns[k].test(msg));
 
-      // Комбинации (например: сон + иммунитет)
+      // Combined goals
       if (found.length >= 2) {
         const has = (k) => found.includes(k);
         if (has('sleep') && has('immunity')) {
-          return lang==='ru'
-            ? "💤🛡️ Для сна и иммунитета: <br>• <a href='product.html?slug=magnesium-b6' target='_blank'><b>Магний B6</b></a> — сон, нервная система<br>• <a href='product.html?slug=vitamin-d3-10000' target='_blank'><b>Витамин D3</b></a> — иммунитет<br>• <a href='product.html?slug=zinc-complex' target='_blank'><b>Цинк</b></a> — защита и кожа<br><br>💡 Вечером — Магний; утром — D3 и Цинк."
-            : "💤🛡️ For sleep and immunity: <br>• <a href='product.html?slug=magnesium-b6' target='_blank'><b>Magnesium B6</b></a> — sleep & nerves<br>• <a href='product.html?slug=vitamin-d3-10000' target='_blank'><b>Vitamin D3</b></a> — immunity<br>• <a href='product.html?slug=zinc-complex' target='_blank'><b>Zinc</b></a> — defense & skin<br><br>💡 Evening — Magnesium; morning — D3 and Zinc.";
+          return lang === 'ru'
+            ? "💤🛡️ Для сна и иммунитета:<br>• Магний B6 — сон, нервы<br>• Витамин D3 — иммунитет<br>• Цинк — кожа и защита<br>💡 Вечером — Магний; утром — D3 и Цинк."
+            : "💤🛡️ For sleep and immunity:<br>• Magnesium B6 — sleep, nerves<br>• Vitamin D3 — immunity<br>• Zinc — skin & defense<br>💡 Evening — Magnesium; morning — D3 and Zinc.";
         }
         if (has('brain') && has('energy')) {
-          return lang==='ru'
-            ? "🧠⚡ Для продуктивности и ясности: <br>• <a href='product.html?slug=ginkgo-biloba-500' target='_blank'><b>Гинкго Билоба</b></a> — кровообращение мозга<br>• <a href='product.html?slug=omega-3-1000' target='_blank'><b>Омега-3</b></a> — питание нейронов<br>• <a href='product.html?slug=b-complex' target='_blank'><b>B-комплекс</b></a> — энергия на день"
-            : "🧠⚡ For productivity and clarity: <br>• <a href='product.html?slug=ginkgo-biloba-500' target='_blank'><b>Ginkgo Biloba</b></a> — brain circulation<br>• <a href='product.html?slug=omega-3-1000' target='_blank'><b>Omega-3</b></a> — neuron support<br>• <a href='product.html?slug=b-complex' target='_blank'><b>B-Complex</b></a> — all-day energy";
+          return lang === 'ru'
+            ? "🧠⚡ Для фокуса и энергии:<br>• Гинкго Билоба — память<br>• Омега-3 — мозг и сердце<br>• B-комплекс — энергия и нервы"
+            : "🧠⚡ For focus and energy:<br>• Ginkgo Biloba — memory<br>• Omega-3 — brain & heart<br>• B-Complex — energy & nerves";
         }
       }
 
-      // Одиночная категория
+      // Single category
       if (found.length === 1) {
         const key = found[0];
         const header = {
-          sleep:   {ru:"😴 <b>Для сна и спокойствия:</b><br>", en:"😴 <b>For sleep and calm:</b><br>"},
-          energy:  {ru:"⚡ <b>Для энергии и бодрости:</b><br>", en:"⚡ <b>For energy and vitality:</b><br>"},
-          immunity:{ru:"🛡️ <b>Для иммунитета:</b><br>", en:"🛡️ <b>For immunity:</b><br>"},
-          beauty:  {ru:"💅 <b>Для кожи и волос:</b><br>", en:"💅 <b>For skin and hair:</b><br>"},
-          brain:   {ru:"🧠 <b>Для памяти и концентрации:</b><br>", en:"🧠 <b>For memory and focus:</b><br>"},
-          stomach: {ru:"🍀 <b>Для ЖКТ и микробиома:</b><br>", en:"🍀 <b>For gut & microbiome:</b><br>"},
-          heart:   {ru:"❤️ <b>Для сердца и сосудов:</b><br>", en:"❤️ <b>For heart & vessels:</b><br>"},
-          weight:  {ru:"🏃 <b>Для контроля веса:</b><br>", en:"🏃 <b>For weight control:</b><br>"}
-        }[key] || {ru:"", en:""};
-
-        // Подбираем релевантные позиции
-        const pick = (arr) => arr.map(slug => products.find(p => p.slug===slug)).filter(Boolean);
+          sleep:{ru:"😴 <b>Для сна и спокойствия:</b><br>",en:"😴 <b>For sleep and calm:</b><br>"},
+          energy:{ru:"⚡ <b>Для энергии и бодрости:</b><br>",en:"⚡ <b>For energy and vitality:</b><br>"},
+          immunity:{ru:"🛡️ <b>Для иммунитета:</b><br>",en:"🛡️ <b>For immunity:</b><br>"},
+          beauty:{ru:"💅 <b>Для кожи и волос:</b><br>",en:"💅 <b>For skin and hair:</b><br>"},
+          brain:{ru:"🧠 <b>Для памяти и концентрации:</b><br>",en:"🧠 <b>For memory and focus:</b><br>"},
+          stomach:{ru:"🍀 <b>Для ЖКТ и микрофлоры:</b><br>",en:"🍀 <b>For gut & microbiome:</b><br>"},
+          heart:{ru:"❤️ <b>Для сердца и сосудов:</b><br>",en:"❤️ <b>For heart & vessels:</b><br>"},
+          weight:{ru:"🏃 <b>Для контроля веса:</b><br>",en:"🏃 <b>For weight control:</b><br>"}
+        }[key];
+        const pick = (arr) => arr.map(s => products.find(p => p.slug === s)).filter(Boolean);
         let list = [];
-        if (key==='sleep')    list = pick(['magnesium-b6']);
+        if (key==='sleep') list = pick(['magnesium-b6']);
         if (key==='immunity') list = pick(['vitamin-d3-10000','zinc-complex']);
-        if (key==='energy')   list = pick(['b-complex']);
-        if (key==='brain')    list = pick(['ginkgo-biloba-500','omega-3-1000']);
-        if (key==='beauty')   list = pick(['collagen-30-sachets','zinc-complex']);
-        if (key==='stomach')  list = pick(['probiotic-30b']);
-        if (key==='heart')    list = pick(['omega-3-1000']);
-        if (key==='weight')   list = pick(['b-complex']); // базовая поддержка метаболизма
-
-        let out = header[lang] || "";
-        list.forEach(p => {
-          out += `• <a href="product.html?slug=${p.slug}" target="_blank">${p.name[lang]}</a> — ${p.short[lang]}<br>`;
-        });
-        out += lang==='ru'
-          ? "<br>💡 Для выраженного эффекта пройдите курс 1–2 месяца."
-          : "<br>💡 For visible results, take for 1–2 months.";
+        if (key==='energy') list = pick(['b-complex']);
+        if (key==='brain') list = pick(['ginkgo-biloba-500','omega-3-1000']);
+        if (key==='beauty') list = pick(['collagen-30-sachets','zinc-complex']);
+        if (key==='stomach') list = pick(['probiotic-30b']);
+        if (key==='heart') list = pick(['omega-3-1000']);
+        if (key==='weight') list = pick(['b-complex']);
+        let out = header[lang];
+        list.forEach(p => out += `• <a href="product.html?slug=${p.slug}" target="_blank">${p.name[lang]}</a> — ${p.short[lang]}<br>`);
+        out += lang === 'ru'
+          ? "<br>💡 Для лучшего эффекта пройдите курс 1–2 месяца."
+          : "<br>💡 For best results, take for 1–2 months.";
         return out;
       }
 
-      // Поиск по частям слов
+      // Partial match
       const partial = products.filter(p =>
         p.name.ru.toLowerCase().includes(msg) || p.name.en.toLowerCase().includes(msg) ||
         p.short.ru.toLowerCase().includes(msg) || p.short.en.toLowerCase().includes(msg)
       );
       if (partial.length) {
-        let res = lang==='ru' ? "🔍 Найдено:<br>" : "🔍 Found:<br>";
+        let res = lang === 'ru' ? "🔍 Найдено:<br>" : "🔍 Found:<br>";
         partial.forEach(p => res += `• <a href="product.html?slug=${p.slug}" target="_blank">${p.name[lang]}</a> — ${p.short[lang]}<br>`);
         return res;
       }
 
-      // Помощь
+      // Help
       if (/(help|помощ|что можешь|options|варианты|recommend|подскажи)/.test(msg)) {
-        return lang==='ru'
-          ? "Я могу предложить направления: 💤 сон, ⚡ энергия, 🛡️ иммунитет, 💅 красота, 🧠 память, ❤️ сердце, 🍀 ЖКТ.\nНапишите любую цель, например: «что для усталости и сна?» или «покажи весь каталог»."
-          : "I can help with: 💤 sleep, ⚡ energy, 🛡️ immunity, 💅 beauty, 🧠 focus, ❤️ heart, 🍀 gut.\nType your goal, e.g. ‘for tiredness and sleep?’ or ‘show all products’.";
+        return lang === 'ru'
+          ? "Я могу предложить добавки для 💤 сна, ⚡ энергии, 🛡️ иммунитета, 💅 красоты, 🧠 памяти, ❤️ сердца и 🍀 ЖКТ.\nНапишите: «что для сна?» или «покажи каталог»."
+          : "I can help with 💤 sleep, ⚡ energy, 🛡️ immunity, 💅 beauty, 🧠 focus, ❤️ heart and 🍀 gut.\nType: 'for sleep?' or 'show catalog'.";
       }
 
-      // По умолчанию
-      return lang==='ru'
-        ? "🤔 Не совсем понял. Напишите цель (сон, энергия, иммунитет, кожа), либо скажите «покажи весь каталог»."
-        : "🤔 I didn’t catch that. Tell me a goal (sleep, energy, immunity, skin) or say ‘show all products’.";
+      return lang === 'ru'
+        ? "🤔 Не совсем понял. Напишите цель (сон, энергия, иммунитет, кожа) или скажите «каталог»."
+        : "🤔 I didn’t catch that. Say your goal (sleep, energy, immunity, skin) or 'catalog'.";
     }
 
-    // --- Безопасный вызов
+    // --- Safe response
     function safeAIResponse(msg) {
       try { return getAIResponse(msg); }
       catch (e) {
-        console.error('[NutraluxChat] getAIResponse error:', e);
-        return lastLanguage==='ru' ? "⚠️ Ошибка обработки сообщения." : "⚠️ Error processing your message.";
+        console.error('[NutraluxChat] AI error', e);
+        return lastLanguage === 'ru' ? "⚠️ Ошибка обработки." : "⚠️ Processing error.";
       }
     }
 
-    // --- Отправка
+    // --- Send message
     function sendMessage() {
       const text = chatInput.value.trim();
       if (!text) return;
       addMessage(text, 'user');
       chatInput.value = '';
-      chatSend.disabled = true; chatInput.disabled = true;
+      chatSend.disabled = true;
+      chatInput.disabled = true;
 
       const typing = document.createElement('div');
-      typing.id = 'typing-indicator';
       typing.className = 'message bot-message';
-      typing.innerHTML = `<strong>${lastLanguage==='ru'?'Бот':'Bot'}:</strong> <em>${lastLanguage==='ru'?'печатает...':'typing...'}</em>`;
+      typing.innerHTML = `<strong>${lastLanguage === 'ru' ? 'Бот' : 'Bot'}:</strong> <em>${lastLanguage === 'ru' ? 'печатает...' : 'typing...'}</em>`;
       chatMessages.appendChild(typing);
       chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
 
@@ -638,15 +609,18 @@
         typing.remove();
         const reply = safeAIResponse(text);
         addMessage(reply, 'bot');
-        chatSend.disabled = false; chatInput.disabled = false;
+        chatSend.disabled = false;
+        chatInput.disabled = false;
         chatInput.focus();
       }, 900);
     }
+
     chatSend.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+    // --- Mobile input fix
     chatInput.addEventListener('focus', () => {
-    
-      chatInput.style.fontSize = '16px'; // iOS zoom fix
+      chatInput.style.fontSize = '16px';
       document.body.style.height = '100vh';
       setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50);
     });
@@ -654,9 +628,26 @@
       document.body.style.height = '';
     });
 
-    // Старт
+    // --- History
+    function saveHistory() {
+      localStorage.setItem('nutraluxChatHistory', chatMessages.innerHTML);
+    }
+    function loadHistory() {
+      const saved = localStorage.getItem('nutraluxChatHistory');
+      if (saved) chatMessages.innerHTML = saved;
+    }
+
+    // --- Greeting
+    function greetUser() {
+      if (!localStorage.getItem('nutraluxGreeted')) {
+        addMessage("👋 Hello! / Здравствуйте! I'm Nutralux AI assistant. Ask me about vitamins or say 'catalog'.");
+        localStorage.setItem('nutraluxGreeted', 'true');
+      }
+    }
+
     try { loadHistory(); } catch {}
     greetUser();
+    window.addEventListener('beforeunload', saveHistory);
   });
 })();
 </script>
