@@ -384,369 +384,201 @@
             });
         }
     </script>
-   <script>
-        // --- ГЛОБАЛЬНАЯ ПЕРЕМЕННАЯ ДЛЯ ПАМЯТИ ЯЗЫКА ---
-        let lastLanguage = 'ru';    
+<script>
+/* === 💬 ULTRA IMPROVED NUTRALUX CHATBOT SCRIPT === */
 
-        // --- ПРИВЯЗКА К DOM ---
-        const chatWidget = document.getElementById('chat-widget');
-        const chatFab = document.getElementById('chat-fab');
-        const chatInput = document.getElementById('chat-input');
-        const chatSend = document.getElementById('chat-send');
-        const chatMessages = document.getElementById('chat-messages');
+let lastLanguage = 'ru';
 
-        // --- ФУНКЦИЯ ДЛЯ ПЕРЕКЛЮЧЕНИЯ ЧАТА ---
-        function toggleChat() {
-            if (!chatWidget || !chatFab || !chatInput) {
-                console.error("Элементы чата не найдены в DOM.");
-                return;
-            }
+// --- DOM Elements ---
+const chatWidget = document.getElementById('chat-widget');
+const chatFab = document.getElementById('chat-fab');
+const chatInput = document.getElementById('chat-input');
+const chatSend = document.getElementById('chat-send');
+const chatMessages = document.getElementById('chat-messages');
 
-            const isHidden = chatWidget.style.display === 'none' || chatWidget.style.display === '';
-            chatWidget.style.display = isHidden ? 'flex' : 'none';
-            chatFab.innerHTML = isHidden ? '<i class="bx bx-x"></i>' : '<i class="bx bx-chat"></i>';
+// --- Toggle Chat Visibility ---
+function toggleChat() {
+  if (!chatWidget || !chatFab) return console.error("Chat elements not found.");
+  const isHidden = chatWidget.style.display === 'none' || chatWidget.style.display === '';
+  chatWidget.style.display = isHidden ? 'flex' : 'none';
+  chatFab.innerHTML = isHidden ? '<i class="bx bx-x"></i>' : '<i class="bx bx-chat"></i>';
+  if (isHidden) setTimeout(() => chatInput.focus(), 200);
+}
 
-            if (isHidden) {
-                setTimeout(() => chatInput.focus(), 100);
-            }
-        }
+chatFab?.addEventListener('click', toggleChat);
 
-        if (chatFab) {
-            chatFab.addEventListener('click', toggleChat);
-        }
-        
-        // --- РАСШИРЕННЫЕ ДАННЫЕ ПРОДУКТОВ ---
-        const products = [
-            { "slug": "ginkgo-biloba-500", "name": "Гинкго Билоба 500 мг", "short": "Память, внимание, кровообращение мозга", "category": "Растительные экстракты", "description": "Поддержка мозгового кровообращения и когнитивных функций: память, концентрация, координация. Снижение шума в ушах и головокружения, помощь при утомлении." },
-            { "slug": "magnesium-b6", "name": "Магний B6", "short": "Нервная система, сон, усвоение магния", "category": "Минералы", "description": "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна. Витамин B6 поддерживает нервную систему." },
-            { "slug": "omega-3-1000", "name": "Омега-3 1000 мг", "short": "Мозг, сердце, зрение", "category": "Жирные кислоты", "description": "Незаменимые жирные кислоты для работы мозга и сердечно-сосудистой системы, иммунитета и состояния кожи и зрения." },
-            { "slug": "b-complex", "name": "Витамин B-комплекс", "short": "Энергия, нервная система, кровь", "category": "Витамины", "description": "Комплекс витаминов группы B для энергообмена, работы ЦНС и кроветворения. Поддерживает синтез гемоглобина и обмен углеводов." },
-            { "slug": "anti-stress", "name": "Анти-Стресс", "short": "Спокойствие, сон, снижение тревожности", "category": "Растительные экстракты", "description": "Поддержка при тревоге и напряжении, нормализация сна. Растительные экстракты зверобоя, пассифлоры и валерианы." },
-            { "slug": "vitamin-d3-10000", "name": "Витамин D3 10 000 МЕ", "short": "Иммунитет, кальциевый обмен, сосуды", "category": "Витамины", "description": "Поддерживает иммунитет и здоровый кальциевый обмен, способствует эластичности сосудов и профилактике кальцификации тканей." },
-            { "slug": "zinc-complex", "name": "Цинк (комплекс)", "short": "Иммунитет, кожа, обмен", "category": "Минералы", "description": "Поддержка иммунитета, кожи и обменных процессов. Усилен витамином C, D и селеном." },
-            { "slug": "probiotic-30b", "name": "Пробиотик", "short": "Микробиом и пищеварение", "category": "Пробиотики", "description": "Мультиштаммовый пробиотик: защита от патогенов, синтез витаминов, улучшение всасывания минералов и поддержка иммунитета." },
-            { "slug": "collagen-30-sachets", "name": "Коллаген — 30 саше", "short": "Кожа, суставы, волосы и ногти", "category": "Коллаген", "description": "Три типа коллагена + витамин C, гиалуроновая кислота, коэнзим Q10, цинк, биотин для кожи, суставов и общего тонуса." },
-            { "slug": "vitamin-c-effervescent-1000", "name": "Витамин C 1000 мг (шипучий)", "short": "Иммунитет, антиоксидант, коллаген", "category": "Витамины", "description": "Поддерживает иммунитет, состояние сосудов и кожи, улучшает усвоение железа и синтез коллагена." },
-            { "slug": "womens-multivitamin", "name": "Женский Мультивитамин", "short": "Ежедневный баланс, усвоение до 98%", "category": "Комплексы", "description": "Сбалансированный комплекс для женского организма: пищеварение, иммунитет, метаболизм, поддержка кожи и энергии." },
-            { "slug": "slimming-complex", "name": "Слимминг Комплекс", "short": "Тонус, метаболизм и контроль аппетита", "category": "Комплексы", "description": "Тонизация и поддержка снижения веса: гуарана, зелёный чай, CLA, L-карнитин, гарциния, корица, гимнема, 5-HTP и хром." }
-        ];
+// --- Load & Save Chat History ---
+function saveChatHistory() {
+  if (chatMessages) localStorage.setItem('nutraluxChatHistory', chatMessages.innerHTML);
+}
+function loadChatHistory() {
+  const saved = localStorage.getItem('nutraluxChatHistory');
+  if (saved) chatMessages.innerHTML = saved;
+}
+window.addEventListener('beforeunload', saveChatHistory);
+document.addEventListener('DOMContentLoaded', loadChatHistory);
 
-        // --- УЛУЧШЕННАЯ ФУНКЦИЯ ОБРАБОТКИ ОПЕЧАТОК ---
-        function normalizeText(text) {
-            const lowerText = text.toLowerCase().trim();
-            
-            // Словарь опечаток и замен
-            const corrections = {
-                // Иммунитет с опечатками
-                'м': 'иммунитет', 'иммунитет': 'иммунитет', 'имунитет': 'иммунитет', 'иммунетет': 'иммунитет',
-                'immunity': 'иммунитет', 'imunity': 'иммунитет', 'иммун': 'иммунитет',
-                
-                // Сон с опечатками
-                'сон': 'сон', 'сн': 'сон', 'спать': 'сон', 'бессонница': 'сон', 'sleep': 'сон',
-                
-                // Энергия с опечатками
-                'энергия': 'энергия', 'энегия': 'энергия', 'енергия': 'энергия', 'силы': 'энергия',
-                'energy': 'энергия', 'energi': 'энергия', 'усталость': 'энергия',
-                
-                // Мозг с опечатками
-                'мозг': 'мозг', 'мзг': 'мозг', 'память': 'мозг', 'внимание': 'мозг',
-                'brain': 'мозг', 'memory': 'мозг', 'focus': 'мозг',
-                
-                // Кожа с опечатками
-                'кожа': 'кожа', 'кож': 'кожа', 'волосы': 'кожа', 'ногти': 'кожа',
-                'skin': 'кожа', 'beauty': 'кожа', 'красота': 'кожа',
-                
-                // Вес с опечатками
-                'вес': 'вес', 'похудение': 'вес', 'диета': 'вес', 'метаболизм': 'вес',
-                'weight': 'вес', 'slim': 'вес', 'похудеть': 'вес',
-                
-                // Сердце с опечатками
-                'сердце': 'сердце', 'сердц': 'сердце', 'сосуды': 'сердце', 'давление': 'сердце',
-                'heart': 'сердце', 'pressure': 'сердце', 'омега': 'сердце',
-                
-                // Желудок с опечатками
-                'желудок': 'желудок', 'пищеварение': 'желудок', 'кишечник': 'желудок',
-                'stomach': 'желудок', 'digest': 'желудок', 'пробиотик': 'желудок'
-            };
+// --- Greeting ---
+function showGreeting() {
+  if (!localStorage.getItem('nutraluxGreeted')) {
+    addMessage(lastLanguage === 'ru'
+      ? "Здравствуйте! 👋 Я консультант Nutralux. Чем могу помочь?"
+      : "Hello! 👋 I'm Nutralux consultant. How can I help?");
+    localStorage.setItem('nutraluxGreeted', 'true');
+  }
+}
+document.addEventListener('DOMContentLoaded', showGreeting);
 
-            // Заменяем опечатки
-            let normalized = lowerText;
-            Object.keys(corrections).forEach(wrong => {
-                const regex = new RegExp(`\\b${wrong}\\b`, 'gi');
-                normalized = normalized.replace(regex, corrections[wrong]);
-            });
+// --- Language Toggle Button ---
+const chatHeader = document.querySelector('.chat-header');
+if (chatHeader) {
+  const langBtn = document.createElement('button');
+  langBtn.id = 'lang-toggle';
+  langBtn.textContent = '🇷🇺';
+  langBtn.style.cssText = 'float:right;background:none;border:none;cursor:pointer;font-size:20px;';
+  chatHeader.appendChild(langBtn);
+  langBtn.addEventListener('click', () => {
+    lastLanguage = lastLanguage === 'ru' ? 'en' : 'ru';
+    langBtn.textContent = lastLanguage === 'ru' ? '🇷🇺' : '🇬🇧';
+    addMessage(lastLanguage === 'ru'
+      ? "✅ Язык переключён на русский."
+      : "✅ Language switched to English.", 'bot');
+  });
+}
 
-            return normalized;
-        }
+// --- Text Normalization ---
+function normalizeText(text) {
+  let normalized = text.toLowerCase().trim();
+  const corrections = {
+    'имун': 'иммунитет', 'иммун': 'иммунитет', 'immunity': 'иммунитет',
+    'сон': 'сон', 'sleep': 'сон',
+    'энерг': 'энергия', 'energy': 'энергия',
+    'мозг': 'мозг', 'памят': 'мозг', 'brain': 'мозг',
+    'кожа': 'кожа', 'волос': 'кожа', 'beauty': 'кожа',
+    'вес': 'вес', 'диет': 'вес', 'похуд': 'вес', 'weight': 'вес',
+    'сердц': 'сердце', 'давлен': 'сердце', 'heart': 'сердце',
+    'желуд': 'желудок', 'пищевар': 'желудок', 'digest': 'желудок'
+  };
+  for (const wrong in corrections) {
+    const regex = new RegExp(`${wrong}\\w*`, 'gi');
+    normalized = normalized.replace(regex, corrections[wrong]);
+  }
+  return normalized;
+}
 
-        // --- УЛУЧШЕННАЯ ФУНКЦИЯ ОПРЕДЕЛЕНИЯ ЯЗЫКА ---
-        function detectLanguage(text) {
-            const russianChars = /[а-яё]/i;
-            const englishChars = /[a-z]/i;
-            
-            const hasRu = russianChars.test(text);
-            const hasEn = englishChars.test(text);
-            
-            if (hasRu && !hasEn) return 'ru';
-            if (hasEn && !hasRu) return 'en';
-            if (hasRu && hasEn) {
-                // Если смешанный текст, считаем по количеству русских слов
-                const ruWords = text.match(/[а-яё]+/gi) || [];
-                const enWords = text.match(/[a-z]+/gi) || [];
-                return ruWords.length >= enWords.length ? 'ru' : 'en';
-            }
-            return lastLanguage; // сохраняем предыдущий язык если не определили
-        }
+// --- Language Detection ---
+function detectLanguage(text) {
+  const hasRu = /[а-яё]/i.test(text);
+  const hasEn = /[a-z]/i.test(text);
+  if (hasRu && !hasEn) return 'ru';
+  if (hasEn && !hasRu) return 'en';
+  return lastLanguage;
+}
 
-        // --- УЛУЧШЕННАЯ ФУНКЦИЯ ОТВЕТА БОТА ---
-        function getAIResponse(message) {
-            const normalizedMessage = normalizeText(message);
-            const detectedLang = detectLanguage(message);
-            lastLanguage = detectedLang;
+// --- Product Data ---
+const products = [
+  {slug:"magnesium-b6", name:"Магний B6", short:"Нервная система, сон, усвоение магния"},
+  {slug:"vitamin-d3-10000", name:"Витамин D3 10 000 МЕ", short:"Иммунитет, кальциевый обмен, сосуды"},
+  {slug:"zinc-complex", name:"Цинк (комплекс)", short:"Иммунитет, кожа, обмен"},
+  {slug:"omega-3-1000", name:"Омега-3 1000 мг", short:"Мозг, сердце, зрение"},
+  {slug:"b-complex", name:"Витамин B-комплекс", short:"Энергия, нервная система, кровь"},
+  {slug:"collagen-30-sachets", name:"Коллаген — 30 саше", short:"Кожа, суставы, волосы и ногти"}
+];
 
-            // Улучшенные паттерны для распознавания
-            const productMap = {
-                sleep: /(сон|бессонниц|спать|засыпание|усталость|расслабл|тревог|stress|rest|sleep|insomnia)/,
-                brain: /(мозг|памят|концентрац|внимание|фокус|когнитив|головокружен|brain|memory|focus|cognitive|mind)/,
-                energy: /(энерги|сил|бодр|слабост|вялост|устал|утомлен|активност|energy|strength|vitality|fatigue)/,
-                immunity: /(иммунит|защит|простуда|грипп|вирус|болезн|здоровье|immun|defense|virus|health)/,
-                beauty: /(кож|волос|ногт|красот|коллаген|омоложен|skin|hair|nails|beauty|collagen|youth)/,
-                weight: /(вес|похуден|стройн|диет|метаболизм|аппетит|жир|weight|slim|diet|metabolism|fat)/,
-                heart: /(сердц|сосуд|давлен|кров|холестерин|кардио|heart|vessel|pressure|blood|cholesterol)/,
-                stomach: /(желудок|пищевар|кишечник|пробиотик|микробиом|желуд|stomach|digest|gut|probiotic)/,
-            };
-            
-            const keywordsFound = Object.keys(productMap).filter(key => productMap[key].test(normalizedMessage));
-            
-            // --- УЛУЧШЕННЫЕ СОЦИАЛЬНЫЕ ОТВЕТЫ ---
-            
-            // Приветствие
-            if (/(привет|здравств|добр|хай|ку|начать|hi|hello|hey|start)/.test(normalizedMessage)) {
-                if (detectedLang === 'ru') {
-                    return "Здравствуйте! 👋 Я AI-консультант Nutralux. Спросите меня о вашей цели, и я подберу идеальный комплекс.\n\nНапример: 'Что посоветуешь для сна и иммунитета?' или просто 'иммунитет'";
-                } else {
-                    return "Hello! I'm Nutralux AI consultant. Tell me your health goal and I'll find the perfect solution for you! 🇬🇧\n\nExample: 'What should I take for energy and focus?' or just 'immunity'";
-                }
-            }
+// --- AI Response (simplified safe version) ---
+function getAIResponse(message) {
+  const msg = normalizeText(message);
+  const lang = detectLanguage(message);
+  lastLanguage = lang;
 
-            // Социальные взаимодействия
-            const socialPatterns = {
-                ru: {
-                    'how_are_you': /(как дела|как ты|как жизнь|how are you|how do you do)/,
-                    'thanks': /(спасибо|благодарю|молодец|круто|хорошо|норм|thanks|thank you)/,
-                    'who_are_you': /(ты кто|кто ты|who are you|what are you)/,
-                    'help': /(помощь|help|что ты умееш|what can you do)/
-                }
-            };
+  if (/(привет|hello|hi|hey)/.test(msg))
+    return lang === 'ru'
+      ? "Здравствуйте! 👋 Я AI-консультант Nutralux. Чем могу помочь? Например: 'что посоветуешь для сна и иммунитета?'"
+      : "Hello! 👋 I'm Nutralux AI consultant. How can I help? Example: 'What should I take for energy and focus?'";
 
-            // Обработка социальных фраз
-            if (socialPatterns.ru.how_are_you.test(normalizedMessage)) {
-                return detectedLang === 'ru' 
-                    ? "Я в отличном состоянии, спасибо! Готов помочь вам выбрать лучшие добавки для **здоровья и энергии**.\n\nЧто для вас сейчас важнее: **Сон** или **Иммунитет**?"
-                    : "I'm doing great, thank you for asking! I'm here to help you find the best supplements for **health and energy**.\n\nWhat is your main priority: **Sleep** or **Immunity**?";
-            }
+  const map = {
+    'сон': ['magnesium-b6'],
+    'иммунитет': ['vitamin-d3-10000','zinc-complex'],
+    'энергия': ['b-complex'],
+    'мозг': ['omega-3-1000','b-complex'],
+    'кожа': ['collagen-30-sachets','zinc-complex']
+  };
+  const found = Object.keys(map).find(k => msg.includes(k));
+  if (found) {
+    let res = lang === 'ru'
+      ? `✨ Рекомендации для **${found}**:\n\n`
+      : `✨ Recommendations for **${found}**:\n\n`;
+    map[found].forEach(slug => {
+      const p = products.find(x => x.slug === slug);
+      if (p) res += `• <a href="product.html?slug=${p.slug}" target="_blank"><strong>${p.name}</strong></a> - ${p.short}\n`;
+    });
+    return res;
+  }
 
-            if (socialPatterns.ru.thanks.test(normalizedMessage)) {
-                return detectedLang === 'ru'
-                    ? "Пожалуйста! 🎉 Рад, что смог помочь. Если нужно что-то еще - просто спросите!\n\nМожет быть, интересует что-то для **энергии** или **красоты**?"
-                    : "You're welcome! 🎉 Glad I could help. If you need anything else - just ask!\n\nMaybe you're interested in something for **energy** or **beauty**?";
-            }
+  return lang === 'ru'
+    ? "🤔 Уточните ваш запрос. Я помогу подобрать добавки для сна, энергии, иммунитета, мозга или красоты."
+    : "🤔 Please clarify your request. I can help with sleep, energy, immunity, brain or beauty supplements.";
+}
 
-            if (socialPatterns.ru.who_are_you.test(normalizedMessage)) {
-                return detectedLang === 'ru'
-                    ? "Я - AI-консультант Nutralux! 🤖 Помогаю подобрать идеальные витамины и добавки для ваших целей здоровья.\n\nРасскажите, что вас беспокоит?"
-                    : "I'm Nutralux AI consultant! 🤖 I help choose perfect vitamins and supplements for your health goals.\n\nTell me, what concerns you?";
-            }
+// --- Add Message ---
+function addMessage(text, type='bot') {
+  const div = document.createElement('div');
+  div.className = `message ${type}-message`;
+  div.innerHTML = type === 'user'
+    ? `<strong>${lastLanguage==='ru'?'Вы':'You'}:</strong> ${text}`
+    : `<strong>${lastLanguage==='ru'?'Бот':'Bot'}:</strong> ${text.replace(/\n/g,'<br>')}`;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTo({top: chatMessages.scrollHeight, behavior:'smooth'});
+}
 
-            if (socialPatterns.ru.help.test(normalizedMessage)) {
-                return detectedLang === 'ru'
-                    ? "Я помогу подобрать добавки для:\n\n• 💤 **Сна и спокойствия**\n• 🧠 **Памяти и концентрации**\n• ⚡ **Энергии и тонуса**\n• 🛡️ **Иммунитета**\n• 💅 **Красоты кожи и волос**\n\nПросто напишите, что вас интересует!"
-                    : "I can help choose supplements for:\n\n• 💤 **Sleep and relaxation**\n• 🧠 **Memory and focus**\n• ⚡ **Energy and vitality**\n• 🛡️ **Immunity**\n• 💅 **Skin and hair beauty**\n\nJust tell me what interests you!";
-            }
+// --- Safe wrapper ---
+function safeGetAIResponse(msg){
+  try { return getAIResponse(msg); }
+  catch(e){ console.error(e); 
+    return lastLanguage==='ru'
+      ? "⚠️ Ошибка при обработке сообщения. Попробуйте ещё раз."
+      : "⚠️ Error processing your message. Try again."; }
+}
 
-            // --- УЛУЧШЕННАЯ СЕКЦИЯ КОМБИНАЦИЙ ---
-            
-            if (keywordsFound.length >= 2) {
-                if (keywordsFound.includes('sleep') && keywordsFound.includes('immunity')) {
-                    return detectedLang === 'ru'
-                        ? "💤🛡️ **Для крепкого сна и сильного иммунитета:**\n\n• **Магний B6** + **Витамин D3** - идеальная пара!\n• **Цинк комплекс** - усилит защиту организма\n• **Витамин C** - поддержит в сезон простуд\n\n⭐ **Принимайте вечером:** Магний для сна, утром - D3 и Цинк для иммунитета!"
-                        : "💤🛡️ **For deep sleep and strong immunity:**\n\n• **Magnesium B6** + **Vitamin D3** - perfect combination!\n• **Zinc Complex** - boosts body defense\n• **Vitamin C** - supports during cold season\n\n⭐ **Take in evening:** Magnesium for sleep, in morning - D3 and Zinc for immunity!";
-                }
+// --- Send Message ---
+function sendMessage() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+  addMessage(text, 'user');
+  chatInput.value = '';
+  chatSend.disabled = true; chatInput.disabled = true;
 
-                if (keywordsFound.includes('brain') && keywordsFound.includes('energy')) {
-                    return detectedLang === 'ru'
-                        ? "🧠⚡ **Максимальная продуктивность и ясность ума:**\n\n• **Гинкго Билоба** - улучшает кровообращение мозга\n• **Омега-3** - питает нейроны\n• **B-комплекс** - дает энергию на весь день\n\n⭐ **Комбинация для студентов и профессионалов!**"
-                        : "🧠⚡ **Maximum productivity and mental clarity:**\n\n• **Ginkgo Biloba** - improves brain circulation\n• **Omega-3** - nourishes neurons\n• **B-Complex** - provides all-day energy\n\n⭐ **Perfect combination for students and professionals!**";
-                }
+  const typing = document.createElement('div');
+  typing.id='typing-indicator';
+  typing.className='message bot-message';
+  typing.innerHTML = `<strong>${lastLanguage==='ru'?'Бот':'Bot'}:</strong> <em>${lastLanguage==='ru'?'набирает сообщение...':'typing...'}</em>`;
+  chatMessages.appendChild(typing);
+  chatMessages.scrollTo({top:chatMessages.scrollHeight,behavior:'smooth'});
 
-                if (keywordsFound.includes('beauty') && keywordsFound.includes('immunity')) {
-                    return detectedLang === 'ru'
-                        ? "✨🛡️ **Красота изнутри и надежная защита:**\n\n• **Коллаген** - основа для кожи и волос\n• **Цинк** - улучшает кожу и иммунитет\n• **Витамин C** - усиливает действие коллагена\n\n⭐ **Принимайте вместе для синергетического эффекта!**"
-                        : "✨🛡️ **Beauty from within and reliable protection:**\n\n• **Collagen** - foundation for skin and hair\n• **Zinc** - improves skin and immunity\n• **Vitamin C** - enhances collagen action\n\n⭐ **Take together for synergistic effect!**";
-                }
-            }
+  setTimeout(() => {
+    typing.remove();
+    const reply = safeGetAIResponse(text);
+    addMessage(reply,'bot');
+    chatSend.disabled = false; chatInput.disabled = false;
+    chatInput.focus();
+  }, 1200);
+}
 
-            // --- УЛУЧШЕННАЯ СЕКЦИЯ ОДИНОЧНЫХ КАТЕГОРИЙ ---
-            
-            if (keywordsFound.length > 0) {
-                const category = keywordsFound[0];
-                let response = "";
-                let productsList = [];
+chatSend?.addEventListener('click', sendMessage);
+chatInput?.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
 
-                switch(category) {
-                    case 'sleep':
-                        productsList = products.filter(p => 
-                            p.short.includes('сон') || p.name.includes('Магний') || p.name.includes('Стресс'));
-                        response = detectedLang === 'ru'
-                            ? "😴 **Для глубокого сна и спокойной нервной системы:**\n\n"
-                            : "😴 **For deep sleep and calm nervous system:**\n\n";
-                        break;
-                    case 'immunity':
-                        productsList = products.filter(p => 
-                            p.short.includes('Иммунитет') || p.name.includes('Цинк') || 
-                            p.name.includes('Витамин C') || p.name.includes('Витамин D'));
-                        response = detectedLang === 'ru'
-                            ? "🛡️ **Для сильного иммунитета и защиты:**\n\n"
-                            : "🛡️ **For strong immunity and protection:**\n\n";
-                        break;
-                    case 'energy':
-                        productsList = products.filter(p => 
-                            p.short.includes('Энергия') || p.name.includes('B-комплекс') || 
-                            p.name.includes('Мультивитамин'));
-                        response = detectedLang === 'ru'
-                            ? "⚡ **Для энергии и жизненных сил:**\n\n"
-                            : "⚡ **For energy and vitality:**\n\n";
-                        break;
-                    case 'brain':
-                        productsList = products.filter(p => 
-                            p.short.includes('мозг') || p.short.includes('память') || 
-                            p.name.includes('Гинкго') || p.name.includes('Омега'));
-                        response = detectedLang === 'ru'
-                            ? "🧠 **Для памяти и концентрации:**\n\n"
-                            : "🧠 **For memory and focus:**\n\n";
-                        break;
-                    case 'beauty':
-                        productsList = products.filter(p => 
-                            p.short.includes('кожа') || p.name.includes('Коллаген') || 
-                            p.name.includes('Цинк') || p.short.includes('волос'));
-                        response = detectedLang === 'ru'
-                            ? "💅 **Для красоты кожи и волос:**\n\n"
-                            : "💅 **For skin and hair beauty:**\n\n";
-                        break;
-                    default:
-                        productsList = [];
-                }
+// --- UX polish ---
+chatInput?.addEventListener('focus',()=>chatInput.placeholder='');
 
-                productsList.forEach(p => response += `• **${p.name}** - ${p.short}\n`);
-                
-                if (productsList.length > 0) {
-                    const tips = {
-                        ru: {
-                            sleep: "\n💡 **Совет:** Принимайте Магний B6 за 1-2 часа до сна для лучшего эффекта.",
-                            immunity: "\n💡 **Совет:** Витамины D3, C и Цинк - обязательная база в межсезонье!",
-                            energy: "\n💡 **Совет:** B-комплекс лучше принимать утром для заряда энергии на весь день.",
-                            brain: "\n💡 **Совет:** Гинкго Билоба и Омега-3 работают лучше вместе!",
-                            beauty: "\n💡 **Совет:** Коллаген принимайте натощак для лучшего усвоения."
-                        },
-                        en: {
-                            sleep: "\n💡 **Tip:** Take Magnesium B6 1-2 hours before sleep for best effect.",
-                            immunity: "\n💡 **Tip:** Vitamins D3, C and Zinc are essential base during season changes!",
-                            energy: "\n💡 **Tip:** Take B-Complex in morning for all-day energy boost.",
-                            brain: "\n💡 **Tip:** Ginkgo Biloba and Omega-3 work better together!",
-                            beauty: "\n💡 **Tip:** Take Collagen on empty stomach for better absorption."
-                        }
-                    };
+/* === MOBILE STYLES === */
+const style = document.createElement('style');
+style.innerHTML = `
+@media (max-width:600px){
+  #chat-widget{width:90%;height:80%;bottom:80px;left:5%;right:5%;border-radius:15px;}
+}
+.chat-messages::-webkit-scrollbar{width:6px;}
+.chat-messages::-webkit-scrollbar-thumb{background:#4CAF50;border-radius:3px;}
+`;
+document.head.appendChild(style);
 
-                    response += detectedLang === 'ru' ? tips.ru[category] || "" : tips.en[category] || "";
-                    return response;
-                }
-            }
-
-            // --- УЛУЧШЕННЫЙ ОТВЕТ ПО УМОЛЧАНИЮ ---
-            
-            if (detectedLang === 'ru') {
-                if (normalizedMessage.length > 3) {
-                    return "🤔 **Пожалуйста, уточните ваш запрос!**\n\nЯ специализируюсь на:\n• 💤 **Сон и расслабление**\n• 🧠 **Память и концентрация**\n• ⚡ **Энергия и тонус**\n• 🛡️ **Иммунитет и защита**\n• 💅 **Красота и уход**\n\nНапишите, например: 'иммунитет' или 'сон и энергия'";
-                }
-                return "Здравствуйте! 👋 Чем я могу помочь? Спросите о витаминах для сна, энергии, иммунитета или красоты!";
-            } else {
-                if (normalizedMessage.length > 3) {
-                    return "🤔 **Please clarify your request!**\n\nI specialize in:\n• 💤 **Sleep and relaxation**\n• 🧠 **Memory and focus**\n• ⚡ **Energy and vitality**\n• 🛡️ **Immunity and protection**\n• 💅 **Beauty and care**\n\nWrite, for example: 'immunity' or 'sleep and energy'";
-                }
-                return "Hello! 👋 How can I help? Ask about vitamins for sleep, energy, immunity or beauty!";
-            }
-        }
-
-        // --- УЛУЧШЕННЫЕ ФУНКЦИИ УПРАВЛЕНИЯ СООБЩЕНИЯМИ ---
-
-        function addMessage(text, type = 'bot') {
-            if (!chatMessages) return;
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}-message`;
-            
-            let htmlText = text;
-            
-            if (type === 'user') {
-                htmlText = `<strong>${lastLanguage === 'ru' ? 'Вы' : 'You'}:</strong> ${text}`;
-            } else if (type === 'error') {
-                htmlText = `<strong>${lastLanguage === 'ru' ? 'Ошибка' : 'Error'}:</strong> ${text}`;
-            } else {
-                htmlText = `<strong>${lastLanguage === 'ru' ? 'Бот' : 'Bot'}:</strong> ${text.replace(/\n/g, '<br>')}`;
-            }
-            
-            messageDiv.innerHTML = htmlText;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function sendMessage() {
-            if (!chatInput || !chatSend || !chatMessages) return;
-
-            const userMessage = chatInput.value.trim();
-            if (!userMessage) return;
-
-            addMessage(userMessage, 'user');
-            chatInput.value = '';
-            chatSend.disabled = true;
-
-            const typingIndicator = document.createElement('div');
-            typingIndicator.id = 'typing-indicator';
-            typingIndicator.className = 'message bot-message';
-            
-            // УМНОЕ ОПРЕДЕЛЕНИЕ ЯЗЫКА ДЛЯ ИНДИКАТОРА ПЕЧАТИ
-            const userLang = detectLanguage(userMessage);
-            const typingText = userLang === 'ru' ? 'набирает сообщение...' : 'typing...';
-            typingIndicator.innerHTML = `<strong>${userLang === 'ru' ? 'Бот' : 'Bot'}:</strong> <em>${typingText}</em>`;
-            
-            chatMessages.appendChild(typingIndicator);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            setTimeout(() => {
-                document.getElementById('typing-indicator')?.remove();
-                
-                const aiResponse = getAIResponse(userMessage);
-                addMessage(aiResponse, 'bot');
-                chatSend.disabled = false;
-            }, 1200);
-        }
-        
-        // --- ИНИЦИАЛИЗАЦИЯ ЧАТА ---
-        if (chatSend && chatInput) {
-            chatSend.addEventListener('click', sendMessage);
-            chatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') sendMessage();
-            });
-        } else {
-            console.error("Чат-бот не смог найти все элементы DOM.");
-        }
-
-        // Авто-фокус при открытии чата
-        if (chatInput) {
-            chatInput.addEventListener('focus', () => {
-                chatInput.placeholder = lastLanguage === 'ru' 
-                    ? "Напишите ваш вопрос..." 
-                    : "Type your question...";
-            });
-        }
 </script>
