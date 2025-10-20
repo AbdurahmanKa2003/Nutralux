@@ -193,23 +193,7 @@
     flex-direction: column; /* Элементы (шапка, сообщения, ввод) располагаются вертикально */
     overflow: hidden; /* Важно: предотвращает прокрутку всего виджета */
 }    
-@media (max-width: 600px) {
-  #chat-widget {
-    width: 90%;
-    height: 80%;
-    bottom: 80px;
-    right: 5%;
-    left: 5%;
-    border-radius: 15px;
-  }
-}
-.chat-messages::-webkit-scrollbar {
-  width: 6px;
-}
-.chat-messages::-webkit-scrollbar-thumb {
-  background-color: #4CAF50;
-  border-radius: 3px;
-}
+
   input, textarea, select {
   font-size: 16px !important;
 }
@@ -471,7 +455,7 @@ html, body {
         }
     }
 
-    // --- БЕЗОПАСНАЯ ВСТАВКА HTML (САНИТАЙЗЕР) ---
+   
     function sanitize(text) {
         const element = document.createElement('div');
         element.textContent = text;
