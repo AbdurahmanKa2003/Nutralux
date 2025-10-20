@@ -72,7 +72,186 @@
     }
     </script>
   <style>
+/* === NUTRALUX CHAT — IMPROVED STYLE === */
 
+:root {
+  --nlx-green: #4caf50;
+  --nlx-light: #f5f8f7;
+  --nlx-border: #dcdcdc;
+  --nlx-text: #222;
+}
+
+/* FAB (плавающая кнопка открытия чата) */
+#chat-fab {
+  position: fixed;
+  bottom: 25px;
+  right: 85px;
+  z-index: 10000;
+  width: 58px;
+  height: 58px;
+  background: var(--nlx-green);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  transition: all 0.2s ease;
+}
+#chat-fab:hover {
+  transform: scale(1.08);
+}
+
+/* Кнопка вверх */
+.footer-icon-top {
+  position: fixed;
+  bottom: 25px;
+  right: 20px;
+  z-index: 10001;
+  background: var(--nlx-green);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+.footer-icon-top a {
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Виджет чата */
+#chat-widget {
+  position: fixed;
+  bottom: 95px;
+  right: 20px;
+  width: 340px;
+  height: 470px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  z-index: 9999;
+  -webkit-transform: translateZ(0);
+}
+.chat-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Шапка */
+.chat-header {
+  background: var(--nlx-green);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+
+/* Сообщения */
+.chat-messages {
+  flex-grow: 1;
+  padding: 12px 16px;
+  background: var(--nlx-light);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.message {
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+.bot-message {
+  background: #e9f7ef;
+  color: var(--nlx-text);
+  align-self: flex-start;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.user-message {
+  background: var(--nlx-green);
+  color: #fff;
+  align-self: flex-end;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Ввод */
+.chat-input-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid var(--nlx-border);
+  background: #fff;
+  gap: 6px;
+}
+.chat-input {
+  flex-grow: 1;
+  padding: 9px 10px;
+  border: 1px solid var(--nlx-border);
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border 0.2s;
+}
+.chat-input:focus {
+  outline: none;
+  border-color: var(--nlx-green);
+}
+.chat-send {
+  background: var(--nlx-green);
+  color: #fff;
+  border: none;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.chat-send:hover {
+  background: #43a047;
+}
+
+/* Mobile fix */
+input, textarea, select {
+  font-size: 16px !important;
+}
+html, body {
+  overscroll-behavior: none;
+  height: 100%;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  #chat-widget {
+    width: 92%;
+    height: 75%;
+    right: 4%;
+    bottom: 100px;
+  }
+  #chat-fab {
+    right: 85px;
+  }
+}
+@supports (-webkit-touch-callout: none) {
+  #chat-widget {
+    bottom: env(safe-area-inset-bottom, 100px);
+  }
+}
 </style>
   </head>
 
