@@ -71,27 +71,46 @@
       }
     }
     </script>
-   <style>
-    #chat-widget {
+  <style>
+/* 1. Общие стили для чат-бота */
+#chat-widget {
   position: fixed;
   bottom: 90px;
   right: 20px;
   z-index: 9999;
-  display: none;
-  width: 350px;
-  height: 450px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   display: flex;
+  width: 380px; /* Увеличена ширина */
+  height: 500px; /* Увеличена высота */
+  background: #fcfcfc; /* Слегка не белый фон */
+  border: 1px solid #ddd; /* Более мягкая рамка */
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1); /* Улучшенная тень */
   flex-direction: column;
 }
 
+.chat-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-header {
+  padding: 12px 15px; /* Больше отступ */
+  background-color: #4CAF50; /* Ваш фирменный зеленый */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 9px 9px 0 0;
+  flex-shrink: 0;
+}
+
+/* 2. Стиль плавающей кнопки чата (FAB) */
 #chat-fab {
   position: fixed;
   bottom: 20px;
-  right: 90px;
+  right: 90px; /* Сдвинуто влево */
   z-index: 10000;
   display: flex;
   width: 60px;
@@ -103,13 +122,19 @@
   align-items: center;
   font-size: 28px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background-color 0.3s;
 }
 
+#chat-fab:hover {
+  background: #388e3c;
+}
+
+/* 3. Стиль кнопки "Наверх" */
 .footer-icon-top {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 20px; /* Позиция по умолчанию */
   z-index: 10001;
   background: #4CAF50;
   width: 50px;
@@ -121,109 +146,107 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.footer-icon-top a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 24px;
-  line-height: 1;
-}
-
+/* 4. Контейнер сообщений */
 .chat-messages {
   flex-grow: 1;
-  padding: 10px 15px;
+  padding: 15px;
   overflow-y: auto;
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px; /* Увеличенное расстояние между сообщениями */
 }
 
-.chat-input-container {
-  display: flex;
-  padding: 10px 15px;
-  border-top: 1px solid #eee;
-  background-color: #fff;
-  flex-shrink: 0;
-}
-
-.chat-input-container .chat-input {
-  flex-grow: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
-  margin-right: -1px;
-  font-size: 14px;
-}
-
-.chat-input-container .chat-send {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 0 5px 5px 0;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
+/* 5. Стиль отдельных сообщений */
 .message {
-  max-width: 80%;
-  padding: 6px 10px;
-  border-radius: 10px;
+  max-width: 85%;
+  padding: 8px 12px;
+  border-radius: 18px; /* Более мягкое скругление */
   word-wrap: break-word;
-  font-size: 14px;
+  font-size: 15px; /* Чуть крупнее шрифт */
+  line-height: 1.4;
 }
 
 .bot-message {
-  background-color: #e0f2f1;
+  background-color: #e0f2f1; /* Светло-бирюзовый */
+  color: #263238; /* Темный текст для контраста */
   align-self: flex-start;
+  border-bottom-left-radius: 4px; 
 }
 
 .user-message {
   background-color: #4CAF50;
   color: white;
   align-self: flex-end;
-}
-.chat-container {
-    width: 100%;
-    height: 100%; /* Занимает всю высоту родительского #chat-widget */
-    display: flex;
-    flex-direction: column; /* Элементы (шапка, сообщения, ввод) располагаются вертикально */
-    overflow: hidden; /* Важно: предотвращает прокрутку всего виджета */
-}    
-
-  input, textarea, select {
-  font-size: 16px !important;
+  border-bottom-right-radius: 4px;
 }
 
-html, body {
-  overscroll-behavior: none;
-  height: 100%;
+/* 6. Контейнер ввода */
+.chat-input-container {
+  display: flex;
+  padding: 10px 15px;
+  border-top: 1px solid #ddd;
+  background-color: #fcfcfc;
+  flex-shrink: 0;
 }
 
-#chat-widget {
-  -webkit-transform: translateZ(0);
-  position: fixed;
-  bottom: 90px;
-  right: 20px;
-  z-index: 9999;
-}
-
-.chat-messages {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+.chat-input-container .chat-input {
   flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px 0 0 5px;
+  margin-right: -1px;
+  font-size: 15px;
 }
 
-@supports (-webkit-touch-callout: none) {
+.chat-input-container .chat-send {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+  font-weight: bold;
+  flex-shrink: 0;
+  transition: background-color 0.3s;
+}
+
+.chat-input-container .chat-send:hover {
+  background-color: #388e3c;
+}
+
+
+@media (max-width: 500px) {
   #chat-widget {
-    position: fixed;
-    bottom: env(safe-area-inset-bottom, 90px);
+    /* На мобильных чат может быть полным экраном для удобства */
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    max-width: none; /* Сбрасываем ограничения */
+    z-index: 10005; /* Чтобы перекрывал FAB, если открыт */
+  }
+
+  /* Сдвигаем FAB и кнопку "Наверх", чтобы они не накладывались */
+  #chat-fab {
+    right: 85px; /* Сдвиг FAB */
+    bottom: 15px;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+  
+  .footer-icon-top {
+    right: 15px; /* Кнопка Наверх */
+    bottom: 15px;
+    width: 55px;
+    height: 55px;
   }
 }
-  </style>
+</style>
   </head>
 
  <body>
