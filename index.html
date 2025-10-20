@@ -210,7 +210,35 @@
   background-color: #4CAF50;
   border-radius: 3px;
 }
-  
+  input, textarea, select {
+  font-size: 16px !important;
+}
+
+html, body {
+  overscroll-behavior: none;
+  height: 100%;
+}
+
+#chat-widget {
+  -webkit-transform: translateZ(0);
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.chat-messages {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+}
+
+@supports (-webkit-touch-callout: none) {
+  #chat-widget {
+    position: fixed;
+    bottom: env(safe-area-inset-bottom, 90px);
+  }
+}
   </style>
   </head>
 
@@ -400,6 +428,7 @@
                 loop: true
             });
         }
+         </script>
 <script>
     // --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И СОСТОЯНИЕ ---
     let lastLanguage = 'ru';
