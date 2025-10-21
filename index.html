@@ -697,473 +697,496 @@
     <script src="script.js"></script>
 
     <!-- УЛУЧШЕННЫЙ СКРИПТ ЧАТ-БОТА -->
-    <script>
-      /* === Nutralux Chatbot v4.5 — Enhanced Intelligence & UI === */
-      (function() {
+ <script>
+    (function() {
         document.addEventListener('DOMContentLoaded', function() {
-          // --- DOM Elements ---
-          const chatWidget = document.getElementById('chat-widget');
-          const chatFab = document.getElementById('chat-fab');
-          const chatInput = document.getElementById('chat-input');
-          const chatSend = document.getElementById('chat-send');
-          const chatMessages = document.getElementById('chat-messages');
-          const chatQuickReplies = document.getElementById('chat-quick-replies');
-          const chatClear = document.getElementById('chat-clear');
-          const chatMinimize = document.getElementById('chat-minimize');
+            // --- DOM Elements ---
+            const chatWidget = document.getElementById('chat-widget');
+            const chatFab = document.getElementById('chat-fab');
+            const chatInput = document.getElementById('chat-input');
+            const chatSend = document.getElementById('chat-send');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatQuickReplies = document.getElementById('chat-quick-replies');
+            const chatClear = document.getElementById('chat-clear');
+            const chatMinimize = document.getElementById('chat-minimize');
+            const chatHeaderTitle = document.querySelector('.chat-header span');
 
-          // Check required elements
-          if (!chatWidget || !chatFab || !chatInput || !chatSend || !chatMessages) {
-            console.error('[NutraluxChat] Missing DOM elements');
-            return;
-          }
-
-          // --- State Management ---
-          let lastLanguage = 'en';
-          let currentContext = null;
-          let isLoading = false;
-          let isFirstInteraction = true;
-          let conversationHistory = [];
-
-          // --- Enhanced Product Data ---
-          const products = [
-            {
-              slug: "omega-3-1000", 
-              name: { ru: "Омега-3 1000 мг", en: "Omega-3 1000 mg" }, 
-              short: { ru: "Мозг, сердце, зрение", en: "Brain, heart, vision" },
-              category: "Жирные кислоты",
-              description: { 
-                ru: "Незаменимые жирные кислоты для работы мозга и сердечно-сосудистой системы, иммунитета и состояния кожи и зрения.",
-                en: "Essential fatty acids for brain function, cardiovascular health, immunity, and skin and vision condition."
-              },
-              usage: { 
-                ru: "Принимать по 1 капсуле 2 раза в день во время еды. Курс приема - 1-2 месяца.",
-                en: "Take 1 capsule twice daily with meals. Course duration - 1-2 months."
-              }
-            },
-            {
-              slug: "magnesium-b6", 
-              name: { ru: "Магний B6", en: "Magnesium B6" }, 
-              short: { ru: "Сон, нервы, усвоение магния", en: "Sleep, nerves, magnesium absorption" },
-              category: "Минералы",
-              description: { 
-                ru: "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна.",
-                en: "Magnesium participates in numerous metabolic processes, helps with irritability, muscle spasms, and sleep disorders."
-              },
-              usage: { 
-                ru: "Взрослым принимать по 1-2 таблетки 2 раза в день во время еды. Продолжительность приема - 1 месяц.",
-                en: "Adults take 1-2 tablets twice daily with meals. Duration - 1 month."
-              }
-            },
-            {
-              slug: "vitamin-d3-10000", 
-              name: { ru: "Витамин D3 10 000 МЕ", en: "Vitamin D3 10,000 IU" }, 
-              short: { ru: "Иммунитет, кости, сосуды", en: "Immunity, bones, vessels" },
-              category: "Витамины",
-              description: { 
-                ru: "Поддерживает иммунитет и здоровый кальциевый обмен, способствует эластичности сосудов.",
-                en: "Supports immunity and healthy calcium metabolism, promotes vascular elasticity."
-              },
-              usage: { 
-                ru: "Принимать по 1 капсуле 1 раз в 2 дня утром во время еды.",
-                en: "Take 1 capsule every 2 days in the morning with meals."
-              }
-            },
-            {
-              slug: "zinc-complex", 
-              name: { ru: "Цинк (комплекс)", en: "Zinc Complex" }, 
-              short: { ru: "Иммунитет, кожа, обмен", en: "Immunity, skin, metabolism" },
-              category: "Минералы",
-              description: { 
-                ru: "Поддержка иммунитета, кожи и обменных процессов. Усилен витамином C, D и селеном.",
-                en: "Supports immunity, skin, and metabolic processes. Enhanced with vitamins C, D and selenium."
-              },
-              usage: { 
-                ru: "Принимать по 1 таблетке в день во время еды. Рекомендуемый курс - 1 месяц.",
-                en: "Take 1 tablet daily with meals. Recommended course - 1 month."
-              }
-            },
-            {
-              slug: "b-complex", 
-              name: { ru: "Витамин B-комплекс", en: "Vitamin B-Complex" }, 
-              short: { ru: "Энергия, кровь, нервы", en: "Energy, blood, nerves" },
-              category: "Витамины",
-              description: { 
-                ru: "Комплекс витаминов группы B для энергообмена, работы ЦНС и кроветворения.",
-                en: "B-complex vitamins for energy metabolism, CNS function, and hematopoiesis."
-              }
+            if (!chatWidget || !chatFab || !chatInput || !chatSend || !chatMessages || !chatHeaderTitle) {
+                console.error('[NutraluxChat] Missing essential DOM elements. Chatbot cannot initialize.');
+                return;
             }
-          ];
 
-          // --- Core Chat Functions ---
-          function toggleChat() {
-            const isOpen = chatWidget.classList.contains('is-open');
-            if (isOpen) {
-              chatWidget.classList.remove('is-open');
-              chatFab.innerHTML = '<i class="bx bx-chat"></i>';
-            } else {
-              chatWidget.classList.add('is-open');
-              chatFab.innerHTML = '<i class="bx bx-x"></i>';
-              if (isFirstInteraction) {
-                showWelcomeMessage();
-                isFirstInteraction = false;
-              }
-              setTimeout(() => chatInput.focus(), 100);
+            // --- State Management ---
+            let lastLanguage = 'ru'; 
+            let isLoading = false;
+            let isFirstInteraction = true;
+            let conversationHistory = [];
+
+            // --- Enhanced Product Data ---
+            const products = [
+                {
+                    slug: "omega-3-1000", 
+                    name: { ru: "Омега-3 1000 мг", en: "Omega-3 1000 mg" }, 
+                    short: { ru: "Мозг, сердце, зрение", en: "Brain, heart, vision" },
+                    category: "Жирные кислоты",
+                    keywords: ['омега', 'omega', 'рыбий жир', 'fish oil'],
+                    description: { 
+                        ru: "Незаменимые жирные кислоты для работы мозга и сердечно-сосудистой системы, иммунитета и состояния кожи и зрения.",
+                        en: "Essential fatty acids for brain function, cardiovascular health, immunity, and skin and vision condition."
+                    },
+                    usage: { 
+                        ru: "Принимать по 1 капсуле 2 раза в день во время еды. Курс приема - 1-2 месяца.",
+                        en: "Take 1 capsule twice daily with meals. Course duration - 1-2 months."
+                    }
+                },
+                {
+                    slug: "magnesium-b6", 
+                    name: { ru: "Магний B6", en: "Magnesium B6" }, 
+                    short: { ru: "Сон, нервы, усвоение магния", en: "Sleep, nerves, magnesium absorption" },
+                    category: "Минералы",
+                    keywords: ['магний', 'magnesium', 'mag', 'b6', 'в6'],
+                    description: { 
+                        ru: "Магний участвует во множестве обменных процессов, помогает при раздражительности, спазмах мышц и нарушениях сна.",
+                        en: "Magnesium participates in numerous metabolic processes, helps with irritability, muscle spasms, and sleep disorders."
+                    },
+                    usage: { 
+                        ru: "Взрослым принимать по 1-2 таблетки 2 раза в день во время еды. Продолжительность приема - 1 месяц.",
+                        en: "Adults take 1-2 tablets twice daily with meals. Duration - 1 month."
+                    }
+                },
+                {
+                    slug: "vitamin-d3-10000", 
+                    name: { ru: "Витамин D3 10 000 МЕ", en: "Vitamin D3 10,000 IU" }, 
+                    short: { ru: "Иммунитет, кости, сосуды", en: "Immunity, bones, vessels" },
+                    category: "Витамины",
+                    keywords: ['д3', 'd3', 'витамин д', 'vitamin d'],
+                    description: { 
+                        ru: "Поддерживает иммунитет и здоровый кальциевый обмен, способствует эластичности сосудов.",
+                        en: "Supports immunity and healthy calcium metabolism, promotes vascular elasticity."
+                    },
+                    usage: { 
+                        ru: "Принимать по 1 капсуле 1 раз в 2 дня утром во время еды.",
+                        en: "Take 1 capsule every 2 days in the morning with meals."
+                    }
+                },
+                {
+                    slug: "zinc-complex", 
+                    name: { ru: "Цинк (комплекс)", en: "Zinc Complex" }, 
+                    short: { ru: "Иммунитет, кожа, обмен", en: "Immunity, skin, metabolism" },
+                    category: "Минералы",
+                    keywords: ['цинк', 'zinc', 'иммунный'],
+                    description: { 
+                        ru: "Поддержка иммунитета, кожи и обменных процессов. Усилен витамином C, D и селеном.",
+                        en: "Supports immunity, skin, and metabolic processes. Enhanced with vitamins C, D and selenium."
+                    },
+                    usage: { 
+                        ru: "Принимать по 1 таблетке в день во время еды. Рекомендуемый курс - 1 месяц.",
+                        en: "Take 1 tablet daily with meals. Recommended course - 1 month."
+                    }
+                },
+                {
+                    slug: "b-complex", 
+                    name: { ru: "Витамин B-комплекс", en: "Vitamin B-Complex" }, 
+                    short: { ru: "Энергия, кровь, нервы", en: "Energy, blood, nerves" },
+                    category: "Витамины",
+                    keywords: ['б', 'b', 'витамины б', 'b vitamins'],
+                    description: { 
+                        ru: "Комплекс витаминов группы B для энергообмена, работы ЦНС и кроветворения.",
+                        en: "B-complex vitamins for energy metabolism, CNS function, and hematopoiesis."
+                    },
+                    usage: { 
+                        ru: "Принимать по 1 таблетке в день во время еды. Продолжительность приема - 1 месяц.",
+                        en: "Take 1 tablet daily with meals. Duration - 1 month."
+                    }
+                }
+            ];
+
+            // --- Core Chat Functions ---
+            function toggleChat() {
+                const isOpen = chatWidget.classList.contains('is-open');
+                if (isOpen) {
+                    chatWidget.classList.remove('is-open');
+                    chatFab.innerHTML = '<i class="bx bx-chat"></i>';
+                } else {
+                    chatWidget.classList.add('is-open');
+                    chatFab.innerHTML = '<i class="bx bx-x"></i>';
+                    if (isFirstInteraction) {
+                        showWelcomeMessage();
+                        isFirstInteraction = false;
+                    }
+                    setTimeout(() => chatInput.focus(), 100);
+                }
             }
-          }
 
-          function showWelcomeMessage() {
-            const welcomeMsg = lastLanguage === 'ru' 
-              ? "👋 Здравствуйте! Я AI-помощник Nutralux. Расскажите о ваших целях здоровья, и я подберу идеальные добавки!"
-              : "👋 Hello! I'm Nutralux AI assistant. Tell me about your health goals, and I'll find perfect supplements for you!";
-            
-            addMessage(welcomeMsg, 'bot');
-            renderQuickReplies(lastLanguage === 'ru' 
-              ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-              : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
-          }
+            function showWelcomeMessage() {
+                const welcomeMsg = lastLanguage === 'ru' 
+                    ? "👋 Здравствуйте! Я AI-помощник Nutralux. Расскажите о ваших **целях здоровья**, и я подберу идеальные добавки!"
+                    : "👋 Hello! I'm Nutralux AI assistant. Tell me about your **health goals**, and I'll find perfect supplements for you!";
+                
+                addMessage(welcomeMsg, 'bot');
+                renderQuickReplies(lastLanguage === 'ru' 
+                    ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+                    : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+            }
 
-          // --- Enhanced NLP Functions ---
-          function normalizeText(text) {
-            const lowerText = text.toLowerCase().trim();
-            const corrections = {
-              // Russian corrections
-              'м': 'магний', 'магни': 'магний', 'магния': 'магний',
-              'иммунитет': 'иммунитет', 'имунитет': 'иммунитет', 'иммунетет': 'иммунитет',
-              'сон': 'сон', 'сна': 'сон', 'спать': 'сон', 'бессонница': 'сон',
-              'энергия': 'энергия', 'энегия': 'энергия', 'силы': 'энергия', 'усталость': 'энергия',
-              'мозг': 'мозг', 'память': 'мозг', 'внимание': 'мозг', 'концентрация': 'мозг',
-              'кожа': 'кожа', 'волосы': 'кожа', 'ногти': 'кожа', 'красота': 'кожа',
-              'вес': 'вес', 'похудение': 'вес', 'диета': 'вес',
-              'сердце': 'сердце', 'сосуды': 'сердце',
-              'желудок': 'желудок', 'пищеварение': 'желудок', 'кишечник': 'желудок',
-              
-              // English corrections
-              'magnesium': 'магний', 'mag': 'магний',
-              'imunity': 'immunity', 'imune': 'immunity', 'sleeping': 'sleep',
-              'energy': 'energy', 'tired': 'energy', 'fatigue': 'energy',
-              'brain': 'brain', 'memory': 'brain', 'focus': 'brain',
-              'skin': 'skin', 'hair': 'skin', 'beauty': 'skin',
-              'weight': 'weight', 'slim': 'weight', 'diet': 'weight',
-              'heart': 'heart', 'cardio': 'heart',
-              'stomach': 'stomach', 'digest': 'stomach', 'gut': 'stomach',
+            // --- Enhanced NLP Functions ---
+            function normalizeText(text) {
+                const lowerText = text.toLowerCase().trim();
+                const corrections = {
+                    'магн': 'магний', 'магни': 'магний', 'магния': 'магний', 'мг': 'магний',
+                    'имунитет': 'иммунитет', 'иммунетет': 'иммунитет', 'иммуна': 'иммунитет',
+                    'сна': 'сон', 'спать': 'сон', 'бессонница': 'сон', 'ночь': 'сон',
+                    'энегия': 'энергия', 'силы': 'энергия', 'усталость': 'энергия', 'бодрость': 'энергия',
+                    'память': 'мозг', 'внимание': 'мозг', 'концентрация': 'мозг',
+                    'волосы': 'кожа', 'ногти': 'кожа', 'красота': 'кожа', 'бьюти': 'кожа',
+                    'похудение': 'вес', 'диета': 'вес', 'метаболизм': 'вес',
+                    'сосуды': 'сердце', 'давление': 'сердце', 'кардио': 'сердце',
+                    'пищеварение': 'желудок', 'кишечник': 'желудок', 'пробиотик': 'желудок',
 
-              // Agreement patterns
-              'да': 'yes', 'yes': 'yes', 'yeah': 'yes', 'конечно': 'yes', 'ага': 'yes',
-              'нет': 'no', 'no': 'no', 'not': 'no'
-            };
+                    'mag': 'magnesium', 'imunity': 'immunity', 'imune': 'immunity', 'sleeping': 'sleep', 'rest': 'sleep',
+                    'tired': 'energy', 'fatigue': 'energy', 'vitality': 'energy',
+                    'memory': 'brain', 'focus': 'brain', 'concentration': 'brain',
+                    'hair': 'skin', 'nails': 'skin', 'beauty': 'skin', 'collagen': 'skin',
+                    'slim': 'weight', 'diet': 'weight', 'metabol': 'weight',
+                    'vessel': 'heart', 'pressure': 'heart', 'cardio': 'heart',
+                    'digest': 'stomach', 'gut': 'stomach', 'probiotic': 'stomach',
 
-            let normalized = lowerText;
-            Object.keys(corrections).forEach(wrong => {
-              const regex = new RegExp(`\\b${wrong}\\b`, 'gi');
-              normalized = normalized.replace(regex, corrections[wrong]);
-            });
-            return normalized;
-          }
+                    'да': 'yes', 'конечно': 'yes', 'узнать': 'yes', 'подробнее': 'yes', 'ага': 'yes', 'ok': 'yes',
+                    'нет': 'no', 'не': 'no', 'другой': 'no', 'стоп': 'no'
+                };
 
-          function detectLanguage(text) {
-            const hasRu = /[а-яё]/i.test(text);
-            const hasEn = /[a-z]/i.test(text);
-            if (hasRu && !hasEn) return 'ru';
-            if (hasEn && !hasRu) return 'en';
-            return lastLanguage;
-          }
+                let normalized = lowerText;
+                Object.keys(corrections).forEach(wrong => {
+                    const regex = new RegExp(`\\b${wrong}\\b`, 'gi');
+                    normalized = normalized.replace(regex, corrections[wrong]);
+                });
+                return normalized;
+            }
 
-          // --- Context Management ---
-          function setContext(context) {
-            currentContext = context;
-            conversationHistory.push(context);
-          }
+            function detectLanguage(text) {
+                const hasRu = /[а-яё]/i.test(text);
+                const hasEn = /[a-z]/i.test(text);
+                if (hasRu && !hasEn) return 'ru';
+                if (hasEn && !hasRu) return 'en';
+                return lastLanguage;
+            }
 
-          function getLastContext() {
-            return conversationHistory.length > 0 ? conversationHistory[conversationHistory.length - 1] : null;
-          }
+            function setContext(context) {
+                conversationHistory.push(context);
+                if (conversationHistory.length > 5) { // Keep history manageable
+                    conversationHistory.shift();
+                }
+            }
 
-          // --- AI Response Logic ---
-          function getAIResponse(message) {
-            const normalizedMessage = normalizeText(message);
-            const detectedLang = detectLanguage(message);
-            lastLanguage = detectedLang;
+            function getLastContext() {
+                return conversationHistory.length > 0 ? conversationHistory[conversationHistory.length - 1] : null;
+            }
 
-            // Update UI language
-            chatInput.placeholder = detectedLang === 'ru' ? "Напишите сообщение..." : "Type your message...";
-            document.querySelector('.chat-header span').textContent = 
-              detectedLang === 'ru' ? "Помощник Nutralux" : "Nutralux Assistant";
+            // --- AI Response Logic ---
+            function getAIResponse(message) {
+                const normalizedMessage = normalizeText(message);
+                const detectedLang = detectLanguage(message);
+                lastLanguage = detectedLang;
 
-            // Get last context for conversation continuity
-            const lastContext = getLastContext();
+                // Update UI language on the fly
+                chatInput.placeholder = detectedLang === 'ru' ? "Напишите сообщение..." : "Type your message...";
+                chatHeaderTitle.textContent = detectedLang === 'ru' ? "Помощник Nutralux" : "Nutralux Assistant";
 
-            // Handle agreement/disagreement based on context
-            if (lastContext && lastContext.type === 'product_suggestion') {
-              if (/(yes|да|конечно|узнать|подробнее)/.test(normalizedMessage)) {
-                const suggestedProduct = products.find(p => p.slug === lastContext.productSlug);
-                if (suggestedProduct) {
-                  conversationHistory.pop(); // Clear the suggestion context
-                  renderQuickReplies(detectedLang === 'ru' 
+                const lastContext = getLastContext();
+
+                // 1. Handle agreement/disagreement based on context
+                if (lastContext && lastContext.type === 'product_suggestion') {
+                    if (/(yes|да)/.test(normalizedMessage)) {
+                        const suggestedProduct = products.find(p => p.slug === lastContext.productSlug);
+                        conversationHistory.pop(); // Clear the suggestion context
+                        renderQuickReplies(detectedLang === 'ru' 
+                            ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
+                            : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
+                        
+                        if (suggestedProduct) {
+                            return detectedLang === 'ru'
+                                ? `**${suggestedProduct.name.ru}** 🌟\n\n${suggestedProduct.description.ru}\n\n💡 **Применение:** ${suggestedProduct.usage?.ru || 'Принимать согласно инструкции'}\n\n✨ Отлично! Могу я помочь с чем-то еще?`
+                                : `**${suggestedProduct.name.en}** 🌟\n\n${suggestedProduct.description.en}\n\n💡 **Usage:** ${suggestedProduct.usage?.en || 'Take according to instructions'}\n\n✨ Perfect! Can I help you with anything else?`;
+                        }
+                    }
+                    if (/(no|нет)/.test(normalizedMessage)) {
+                        conversationHistory.pop();
+                        renderQuickReplies(detectedLang === 'ru' 
+                            ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+                            : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+                        return detectedLang === 'ru'
+                            ? "Хорошо! Может быть, вас интересует что-то другое? Например, для сна, энергии или иммунитета?"
+                            : "Okay! Maybe you're interested in something else? For example, sleep, energy or immunity?";
+                    }
+                }
+
+                // 2. Greeting patterns
+                if (/(привет|здравств|добр|хай|ку|hi|hello|hey|start)/.test(normalizedMessage)) {
+                    renderQuickReplies(detectedLang === 'ru' 
+                        ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+                        : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+                    return detectedLang === 'ru'
+                        ? "👋 Здравствуйте! Я AI-консультант Nutralux. Спросите меня о вашей цели здоровья, и я подберу идеальные добавки!\n\nНапример: «Что для сна и иммунитета?» или просто «иммунитет»"
+                        : "👋 Hello! I'm Nutralux AI consultant. Tell me your health goal, and I'll find perfect supplements for you!\n\nExample: «What for sleep and immunity?» or just «immunity»";
+                }
+
+                // 3. Product-specific queries
+                for (const product of products) {
+                    const productNames = [product.name.ru.toLowerCase(), product.name.en.toLowerCase(), product.slug, ...(product.keywords || [])];
+                    if (productNames.some(name => normalizedMessage.includes(name))) {
+                        renderQuickReplies(detectedLang === 'ru' 
+                            ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
+                            : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
+                        return detectedLang === 'ru'
+                            ? `**${product.name[detectedLang]}** 🌟\n\n${product.description[detectedLang]}\n\n💡 **Применение:** ${product.usage?.[detectedLang] || 'Принимать согласно инструкции'}\n\n✨ Отлично! Могу я помочь с чем-то еще?`
+                            : `**${product.name[detectedLang]}** 🌟\n\n${product.description[detectedLang]}\n\n💡 **Usage:** ${product.usage?.[detectedLang] || 'Take according to instructions'}\n\n✨ Perfect! Can I help you with anything else?`;
+                    }
+                }
+
+                // 4. Category patterns
+                const patterns = {
+                    sleep: /(сон|бессонниц|sleep|insomnia)/,
+                    energy: /(энерг|сил|устал|energy|tired)/,
+                    immunity: /(иммунит|защит|immun|defense)/,
+                    brain: /(мозг|памят|focus|memory)/,
+                    beauty: /(кож|волос|skin|hair)/,
+                    heart: /(сердц|сосуд|heart|vessel)/,
+                    stomach: /(желуд|пищевар|stomach|digest)/,
+                    weight: /(вес|похуд|weight|slim)/
+                };
+
+                const foundCategories = Object.keys(patterns).filter(key => patterns[key].test(normalizedMessage));
+
+                // 5. Handle combinations
+                if (foundCategories.length >= 2) {
+                    const has = (cat) => foundCategories.includes(cat);
+                    
+                    if (has('sleep') && has('immunity')) {
+                        setContext({ type: 'product_suggestion', productSlug: 'magnesium-b6' });
+                        renderQuickReplies(detectedLang === 'ru' 
+                            ? ['✅ Да, расскажите!', '❌ Нет, что-то другое', '📋 Каталог'] 
+                            : ['✅ Yes, tell me!', '❌ No, something else', '📋 Catalog']);
+                        return detectedLang === 'ru'
+                            ? "💤🛡️ **Для сна и иммунитета идеально подходит Магний B6!**\n\n• Улучшает качество сна и помогает засыпать\n• Снижает стресс и тревожность\n✨ **Хотите узнать подробнее о Магнии B6?**"
+                            : "💤🛡️ **For sleep and immunity, Magnesium B6 is perfect!**\n\n• Improves sleep quality and helps fall asleep\n• Reduces stress and anxiety\n✨ **Want to know more about Magnesium B6?**";
+                    }
+
+                    if (has('brain') && has('energy')) {
+                        setContext({ type: 'product_suggestion', productSlug: 'b-complex' });
+                        renderQuickReplies(detectedLang === 'ru' 
+                            ? ['✅ Да, расскажите!', '❌ Нет, что-то другое', '📋 Каталог'] 
+                            : ['✅ Yes, tell me!', '❌ No, something else', '📋 Catalog']);
+                        return detectedLang === 'ru'
+                            ? "🧠⚡ **Для памяти и энергии рекомендую B-комплекс!**\n\n• Поддерживает нервную систему\n• Обеспечивает энергетический обмен\n✨ **Хотите узнать подробнее о B-комплексе?**"
+                            : "🧠⚡ **For memory and energy, I recommend B-Complex!**\n\n• Supports nervous system\n• Ensures energy metabolism\n✨ **Want to know more about B-Complex?**";
+                    }
+                    
+                    // Default combination response
+                    const catNames = foundCategories.map(cat => detectedLang === 'ru' ? 
+                        (cat === 'sleep' ? 'сна' : cat === 'energy' ? 'энергии' : cat === 'immunity' ? 'иммунитета' : cat === 'brain' ? 'мозга' : 'ваших целей') :
+                        (cat === 'sleep' ? 'sleep' : cat === 'energy' ? 'energy' : cat === 'immunity' ? 'immunity' : cat === 'brain' ? 'brain' : 'your goals')
+                    );
+
+                    setContext({ type: 'product_suggestion', productSlug: 'omega-3-1000' }); // General suggestion for multi-target
+                    renderQuickReplies(detectedLang === 'ru' 
+                        ? ['✅ Узнать об Омега-3', '🛡️ Иммунитет', '📋 Каталог'] 
+                        : ['✅ About Omega-3', '🛡️ Immunity', '📋 Catalog']);
+                    return detectedLang === 'ru'
+                        ? `Отличные цели! Для поддержки **${catNames.join(' и ')}** я рекомендую начать с универсальных **Омега-3**. Это основа для здоровья мозга, сердца и иммунитета.\n\n✨ **Хотите узнать подробнее?**`
+                        : `Great goals! To support **${catNames.join(' and ')}**, I recommend starting with universal **Omega-3**. It's the foundation for brain, heart, and immune health.\n\n✨ **Want to know more?**`;
+                }
+
+                // 6. Handle single categories with SMART suggestions
+                if (foundCategories.length === 1) {
+                    const category = foundCategories[0];
+                    const categoryData = {
+                        sleep: { ru: { name: "сна", productSlug: "magnesium-b6", replies: ['✅ Узнать о Магнии', '⚡ Энергия', '🛡️ Иммунитет'] }, en: { name: "sleep", productSlug: "magnesium-b6", replies: ['✅ About Magnesium', '⚡ Energy', '🛡️ Immunity'] } },
+                        energy: { ru: { name: "энергии", productSlug: "b-complex", replies: ['✅ Узнать о B-комплексе', '💤 Сон', '🧠 Память'] }, en: { name: "energy", productSlug: "b-complex", replies: ['✅ About B-Complex', '💤 Sleep', '🧠 Focus'] } },
+                        immunity: { ru: { name: "иммунитета", productSlug: "zinc-complex", replies: ['✅ Узнать о Цинке', '💤 Сон', '⚡ Энергия'] }, en: { name: "immunity", productSlug: "zinc-complex", replies: ['✅ About Zinc Complex', '💤 Sleep', '⚡ Energy'] } }, // Changed D3 to Zinc for variety
+                        brain: { ru: { name: "памяти и концентрации", productSlug: "omega-3-1000", replies: ['✅ Узнать об Омега-3', '⚡ Энергия', '📋 Каталог'] }, en: { name: "memory and focus", productSlug: "omega-3-1000", replies: ['✅ About Omega-3', '⚡ Energy', '📋 Catalog'] } }
+                    };
+
+                    if (categoryData[category]) {
+                        const data = categoryData[category][detectedLang];
+                        const suggestedProduct = products.find(p => p.slug === data.productSlug);
+                        
+                        if (suggestedProduct) {
+                            setContext({ type: 'product_suggestion', productSlug: data.productSlug });
+                            renderQuickReplies(data.replies);
+                            
+                            return detectedLang === 'ru'
+                                ? `💡 **Для ${data.name} идеально подходит **${suggestedProduct.name.ru}**!**\n\n_${suggestedProduct.short.ru}_\n\n✨ **Хотите узнать подробнее о ${suggestedProduct.name.ru}?**`
+                                : `💡 **For ${data.name}, **${suggestedProduct.name.en}** is perfect!**\n\n_${suggestedProduct.short.en}_\n\n✨ **Want to know more about ${suggestedProduct.name.en}?**`;
+                        }
+                    }
+                }
+
+                // 7. Catalog request
+                if (/(каталог|все товары|продукты|товары|catalog|products|all)/.test(normalizedMessage)) {
+                    renderQuickReplies(detectedLang === 'ru' 
+                        ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
+                        : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
+                    let response = detectedLang === 'ru' ? "📦 **Наш каталог:**\n\n" : "📦 **Our catalog:**\n\n";
+                    products.forEach(p => {
+                        response += `• **${p.name[detectedLang]}** — ${p.short[detectedLang]}\n`;
+                    });
+                    response += detectedLang === 'ru' 
+                        ? `\n💡 Выберите категорию или спросите о конкретном продукте!`
+                        : `\n💡 Choose a category or ask about a specific product!`;
+                    return response;
+                }
+
+                // 8. Default response with context reset
+                conversationHistory = []; 
+
+                renderQuickReplies(detectedLang === 'ru' 
                     ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
                     : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
-                  
-                  return detectedLang === 'ru'
-                    ? `**${suggestedProduct.name.ru}** 🌟\n\n${suggestedProduct.description.ru}\n\n💡 **Применение:** ${suggestedProduct.usage?.ru || 'Принимать согласно инструкции'}\n\n✨ Отлично подходит для ваших целей! Хотите узнать о других продуктах?`
-                    : `**${suggestedProduct.name.en}** 🌟\n\n${suggestedProduct.description.en}\n\n💡 **Usage:** ${suggestedProduct.usage?.en || 'Take according to instructions'}\n\n✨ Perfect for your goals! Want to know about other products?`;
-                }
-              }
-              if (/(no|нет|не|друг)/.test(normalizedMessage)) {
-                conversationHistory.pop();
-                renderQuickReplies(detectedLang === 'ru' 
-                  ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-                  : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
                 return detectedLang === 'ru'
-                  ? "Хорошо! Может быть, вас интересует что-то другое? Например, для сна, энергии или иммунитета?"
-                  : "Okay! Maybe you're interested in something else? For example, sleep, energy or immunity?";
-              }
+                    ? "🤔 Пожалуйста, уточните ваш запрос! Я могу помочь с:\n\n• 💤 **Сном и расслаблением**\n• ⚡ **Энергией и тонусом**\n• 🛡️ **Иммунитетом и защитой**\n• 🧠 **Памятью и концентрацией**\n\nНапишите, например: «сон» или «энергия и иммунитет»"
+                    : "🤔 Please clarify your request! I can help with:\n\n• 💤 **Sleep and relaxation**\n• ⚡ **Energy and vitality**\n• 🛡️ **Immunity and protection**\n• 🧠 **Memory and focus**\n\nWrite, for example: «sleep» or «energy and immunity»";
             }
 
-            // Greeting patterns
-            if (/(привет|здравств|добр|хай|ку|hi|hello|hey|start)/.test(normalizedMessage)) {
-              renderQuickReplies(detectedLang === 'ru' 
-                ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-                : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
-              return detectedLang === 'ru'
-                ? "👋 Здравствуйте! Я AI-консультант Nutralux. Спросите меня о вашей цели здоровья, и я подберу идеальные добавки!\n\nНапример: «Что для сна и иммунитета?» или просто «иммунитет»"
-                : "👋 Hello! I'm Nutralux AI consultant. Tell me your health goal, and I'll find perfect supplements for you!\n\nExample: «What for sleep and immunity?» or just «immunity»";
-            }
-
-            // Category patterns
-            const patterns = {
-              sleep: /(сон|спать|бессонниц|уснуть|sleep|insomnia|rest)/,
-              energy: /(энерг|сил|устал|вял|слабост|energy|tired|fatigue|vitality)/,
-              immunity: /(иммунит|защит|простуда|грипп|вирус|immun|defense|cold|health)/,
-              brain: /(мозг|памят|вниман|концентрац|фокус|brain|memory|focus|concentration)/,
-              beauty: /(кож|волос|ногт|красот|коллаген|skin|hair|nails|beauty|collagen)/,
-              heart: /(сердц|сосуд|давлен|кардио|heart|vessel|pressure|cardio)/,
-              stomach: /(желуд|пищевар|кишеч|пробиотик|stomach|digest|gut|probiotic)/,
-              weight: /(вес|похуд|диет|стройн|weight|slim|diet|metabol)/
-            };
-
-            const foundCategories = Object.keys(patterns).filter(key => patterns[key].test(normalizedMessage));
-
-            // Handle combinations
-            if (foundCategories.length >= 2) {
-              const has = (cat) => foundCategories.includes(cat);
-              
-              if (has('sleep') && has('immunity')) {
-                setContext({ type: 'product_suggestion', productSlug: 'magnesium-b6' });
-                renderQuickReplies(detectedLang === 'ru' 
-                  ? ['✅ Да, расскажите!', '❌ Нет, что-то другое', '📋 Каталог'] 
-                  : ['✅ Yes, tell me!', '❌ No, something else', '📋 Catalog']);
-                return detectedLang === 'ru'
-                  ? "💤🛡️ **Для сна и иммунитета идеально подходит Магний B6!**\n\n• Улучшает качество сна и помогает засыпать\n• Снижает стресс и тревожность\n• Поддерживает нервную систему\n• Укрепляет иммунитет\n\n✨ **Хотите узнать подробнее о Магнии B6?**"
-                  : "💤🛡️ **For sleep and immunity, Magnesium B6 is perfect!**\n\n• Improves sleep quality and helps fall asleep\n• Reduces stress and anxiety\n• Supports nervous system\n• Strengthens immunity\n\n✨ **Want to know more about Magnesium B6?**";
-              }
-
-              if (has('brain') && has('energy')) {
-                setContext({ type: 'product_suggestion', productSlug: 'omega-3-1000' });
-                renderQuickReplies(detectedLang === 'ru' 
-                  ? ['✅ Да, расскажите!', '❌ Нет, что-то другое', '📋 Каталог'] 
-                  : ['✅ Yes, tell me!', '❌ No, something else', '📋 Catalog']);
-                return detectedLang === 'ru'
-                  ? "🧠⚡ **Для памяти и энергии рекомендую Омега-3!**\n\n• Улучшает когнитивные функции и память\n• Повышает концентрацию внимания\n• Дает энергию и снижает усталость\n• Поддерживает здоровье мозга\n\n✨ **Хотите узнать подробнее об Омега-3?**"
-                  : "🧠⚡ **For memory and energy, I recommend Omega-3!**\n\n• Improves cognitive functions and memory\n• Increases concentration\n• Provides energy and reduces fatigue\n• Supports brain health\n\n✨ **Want to know more about Omega-3?**";
-              }
-            }
-
-            // Handle single categories with SMART suggestions
-            if (foundCategories.length === 1) {
-              const category = foundCategories[0];
-              const categoryData = {
-                sleep: {
-                  ru: { name: "сна", productSlug: "magnesium-b6", replies: ['✅ Узнать о Магнии', '⚡ Энергия', '🛡️ Иммунитет'] },
-                  en: { name: "sleep", productSlug: "magnesium-b6", replies: ['✅ About Magnesium', '⚡ Energy', '🛡️ Immunity'] }
-                },
-                energy: {
-                  ru: { name: "энергии", productSlug: "b-complex", replies: ['✅ Узнать о B-комплексе', '💤 Сон', '🧠 Память'] },
-                  en: { name: "energy", productSlug: "b-complex", replies: ['✅ About B-Complex', '💤 Sleep', '🧠 Focus'] }
-                },
-                immunity: {
-                  ru: { name: "иммунитета", productSlug: "vitamin-d3-10000", replies: ['✅ Узнать о Витамине D3', '💤 Сон', '⚡ Энергия'] },
-                  en: { name: "immunity", productSlug: "vitamin-d3-10000", replies: ['✅ About Vitamin D3', '💤 Sleep', '⚡ Energy'] }
-                },
-                brain: {
-                  ru: { name: "памяти и концентрации", productSlug: "omega-3-1000", replies: ['✅ Узнать об Омега-3', '⚡ Энергия', '📋 Каталог'] },
-                  en: { name: "memory and focus", productSlug: "omega-3-1000", replies: ['✅ About Omega-3', '⚡ Energy', '📋 Catalog'] }
-                }
-              };
-
-              if (categoryData[category]) {
-                const data = categoryData[category][detectedLang];
-                const suggestedProduct = products.find(p => p.slug === data.productSlug);
+            // --- UI Functions ---
+            function addMessage(text, type = 'bot') {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}-message`;
                 
-                if (suggestedProduct) {
-                  setContext({ type: 'product_suggestion', productSlug: data.productSlug });
-                  renderQuickReplies(data.replies);
-                  
-                  return detectedLang === 'ru'
-                    ? `💡 **Для ${data.name} идеально подходит **${suggestedProduct.name.ru}**!**\n\n${suggestedProduct.short.ru}\n\n✨ **Хотите узнать подробнее о ${suggestedProduct.name.ru}?**`
-                    : `💡 **For ${data.name}, **${suggestedProduct.name.en}** is perfect!**\n\n${suggestedProduct.short.en}\n\n✨ **Want to know more about ${suggestedProduct.name.en}?**`;
+                const title = document.createElement('strong');
+                
+                if (type === 'user') {
+                    title.textContent = lastLanguage === 'ru' ? 'Вы: ' : 'You: ';
+                    const content = document.createElement('span');
+                    content.textContent = text;
+                    messageDiv.appendChild(title);
+                    messageDiv.appendChild(content);
+                } else {
+                    title.textContent = lastLanguage === 'ru' ? 'Бот: ' : 'Bot: ';
+                    const content = document.createElement('span');
+                    content.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/_(.*?)_/g, '<i>$1</i>');
+                    messageDiv.appendChild(title);
+                    messageDiv.appendChild(content);
                 }
-              }
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
             }
 
-            // Product-specific queries
-            for (const product of products) {
-              const productName = product.name[detectedLang].toLowerCase();
-              if (normalizedMessage.includes(productName.toLowerCase()) || 
-                  normalizedMessage.includes(product.slug) ||
-                  (product.slug === 'magnesium-b6' && /(магн|magnesium)/.test(normalizedMessage))) {
-                renderQuickReplies(detectedLang === 'ru' 
-                  ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
-                  : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
-                return detectedLang === 'ru'
-                  ? `**${product.name[detectedLang]}** 🌟\n\n${product.description[detectedLang]}\n\n💡 **Применение:** ${product.usage?.[detectedLang] || 'Принимать согласно инструкции'}\n\n✨ Отлично подходит для ваших целей!`
-                  : `**${product.name[detectedLang]}** 🌟\n\n${product.description[detectedLang]}\n\n💡 **Usage:** ${product.usage?.[detectedLang] || 'Take according to instructions'}\n\n✨ Perfect for your goals!`;
-              }
+            function renderQuickReplies(replies = []) {
+                if (!chatQuickReplies) return;
+                chatQuickReplies.innerHTML = '';
+                
+                // Limit quick replies to 4 for better UI
+                replies.slice(0, 4).forEach(replyText => {
+                    const button = document.createElement('button');
+                    button.textContent = replyText;
+                    button.addEventListener('click', () => {
+                        // Clean up the emoji and prefix before sending
+                        let cleanText = replyText.replace(/[💤⚡🛡️🧠📋✅❌]/g, '').trim();
+                        if (cleanText.toLowerCase().includes('about') || cleanText.toLowerCase().includes('узнать')) {
+                            const productName = cleanText.split(' ').slice(2).join(' '); // Try to extract name
+                            chatInput.value = productName || cleanText;
+                        } else {
+                            chatInput.value = cleanText;
+                        }
+                        sendMessage();
+                    });
+                    chatQuickReplies.appendChild(button);
+                });
             }
 
-            // Catalog request
-            if (/(каталог|все товары|продукты|товары|catalog|products|all)/.test(normalizedMessage)) {
-              renderQuickReplies(detectedLang === 'ru' 
-                ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '🧠 Память'] 
-                : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '🧠 Focus']);
-              let response = detectedLang === 'ru' ? "📦 **Наш каталог:**\n\n" : "📦 **Our catalog:**\n\n";
-              products.forEach(p => {
-                response += `• **${p.name[detectedLang]}** — ${p.short[detectedLang]}\n`;
-              });
-              response += detectedLang === 'ru' 
-                ? `\n💡 Выберите категорию или спросите о конкретном продукте!`
-                : `\n💡 Choose a category or ask about a specific product!`;
-              return response;
+            function showTypingIndicator() {
+                const typingIndicator = document.createElement('div');
+                typingIndicator.id = 'typing-indicator';
+                typingIndicator.className = 'message bot-message';
+                const typingText = lastLanguage === 'ru' ? 'печатает...' : 'typing...';
+                typingIndicator.innerHTML = `<strong>${lastLanguage === 'ru' ? 'Бот' : 'Bot'}:</strong> <em>${typingText}</em>`;
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+                return typingIndicator;
             }
 
-            // Default response with context awareness
-            if (lastContext) {
-              conversationHistory.pop(); // Clear context if not understood
+            function clearChat() {
+                chatMessages.innerHTML = '';
+                conversationHistory = [];
+                isFirstInteraction = true;
+                renderQuickReplies([]);
+                if (chatInput) {
+                    chatInput.value = '';
+                }
+                showWelcomeMessage(); 
             }
 
-            renderQuickReplies(detectedLang === 'ru' 
-              ? ['💤 Сон', '⚡ Энергия', '🛡️ Иммунитет', '📋 Каталог'] 
-              : ['💤 Sleep', '⚡ Energy', '🛡️ Immunity', '📋 Catalog']);
-            return detectedLang === 'ru'
-              ? "🤔 Пожалуйста, уточните ваш запрос! Я могу помочь с:\n\n• 💤 **Сном и расслаблением**\n• ⚡ **Энергией и тонусом**\n• 🛡️ **Иммунитетом и защитой**\n• 🧠 **Памятью и концентрацией**\n\nНапишите, например: «сон» или «энергия и иммунитет»"
-              : "🤔 Please clarify your request! I can help with:\n\n• 💤 **Sleep and relaxation**\n• ⚡ **Energy and vitality**\n• 🛡️ **Immunity and protection**\n• 🧠 **Memory and focus**\n\nWrite, for example: «sleep» or «energy and immunity»";
-          }
+            // --- Main Send Function ---
+            async function sendMessage() {
+                if (isLoading) return;
+                
+                const userMessage = chatInput.value.trim();
+                if (!userMessage) return;
 
-          // --- UI Functions ---
-          function addMessage(text, type = 'bot') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}-message`;
-            
-            const title = document.createElement('strong');
-            if (type === 'user') {
-              title.textContent = lastLanguage === 'ru' ? 'Вы: ' : 'You: ';
-              const content = document.createElement('span');
-              content.textContent = text;
-              messageDiv.appendChild(title);
-              messageDiv.appendChild(content);
-            } else {
-              title.textContent = lastLanguage === 'ru' ? 'Бот: ' : 'Bot: ';
-              const content = document.createElement('span');
-              content.innerHTML = text.replace(/\n/g, '<br>');
-              messageDiv.appendChild(title);
-              messageDiv.appendChild(content);
+                isLoading = true;
+                addMessage(userMessage, 'user');
+                chatInput.value = '';
+                chatSend.disabled = true;
+                renderQuickReplies([]);
+
+                const typingIndicator = showTypingIndicator();
+
+                // Simulate AI processing time
+                setTimeout(() => {
+                    typingIndicator.remove();
+                    const aiResponse = getAIResponse(userMessage);
+                    addMessage(aiResponse, 'bot');
+                    chatSend.disabled = false;
+                    isLoading = false;
+                    chatInput.focus();
+                }, 1200);
             }
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
-          }
 
-          function renderQuickReplies(replies = []) {
-            if (!chatQuickReplies) return;
-            chatQuickReplies.innerHTML = '';
-            
-            replies.forEach(replyText => {
-              const button = document.createElement('button');
-              button.textContent = replyText;
-              button.addEventListener('click', () => {
-                chatInput.value = replyText.replace(/[💤⚡🛡️🧠📋✅❌]/g, '').trim();
-                sendMessage();
-              });
-              chatQuickReplies.appendChild(button);
+            // --- Event Listeners ---
+            chatFab.addEventListener('click', toggleChat);
+            chatSend.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
             });
-          }
 
-          function showTypingIndicator() {
-            const typingIndicator = document.createElement('div');
-            typingIndicator.id = 'typing-indicator';
-            typingIndicator.className = 'message bot-message';
-            const typingText = lastLanguage === 'ru' ? 'печатает...' : 'typing...';
-            typingIndicator.innerHTML = `<strong>${lastLanguage === 'ru' ? 'Бот' : 'Bot'}:</strong> <em>${typingText}</em>`;
-            chatMessages.appendChild(typingIndicator);
-            chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
-            return typingIndicator;
-          }
-
-          // --- Main Send Function ---
-          async function sendMessage() {
-            if (isLoading) return;
-            
-            const userMessage = chatInput.value.trim();
-            if (!userMessage) return;
-
-            isLoading = true;
-            addMessage(userMessage, 'user');
-            chatInput.value = '';
-            chatSend.disabled = true;
-            renderQuickReplies([]);
-
-            const typingIndicator = showTypingIndicator();
-
-            setTimeout(() => {
-              typingIndicator.remove();
-              const aiResponse = getAIResponse(userMessage);
-              addMessage(aiResponse, 'bot');
-              chatSend.disabled = false;
-              isLoading = false;
-              chatInput.focus();
-            }, 1500);
-          }
-
-          // --- Event Listeners ---
-          chatFab.addEventListener('click', toggleChat);
-          chatSend.addEventListener('click', sendMessage);
-          chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              sendMessage();
+            if (chatClear) {
+                chatClear.addEventListener('click', clearChat);
             }
-          });
 
-          if (chatClear) {
-            chatClear.addEventListener('click', () => {
-              chatMessages.innerHTML = '';
-              conversationHistory = [];
-              showWelcomeMessage();
-            });
-          }
+            if (chatMinimize) {
+                chatMinimize.addEventListener('click', toggleChat);
+            }
 
-          if (chatMinimize) {
-            chatMinimize.addEventListener('click', toggleChat);
-          }
-
-          // Initial welcome message after delay
-          setTimeout(() => {
-            if (!isFirstInteraction) return;
-            showWelcomeMessage();
-          }, 1000);
+            // Initial welcome message after delay if widget is open (optional change: only if widget is open by default)
+            // Current logic calls showWelcomeMessage on open
+            // Changed the initial call to be instant to set up the chat UI immediately if needed
+            if (!chatWidget.classList.contains('is-open')) {
+                 setTimeout(() => {
+                    if (isFirstInteraction) {
+                        showWelcomeMessage();
+                        isFirstInteraction = false;
+                    }
+                }, 1000);
+            }
         });
-      })();
-    </script>
+    })();
+</script>
 
-    <script>
-      /* Typed.js initialization */
-      if (typeof Typed !== 'undefined' && document.querySelector('.multiple-text')) {
+<script>
+    // Typed.js initialization (kept original as requested)
+    if (typeof Typed !== 'undefined' && document.querySelector('.multiple-text')) {
         new Typed('.multiple-text', {
-          strings: ['vitamins and supplements', 'daily health', 'wellness solutions'],
-          typeSpeed: 100,
-          backSpeed: 100,
-          backDelay: 1000,
-          loop: true
+            strings: ['vitamins and supplements', 'daily health', 'wellness solutions'],
+            typeSpeed: 100,
+            backSpeed: 100,
+            backDelay: 1000,
+            loop: true
         });
-      }
-    </script>
-  </body>
+    }
+</script>
+</body>
 </html>
