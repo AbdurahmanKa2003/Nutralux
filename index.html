@@ -80,14 +80,14 @@
         bottom: 100px;
         right: 20px;
         z-index: 9999;
-        display: none;
+        /* ИСПРАВЛЕНО: Убран дублирующий display: flex, чтобы по умолчанию чат был скрыт */
+        display: none; 
         width: 380px;
         height: 500px;
         background: #ffffff;
         border: 1px solid #e0e0e0;
         border-radius: 16px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-        display: flex;
         flex-direction: column;
         font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         overflow: hidden;
@@ -97,10 +97,12 @@
         display: flex;
       }
 
+      /* Кнопка открытия/закрытия чата FAB */
       #chat-fab {
         position: fixed;
+        /* ИСПРАВЛЕНО: переместил FAB, чтобы он не закрывал footer-icon-top по умолчанию */
         bottom: 25px;
-        right: 95px;
+        right: 20px; 
         z-index: 10000;
         display: flex;
         width: 60px;
@@ -122,10 +124,11 @@
         box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
       }
 
+      /* Дополнительная иконка (возможно, прокрутка вверх) */
       .footer-icon-top {
         position: fixed;
         bottom: 25px;
-        right: 25px;
+        right: 95px; /* Перемещено левее для размещения рядом с FAB */
         z-index: 10001;
         background: linear-gradient(135deg, #4CAF50, #45a049);
         width: 50px;
@@ -238,6 +241,8 @@
         font-size: 14px;
         line-height: 1.4;
         animation: messageAppear 0.3s ease-out;
+        /* ИЗМЕНЕНО: Общий цвет шрифта - темно-черный */
+        color: #1e1e1e; 
       }
 
       @keyframes messageAppear {
@@ -261,7 +266,8 @@
 
       .user-message {
         background: linear-gradient(135deg, #4CAF50, #45a049);
-        color: white;
+        /* ИЗМЕНЕНО: Цвет шрифта для сообщений пользователя - белый, чтобы контрастировал с зеленым фоном */
+        color: white; 
         align-self: flex-end;
         border-bottom-right-radius: 6px;
         box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
@@ -271,11 +277,11 @@
         display: block;
         margin-bottom: 4px;
         font-size: 12px;
-        opacity: 0.8;
+        opacity: 0.9; /* Сделаем жирный текст чуть ярче */
       }
 
       .user-message strong {
-        color: rgba(255, 255, 255, 0.9);
+        color: rgba(255, 255, 255, 1); /* Жирный текст в user-message - белый */
       }
 
       .bot-message strong {
@@ -283,10 +289,19 @@
         font-weight: 600;
       }
 
-      /* Зеленый цвет для текста бота */
-      .bot-message span {
-        color: #2E7D32;
+      /* УДАЛЕНО: Снят зеленый цвет с текста бота, чтобы он стал черным (унаследованным от .message) */
+      /* .bot-message span {
+        color: #2E7D32; 
         line-height: 1.5;
+      } */
+      .bot-message span {
+        line-height: 1.5;
+        color: #1e1e1e; /* На всякий случай явно укажем черный цвет */
+      }
+      
+      .user-message span {
+        line-height: 1.5;
+        color: white; /* Цвет текста пользователя остается белым */
       }
 
       /* Быстрые ответы */
@@ -337,6 +352,8 @@
         outline: none;
         transition: all 0.2s ease;
         background: #f8f9fa;
+        /* ИЗМЕНЕНО: Цвет шрифта для поля ввода - черный */
+        color: #1e1e1e; 
       }
 
       .chat-input-container .chat-input:focus {
@@ -378,7 +395,8 @@
         border-radius: 18px;
         border-bottom-left-radius: 6px;
         font-style: italic;
-        color: #666;
+        /* ИЗМЕНЕНО: Цвет шрифта для индикатора печати - черный/серый */
+        color: #666; 
         animation: pulse 1.5s infinite;
       }
 
@@ -387,7 +405,7 @@
         50% { opacity: 0.7; }
       }
 
-      /* Мобильная адаптация */
+      /* Медиа-запросы */
       @media (max-width: 768px) {
         #chat-widget {
           width: calc(100vw - 40px);
