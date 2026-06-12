@@ -1,285 +1,1143 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Nutralux — The science of feeling well</title>
+<meta name="description" content="Premium supplements with transparent ingredients. Nutralux — where science meets nature."/>
+<link rel="shortcut icon" href="images/favicon-32x32.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css"/>
+<style>
+:root{
+  --black:#080808;
+  --white:#fafaf7;
+  --cream:#f3f0e8;
+  --sage:#1c5c36;
+  --sage2:#2a7a4a;
+  --sage3:#3d9e62;
+  --sage-glow:rgba(61,158,98,.18);
+  --gold:#c9a84c;
+  --muted:rgba(8,8,8,.45);
+  --muted2:rgba(8,8,8,.22);
+  --r:12px;
+  --rl:20px;
+  --pill:999px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;overflow-x:hidden}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--black);
+  color:var(--white);
+  -webkit-font-smoothing:antialiased;
+  cursor:none;
+}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+*::selection{background:var(--sage3);color:#fff}
 
-    <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon" />
+/* ─── CUSTOM CURSOR ─── */
+#cursor{
+  position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
+  width:12px;height:12px;
+  background:var(--white);border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:transform .1s,background .3s,width .3s,height .3s;
+  mix-blend-mode:difference;
+}
+#cursor-ring{
+  position:fixed;top:0;left:0;z-index:9998;pointer-events:none;
+  width:40px;height:40px;
+  border:1px solid rgba(250,250,247,.4);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:transform .25s cubic-bezier(.25,.46,.45,.94),width .3s,height .3s,opacity .3s;
+}
+body:hover #cursor{opacity:1}
 
-    <!-- SEO Meta Tags -->
-    <title>Nutralux — Vitamins & Supplements Store | Buy Vitamin C, Magnesium, Zinc</title>
-    <meta name="description" content="Nutralux — your trusted online store for vitamins and supplements. We offer high-quality products: Vitamin C, Magnesium, Zinc, Multivitamins, Probiotics. Wide catalog, detailed descriptions, and fast delivery nationwide." />
-    <meta name="keywords" content="Nutralux, vitamins, supplements, buy vitamins, vitamin C, magnesium, zinc, multivitamins, probiotics, health, supplement store, online vitamin store, immune support, vitamins for energy" />
-    <meta name="author" content="Nutralux" />
-    <link rel="canonical" href="https://yourwebsite.com/index.html" />
+/* ─── NAV ─── */
+.nav{
+  position:fixed;top:0;left:0;width:100%;z-index:500;
+  padding:0 5vw;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,backdrop-filter .4s;
+}
+.nav.scrolled{
+  background:rgba(8,8,8,.75);
+  backdrop-filter:blur(24px) saturate(160%);
+  border-bottom:1px solid rgba(250,250,247,.06);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:400;letter-spacing:-.5px;
+  color:var(--white);
+}
+.nav-logo .dot{color:var(--sage3)}
+.nav-links{display:flex;gap:2.5rem;align-items:center;list-style:none}
+.nav-links a{
+  font-size:.8125rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;
+  color:rgba(250,250,247,.6);transition:color .25s;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-pill{
+  background:var(--sage);color:#fff !important;
+  padding:.45rem 1.3rem;border-radius:var(--pill);
+  font-size:.8125rem !important;letter-spacing:.04em !important;
+  transition:background .25s,transform .2s !important;
+}
+.nav-pill:hover{background:var(--sage2) !important;transform:translateY(-1px)}
+#nav-menu-btn{display:none;background:none;border:none;cursor:none;color:var(--white);font-size:1.5rem}
 
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Nutralux — Vitamins & Supplements Store" />
-    <meta property="og:description" content="Nutralux — your trusted online store for vitamins and supplements. We offer high-quality products: Vitamin C, Magnesium, Zinc, Multivitamins, Probiotics. Wide catalog, detailed descriptions, and fast delivery nationwide." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://yourwebsite.com/index.html" />
-    <meta property="og:image" content="https://yourwebsite.com/images/avatar.png" />
-    <meta property="og:locale" content="en_US" />
+/* ─── HERO ─── */
+.hero{
+  position:relative;min-height:100svh;
+  display:flex;align-items:center;
+  padding:0 5vw;
+  overflow:hidden;
+  background:var(--black);
+}
 
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Nutralux — Vitamins & Supplements Store" />
-    <meta name="twitter:description" content="Nutralux — your trusted online store for vitamins and supplements. We offer high-quality products: Vitamin C, Magnesium, Zinc, Multivitamins, Probiotics. Wide catalog, detailed descriptions, and fast delivery nationwide." />
-    <meta name="twitter:image" content="https://yourwebsite.com/images/avatar.png" />
+/* Ambient orbs */
+.orb{
+  position:absolute;border-radius:50%;pointer-events:none;
+  filter:blur(80px);
+}
+.orb-1{width:50vw;height:50vw;background:radial-gradient(circle,rgba(28,92,54,.7) 0%,transparent 70%);top:-15%;right:-10%;animation:drift1 14s ease-in-out infinite}
+.orb-2{width:35vw;height:35vw;background:radial-gradient(circle,rgba(201,168,76,.25) 0%,transparent 70%);bottom:-10%;left:-5%;animation:drift2 18s ease-in-out infinite}
+.orb-3{width:20vw;height:20vw;background:radial-gradient(circle,rgba(61,158,98,.4) 0%,transparent 70%);top:40%;left:35%;animation:drift3 10s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-4%,6%) scale(1.08)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5%,-5%) scale(1.12)}}
+@keyframes drift3{0%,100%{transform:translate(0,0)}33%{transform:translate(3%,-4%)}66%{transform:translate(-3%,4%)}}
 
-    <!-- box icons -->
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+/* Particle canvas */
+#hero-canvas{position:absolute;inset:0;pointer-events:none;opacity:.55}
 
-    <!-- lang icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css" />
+.hero-inner{
+  position:relative;z-index:2;
+  max-width:780px;
+  padding-top:80px;
+}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--sage3);
+  margin-bottom:2.2rem;
+  opacity:0;animation:fadeUp .8s .2s forwards;
+}
+.hero-kicker::before{
+  content:'';display:block;width:28px;height:1px;background:var(--sage3);
+}
+.hero-h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.2rem,7vw,6.5rem);
+  font-weight:400;line-height:1.03;letter-spacing:-.04em;
+  margin-bottom:2rem;
+  opacity:0;animation:fadeUp .9s .35s forwards;
+}
+.hero-h1 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--sage3) 0%,#7ecfa0 50%,var(--sage3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  background-size:200%;
+  animation:shimmer 4s ease infinite;
+}
+@keyframes shimmer{0%,100%{background-position:0%}50%{background-position:100%}}
+.hero-sub{
+  font-size:1.125rem;line-height:1.7;
+  color:rgba(250,250,247,.55);
+  max-width:46ch;
+  margin-bottom:3rem;
+  opacity:0;animation:fadeUp .9s .5s forwards;
+}
+.hero-ctas{
+  display:flex;gap:1rem;align-items:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .9s .65s forwards;
+}
+.btn-hero{
+  background:var(--white);color:var(--black);
+  padding:.9rem 2.2rem;border-radius:var(--pill);
+  font-size:.9375rem;font-weight:500;
+  display:inline-flex;align-items:center;gap:.5rem;
+  transition:background .25s,transform .2s,box-shadow .25s;
+}
+.btn-hero:hover{background:var(--cream);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.btn-hero-outline{
+  background:transparent;color:var(--white);
+  padding:.9rem 2.2rem;border-radius:var(--pill);
+  font-size:.9375rem;font-weight:500;
+  border:1px solid rgba(250,250,247,.25);
+  display:inline-flex;align-items:center;gap:.5rem;
+  transition:border-color .25s,background .25s,transform .2s;
+}
+.btn-hero-outline:hover{border-color:rgba(250,250,247,.7);background:rgba(250,250,247,.05);transform:translateY(-2px)}
 
-    <!-- css -->
-    <link rel="stylesheet" href="styles.css" />
+.hero-socials{
+  display:flex;gap:.6rem;align-items:center;
+  margin-top:3.5rem;
+  opacity:0;animation:fadeUp .9s .8s forwards;
+}
+.hero-socials-label{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:.3rem}
+.soc{
+  width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(250,250,247,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;color:rgba(250,250,247,.5);
+  transition:border-color .25s,color .25s,background .25s;
+}
+.soc:hover{border-color:var(--sage3);color:var(--sage3);background:var(--sage-glow)}
 
-    <!-- Schema.org JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Nutralux",
-      "url": "https://yourwebsite.com/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://yourwebsite.com/catalog.html?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Nutralux",
-      "url": "https://yourwebsite.com/",
-      "logo": "https://yourwebsite.com/images/favicon-32x32.png",
-      "sameAs": [
-        "https://wa.me/905332452900",
-        "https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1",
-        "https://t.me/nutralux",
-        "https://clck.ru/3NQNkm"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+905332452900",
-        "contactType": "customer service",
-        "areaServed": "EN"
-      }
-    }
-    </script>
-  </head>
+.hero-visual{
+  position:absolute;right:0;top:0;width:48%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.hero-img-glow{
+  position:relative;width:80%;max-width:520px;
+  animation:levitate 7s ease-in-out infinite;
+}
+@keyframes levitate{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.hero-img-glow::before{
+  content:'';position:absolute;inset:-40px;
+  background:radial-gradient(ellipse at center,var(--sage-glow) 0%,transparent 65%);
+  border-radius:50%;z-index:-1;
+}
+.hero-img-glow img{width:100%;border-radius:4% 4% 50% 50%/4% 4% 30% 30%;filter:drop-shadow(0 30px 60px rgba(28,92,54,.4))}
 
-  <body>
-    <!-------------- HEADER -------------->
+/* Floating chips */
+.chip{
+  position:absolute;
+  background:rgba(250,250,247,.06);
+  border:1px solid rgba(250,250,247,.12);
+  backdrop-filter:blur(12px);
+  border-radius:var(--r);
+  padding:.7rem 1rem;
+  display:flex;align-items:center;gap:.6rem;
+  font-size:.8rem;font-weight:500;
+  color:var(--white);
+  white-space:nowrap;
+}
+.chip-icon{width:32px;height:32px;border-radius:8px;background:var(--sage);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.chip-lbl{font-size:.68rem;color:rgba(250,250,247,.5);font-weight:400}
+.chip-1{bottom:28%;left:2%;animation:chipFloat1 5s ease-in-out infinite}
+.chip-2{top:20%;right:4%;animation:chipFloat2 6s ease-in-out infinite}
+.chip-3{bottom:15%;right:8%;animation:chipFloat1 7s ease-in-out infinite .5s}
+@keyframes chipFloat1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes chipFloat2{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
 
-    <header class="header">
-      <a href="#home" class="logo">Nutralux</a>
+/* Scroll indicator */
+.scroll-ind{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;
+  font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  opacity:0;animation:fadeUp .8s 1.2s forwards;
+}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(250,250,247,.3),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
 
-      <i class="bx bx-menu" id="menu-icon"></i>
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 
-      <nav class="navbar">
-        <a href="#about" class="active">About</a>
-        <a href="#services" class="active">Services</a>
-        <a href="catalog-en.html" class="active">Catalog</a>
-        <a href="#contact" class="active">Contact</a>
-        <a href="index-ru.html" class="active lang"><span class="fi fi-ru"></span></a>
-      </nav>
-    </header>
+/* ─── MARQUEE ─── */
+.marquee-wrap{
+  border-top:1px solid rgba(250,250,247,.06);
+  border-bottom:1px solid rgba(250,250,247,.06);
+  overflow:hidden;padding:.9rem 0;
+  background:rgba(250,250,247,.02);
+}
+.marquee-track{
+  display:flex;gap:3rem;align-items:center;
+  animation:marquee 28s linear infinite;
+  width:max-content;
+}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{
+  display:flex;align-items:center;gap:.65rem;
+  font-size:.8rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;
+  color:rgba(250,250,247,.35);white-space:nowrap;
+}
+.marquee-item i{font-size:1rem;color:var(--sage3)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-    <!-------------- HOME -------------->
+/* ─── SECTION BASE ─── */
+.section{padding:120px 5vw}
+.section-light{background:var(--cream);color:var(--black)}
+.section-mid{background:#111;color:var(--white)}
 
-    <section class="home" id="home">
-      <div class="home-content">
-        <h1>Nutralux</h1>
-        <h3><span class="multiple-text"></span> Store</h3>
-        <p>
-          Vitamins and supplements for health: Vitamin C, Magnesium, Zinc, Multivitamins, Probiotics, and more.
-          High-quality formulas, clear usage instructions, and personalized support.
-        </p>
-        <div class="social-media">
-          <a href="https://wa.me/905332452900" target="_blank" aria-label="WhatsApp Nutralux"><i class="bx bxl-whatsapp"></i></a>
-          <a href="https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1" target="_blank" aria-label="TikTok Nutralux"><i class="bx bxl-tiktok"></i></a>
-          <a href="https://t.me/nutralux" target="_blank" aria-label="Telegram Nutralux"><i class="bx bxl-telegram"></i></a>
-          <a href="https://clck.ru/3NQNkm" target="_blank" aria-label="Instagram Nutralux"><i class="bx bxl-instagram"></i></a>
-        </div>
-        <a href="catalog-en.html" class="btn">Go to Catalog</a>
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.73rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--sage3);margin-bottom:1.4rem;
+}
+.eyebrow::before{content:'';display:block;width:22px;height:1px;background:var(--sage3)}
+.s-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,4.5vw,3.8rem);
+  font-weight:400;line-height:1.08;letter-spacing:-.03em;
+  margin-bottom:1.2rem;
+}
+.s-title em{font-style:italic;color:var(--sage3)}
+.section-light .s-title em{color:var(--sage)}
+.s-sub{
+  font-size:1rem;line-height:1.75;
+  color:rgba(250,250,247,.5);max-width:52ch;
+}
+.section-light .s-sub{color:rgba(8,8,8,.5)}
+.section-light .eyebrow{color:var(--sage)}
+.section-light .eyebrow::before{background:var(--sage)}
+
+/* ─── ABOUT CINEMATIC ─── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center}
+.about-img-stack{position:relative;height:520px}
+.about-img-main{
+  position:absolute;right:0;top:0;width:80%;
+  border-radius:var(--rl);overflow:hidden;
+  box-shadow:0 40px 80px rgba(0,0,0,.5);
+}
+.about-img-main img{width:100%;height:100%;object-fit:cover;height:420px}
+.about-img-accent{
+  position:absolute;left:0;bottom:0;width:55%;
+  border-radius:var(--r);overflow:hidden;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+  border:3px solid var(--black);
+}
+.about-img-accent img{width:100%;height:220px;object-fit:cover}
+.about-stat-badge{
+  position:absolute;right:-1.5rem;top:55%;
+  background:var(--sage);color:#fff;
+  padding:1.2rem 1.5rem;border-radius:var(--r);
+  text-align:center;font-weight:500;
+  box-shadow:0 10px 30px rgba(28,92,54,.4);
+}
+.about-stat-badge .num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:400;display:block;line-height:1}
+.about-stat-badge .lbl{font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;opacity:.85;margin-top:.3rem}
+
+.about-pills{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.5rem}
+.pill{
+  background:rgba(250,250,247,.06);border:1px solid rgba(250,250,247,.1);
+  padding:.4rem 1rem;border-radius:var(--pill);
+  font-size:.8rem;color:rgba(250,250,247,.7);
+}
+.section-light .pill{background:rgba(8,8,8,.06);border-color:rgba(8,8,8,.1);color:rgba(8,8,8,.6)}
+
+.about-features{display:flex;flex-direction:column;gap:1.5rem;margin-top:2.5rem}
+.about-feat{display:flex;gap:1rem;align-items:flex-start}
+.feat-num{
+  font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--sage3);
+  line-height:1;min-width:2rem;
+}
+.feat-text h4{font-size:.9375rem;font-weight:500;margin-bottom:.25rem}
+.feat-text p{font-size:.875rem;color:rgba(250,250,247,.5);line-height:1.6}
+
+/* ─── SERVICES ─── */
+.services-header{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:5rem}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.svc{
+  background:rgba(250,250,247,.04);
+  border:1px solid rgba(250,250,247,.07);
+  border-radius:var(--rl);
+  padding:2.5rem 2rem;
+  position:relative;overflow:hidden;
+  transition:background .3s,border-color .3s,transform .3s;
+}
+.svc::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 20%,var(--sage-glow),transparent 60%);
+  opacity:0;transition:opacity .4s;
+}
+.svc:hover{background:rgba(250,250,247,.07);border-color:rgba(61,158,98,.3);transform:translateY(-5px)}
+.svc:hover::before{opacity:1}
+.svc-icon{
+  width:54px;height:54px;border-radius:14px;
+  background:rgba(61,158,98,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;color:var(--sage3);
+  margin-bottom:1.8rem;
+}
+.svc h3{font-size:1.0625rem;font-weight:500;margin-bottom:.7rem}
+.svc ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.svc ul li{font-size:.875rem;color:rgba(250,250,247,.5);line-height:1.5;padding-left:1rem;position:relative}
+.svc ul li::before{content:'—';position:absolute;left:0;color:var(--sage3);font-size:.75rem}
+
+/* ─── PRODUCTS HORIZONTAL ─── */
+.products-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem}
+.products-scroll{
+  display:flex;gap:1.25rem;overflow-x:auto;padding-bottom:1.5rem;scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+}
+.products-scroll::-webkit-scrollbar{display:none}
+.pcard{
+  min-width:280px;max-width:280px;
+  background:rgba(250,250,247,.04);
+  border:1px solid rgba(250,250,247,.07);
+  border-radius:var(--rl);overflow:hidden;
+  scroll-snap-align:start;
+  transition:border-color .3s,transform .3s;
+  flex-shrink:0;
+}
+.pcard:hover{border-color:rgba(61,158,98,.4);transform:translateY(-6px)}
+.pcard-img{aspect-ratio:1;overflow:hidden;background:rgba(250,250,247,.04)}
+.pcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.pcard:hover .pcard-img img{transform:scale(1.06)}
+.pcard-body{padding:1.3rem 1.5rem 1.6rem}
+.pcard-cat{font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--sage3);margin-bottom:.4rem}
+.pcard-body h3{font-size:.9875rem;font-weight:500;margin-bottom:.35rem}
+.pcard-body p{font-size:.825rem;color:rgba(250,250,247,.45);line-height:1.5;margin-bottom:1.2rem}
+.btn-card{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:transparent;border:1px solid rgba(250,250,247,.2);
+  color:var(--white);padding:.45rem 1.1rem;border-radius:var(--pill);
+  font-size:.8rem;font-weight:500;
+  transition:background .25s,border-color .25s;
+}
+.btn-card:hover{background:var(--sage);border-color:var(--sage)}
+
+/* Scroll hint arrows */
+.scroll-nav{display:flex;gap:.6rem;margin-top:1.5rem;justify-content:flex-end}
+.scroll-btn{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(250,250,247,.06);border:1px solid rgba(250,250,247,.1);
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;color:rgba(250,250,247,.6);font-size:1rem;
+  transition:background .25s,color .25s;
+}
+.scroll-btn:hover{background:var(--sage);color:#fff;border-color:var(--sage)}
+
+/* ─── RITUAL / PHILOSOPHY ─── */
+.ritual-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;border:1px solid rgba(250,250,247,.07);
+  border-radius:var(--rl);overflow:hidden;
+}
+.ritual-left{
+  padding:5rem;
+  background:rgba(250,250,247,.03);
+  border-right:1px solid rgba(250,250,247,.07);
+  display:flex;flex-direction:column;justify-content:center;
+}
+.ritual-right{
+  display:grid;grid-template-rows:1fr 1fr;
+}
+.ritual-cell{
+  padding:3.5rem;
+  position:relative;
+}
+.ritual-cell:first-child{border-bottom:1px solid rgba(250,250,247,.07)}
+.ritual-cell .big-num{
+  font-family:'Playfair Display',serif;
+  font-size:4rem;font-weight:400;color:rgba(250,250,247,.07);
+  position:absolute;top:1.5rem;right:2rem;line-height:1;
+}
+.ritual-cell h3{font-size:1.0625rem;font-weight:500;margin-bottom:.5rem}
+.ritual-cell p{font-size:.875rem;color:rgba(250,250,247,.45);line-height:1.6}
+.ritual-cell .rc-icon{font-size:1.4rem;color:var(--sage3);margin-bottom:1rem}
+
+/* ─── FAQ ─── */
+.faq-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:6rem;align-items:start}
+.faq-list{border-top:1px solid rgba(250,250,247,.08)}
+.faq-row{border-bottom:1px solid rgba(250,250,247,.08)}
+.faq-q{
+  width:100%;background:none;border:none;padding:1.5rem 0;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:.9375rem;font-weight:500;font-family:inherit;
+  color:var(--white);cursor:none;text-align:left;gap:1rem;
+  transition:color .25s;
+}
+.faq-q:hover{color:var(--sage3)}
+.faq-q .fq-icon{
+  width:28px;height:28px;border-radius:50%;
+  border:1px solid rgba(250,250,247,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;flex-shrink:0;
+  transition:background .25s,border-color .25s,transform .3s;
+}
+.faq-q.open .fq-icon{background:var(--sage);border-color:var(--sage);transform:rotate(45deg)}
+.faq-a{
+  font-size:.875rem;line-height:1.7;color:rgba(250,250,247,.5);
+  padding:0 0 1.5rem;display:none;
+}
+.faq-a.open{display:block}
+
+/* ─── CONTACT DARK ─── */
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.contact-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.5rem}
+.ccard{
+  background:rgba(250,250,247,.05);
+  border:1px solid rgba(250,250,247,.08);
+  border-radius:var(--r);
+  padding:1.5rem;
+  display:flex;align-items:center;gap:.9rem;
+  transition:background .3s,border-color .3s,transform .3s;
+}
+.ccard:hover{background:rgba(250,250,247,.09);border-color:rgba(61,158,98,.3);transform:translateY(-3px)}
+.ccard-icon{
+  width:42px;height:42px;border-radius:10px;
+  background:rgba(61,158,98,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;color:var(--sage3);flex-shrink:0;
+}
+.ccard h4{font-size:.875rem;font-weight:500;color:var(--white)}
+.ccard p{font-size:.75rem;color:rgba(250,250,247,.4)}
+.contact-big-text{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,7vw,7rem);font-weight:400;
+  line-height:.95;letter-spacing:-.04em;
+  color:rgba(250,250,247,.07);
+  user-select:none;
+}
+.contact-big-text em{font-style:italic;color:rgba(61,158,98,.2)}
+
+/* ─── FOOTER ─── */
+.footer{
+  border-top:1px solid rgba(250,250,247,.06);
+  padding:2rem 5vw;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+  background:var(--black);
+}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;color:rgba(250,250,247,.6)}
+.footer-logo .dot{color:var(--sage3)}
+.footer p{font-size:.75rem;color:rgba(250,250,247,.25)}
+.footer-top{
+  width:38px;height:38px;border-radius:9px;
+  background:rgba(250,250,247,.07);border:1px solid rgba(250,250,247,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(250,250,247,.5);transition:background .25s,color .25s;font-size:1.1rem;
+}
+.footer-top:hover{background:var(--sage);color:#fff;border-color:var(--sage)}
+
+/* ─── CHAT ─── */
+#chat-fab{
+  position:fixed;bottom:24px;right:24px;z-index:600;
+  width:50px;height:50px;border-radius:50%;
+  background:var(--sage);color:#fff;font-size:1.3rem;
+  display:flex;align-items:center;justify-content:center;
+  border:none;cursor:none;
+  box-shadow:0 4px 20px rgba(28,92,54,.5);
+  transition:background .25s,transform .2s;
+}
+#chat-fab:hover{background:var(--sage2);transform:scale(1.07)}
+#chat-win{
+  position:fixed;bottom:86px;right:24px;z-index:600;
+  width:340px;max-height:480px;
+  background:#111;border-radius:18px;
+  border:1px solid rgba(250,250,247,.1);
+  box-shadow:0 30px 60px rgba(0,0,0,.6);
+  overflow:hidden;display:none;flex-direction:column;
+}
+.ch-head{
+  background:rgba(250,250,247,.05);border-bottom:1px solid rgba(250,250,247,.07);
+  padding:.9rem 1.2rem;display:flex;justify-content:space-between;align-items:center;
+}
+.ch-head span{font-size:.875rem;font-weight:500}
+#ch-close{background:none;border:none;color:rgba(250,250,247,.5);font-size:1.2rem;cursor:none}
+.ch-msgs{height:290px;overflow-y:auto;padding:.85rem;background:var(--black);font-size:.875rem}
+.ch-msg{max-width:82%;padding:.6rem .85rem;border-radius:10px;margin-bottom:.5rem;line-height:1.45}
+.ch-msg.bot{background:rgba(250,250,247,.07);color:var(--white);border-bottom-left-radius:3px}
+.ch-msg.user{background:var(--sage);color:#fff;margin-left:auto;border-bottom-right-radius:3px}
+.ch-input-row{display:flex;gap:.5rem;padding:.7rem;border-top:1px solid rgba(250,250,247,.07)}
+#ch-field{
+  flex:1;background:rgba(250,250,247,.06);border:1px solid rgba(250,250,247,.1);
+  border-radius:999px;padding:.5rem .9rem;font-size:.875rem;font-family:inherit;
+  color:var(--white);outline:none;transition:border-color .2s;
+}
+#ch-field:focus{border-color:var(--sage3)}
+#ch-send{
+  background:var(--sage);color:#fff;border:none;border-radius:999px;
+  padding:.5rem 1rem;font-size:.875rem;font-weight:500;cursor:none;font-family:inherit;
+}
+#ch-send:disabled{opacity:.4;cursor:not-allowed}
+
+/* ─── MOBILE ─── */
+@media(max-width:1000px){
+  .hero-visual{width:44%}
+  .about-grid{grid-template-columns:1fr;gap:4rem}
+  .services-header{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .ritual-grid{grid-template-columns:1fr}
+  .ritual-left{padding:3rem}
+  .ritual-right{grid-template-rows:auto auto}
+  .ritual-cell{padding:2.5rem 3rem}
+  .faq-wrap{grid-template-columns:1fr;gap:3rem}
+  .contact-inner{grid-template-columns:1fr;gap:3rem}
+}
+@media(max-width:768px){
+  .hero{flex-direction:column;padding-top:90px;align-items:flex-start}
+  .hero-visual{position:relative;width:100%;height:320px;margin-top:2rem}
+  .hero-img-glow{max-width:260px}
+  .chip-2,.chip-3{display:none}
+  .chip-1{position:relative;margin-top:1.5rem;bottom:auto;left:auto}
+  .services-grid{grid-template-columns:1fr}
+  .about-img-stack{height:380px}
+  .about-img-main img,.about-img-accent img{height:auto}
+  .contact-cards{grid-template-columns:1fr}
+  .contact-big-text{display:none}
+  body{cursor:auto}#cursor,#cursor-ring{display:none}
+  #nav-menu-btn{display:flex}
+  .nav-links{
+    position:absolute;top:68px;left:0;width:100%;
+    flex-direction:column;gap:0;background:rgba(8,8,8,.96);
+    border-bottom:1px solid rgba(250,250,247,.06);
+    display:none;padding:.5rem 0;
+  }
+  .nav-links.open{display:flex}
+  .nav-links li{width:100%}
+  .nav-links a{display:block;padding:.85rem 5vw;font-size:.9375rem}
+  .nav-pill{margin:.4rem 5vw;display:inline-block}
+}
+@media(max-width:480px){
+  #chat-win{width:calc(100vw - 28px);right:14px;bottom:80px}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a href="#home" class="nav-logo">Nutra<span class="dot">.</span>lux</a>
+  <nav>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="catalog-en.html">Catalog</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="index-ru.html"><span class="fi fi-ru" style="margin-right:.3rem"></span>RU</a></li>
+      <li><a href="catalog-en.html" class="nav-pill">Shop now</a></li>
+    </ul>
+  </nav>
+  <button id="nav-menu-btn" aria-label="Menu"><i class="bx bx-menu"></i></button>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="hero-canvas"></canvas>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-inner">
+    <div class="hero-kicker">The science of feeling well</div>
+    <h1 class="hero-h1">
+      Nature's<br>best, <em>refined</em><br>by science.
+    </h1>
+    <p class="hero-sub">Premium supplements with fully transparent ingredient lists and clinically informed dosages — built for people who take their health seriously.</p>
+    <div class="hero-ctas">
+      <a href="catalog-en.html" class="btn-hero">
+        Explore all products <i class="bx bx-right-arrow-alt"></i>
+      </a>
+      <a href="#about" class="btn-hero-outline">Our philosophy</a>
+    </div>
+    <div class="hero-socials">
+      <span class="hero-socials-label">Follow</span>
+      <a href="https://wa.me/905332452900" class="soc" target="_blank" aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a>
+      <a href="https://www.tiktok.com/@nutraluxlife" class="soc" target="_blank" aria-label="TikTok"><i class="bx bxl-tiktok"></i></a>
+      <a href="https://t.me/nutralux" class="soc" target="_blank" aria-label="Telegram"><i class="bx bxl-telegram"></i></a>
+      <a href="https://clck.ru/3NQNkm" class="soc" target="_blank" aria-label="Instagram"><i class="bx bxl-instagram"></i></a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-img-glow">
+      <img src="images/avatar.png" alt="Nutralux — person holding a supplement bottle"/>
+    </div>
+    <div class="chip chip-1">
+      <div class="chip-icon"><i class="bx bx-shield-quarter"></i></div>
+      <div>
+        <div>Verified quality</div>
+        <div class="chip-lbl">Every batch tested</div>
       </div>
-
-      <div class="home-img">
-        <img src="images/avatar.png" alt="Woman holding a Nutralux vitamin bottle with a green label" />
+    </div>
+    <div class="chip chip-2">
+      <div class="chip-icon"><i class="bx bx-leaf"></i></div>
+      <div>
+        <div>100% Transparent</div>
+        <div class="chip-lbl">Full ingredient lists</div>
       </div>
-    </section>
-
-    <!-------------- ABOUT -------------->
-
-    <section class="about" id="about">
-      <div class="about-img">
-        <img src="images/about-image.png" alt="Set of various Nutralux vitamin bottles on a white background" />
+    </div>
+    <div class="chip chip-3">
+      <div class="chip-icon"><i class="bx bx-package"></i></div>
+      <div>
+        <div>Same-day shipping</div>
+        <div class="chip-lbl">With live tracking</div>
       </div>
+    </div>
+  </div>
 
-      <div class="about-content">
-        <h2 class="heading">About <span>Nutralux</span></h2>
-        <h3>Daily support with quality supplements</h3>
-        <p>
-          We carefully select trusted supplements with transparent ingredients and proper dosages.
-          We help you choose the right complexes for your goals — immunity, energy, sleep, beauty, and more.
-        </p>
-        <p>Focus: Vitamin C, Magnesium, Zinc, Women’s Multivitamins, Probiotics, and basic health complexes.</p>
+  <div class="scroll-ind">
+    Scroll
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee-track">
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Omega-3 1000 mg</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Women's Multivitamin</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Magnesium B6</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Vitamin C Effervescent</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Probiotic 11 strains</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Collagen Complex</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Vitamin D3 10,000 IU</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Anti-Stress</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Spirulina 1000 mg</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Ginkgo Biloba 500 mg</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Zinc Complex</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>B-Complex</div>
+    <!-- Duplicate for infinite loop -->
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Omega-3 1000 mg</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Women's Multivitamin</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Magnesium B6</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Vitamin C Effervescent</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Probiotic 11 strains</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Collagen Complex</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Vitamin D3 10,000 IU</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Anti-Stress</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Spirulina 1000 mg</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Ginkgo Biloba 500 mg</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>Zinc Complex</div>
+    <div class="marquee-item"><i class="bx bx-capsule"></i>B-Complex</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section section-light" id="about">
+  <div class="about-grid">
+    <div class="about-img-stack" data-reveal>
+      <div class="about-img-main">
+        <img src="images/about-image.png" alt="Nutralux supplement collection"/>
       </div>
-    </section>
-
-    <!-------------- SERVICES -------------->
-
-    <section class="services" id="services">
-      <h2 class="heading">Our <span>Services</span></h2>
-
-      <div class="services-container">
-        <div class="services-box">
-          <i class="bx bx-support"></i>
-          <h3>Vitamin Consultation</h3>
-          <ul>
-            <li>We’ll help you choose the right formula and dosage</li>
-            <li>Basic recommendations for taking supplements</li>
-          </ul>
-        </div>
-
-        <div class="services-box">
-          <i class="bx bx-package"></i>
-          <h3>Fast Delivery</h3>
-          <ul>
-            <li>Orders shipped the same day</li>
-            <li>Tracking available for every order</li>
-          </ul>
-        </div>
-
-        <div class="services-box">
-          <i class="bx bx-check-shield"></i>
-          <h3>Quality & Transparency</h3>
-          <ul>
-            <li>Only verified suppliers</li>
-            <li>Clear labels and ingredient lists</li>
-          </ul>
-        </div>
+      <div class="about-img-accent">
+        <img src="images/omega-3.jpg" alt="Omega-3 capsules close-up"/>
       </div>
-    </section>
-
-    <!-------------- FEATURED PRODUCTS -------------->
-
-    <section class="portfolio" id="portfolio">
-      <h2 class="heading">Popular <span>Nutralux Products</span></h2>
-    
-      <div class="portfolio-container">
-        <div class="portfolio-box">
-          <div class="portfolio-img">
-            <img src="images/omega-3.jpg" alt="Nutralux Omega-3 1000 mg bottle" />
+      <div class="about-stat-badge">
+        <strong class="num">22+</strong>
+        <div class="lbl">Formulas in catalog</div>
+      </div>
+    </div>
+    <div class="about-text" data-reveal>
+      <div class="eyebrow">Our philosophy</div>
+      <h2 class="s-title">We believe wellness starts with <em>honesty.</em></h2>
+      <p class="s-sub">Most supplement brands hide behind proprietary blends and vague claims. We do the opposite — every product shows exact milligrams of every active compound. No filler, no fluff.</p>
+      <div class="about-pills">
+        <div class="pill">Vitamin C &amp; Immunity</div>
+        <div class="pill">Magnesium &amp; Sleep</div>
+        <div class="pill">Collagen &amp; Skin</div>
+        <div class="pill">Probiotics &amp; Gut</div>
+        <div class="pill">Kids Formulas</div>
+        <div class="pill">Herbal Extracts</div>
+      </div>
+      <div class="about-features">
+        <div class="about-feat">
+          <span class="feat-num">01</span>
+          <div class="feat-text">
+            <h4>Goal-driven selection</h4>
+            <p>We match you to the right formula — whether it's immunity, energy, sleep, or beauty.</p>
           </div>
-          <div class="portfolio-content">
-            <h4>Omega-3 1000 mg</h4>
-            <p>Supports brain, heart, and vision health</p>
-            <a href="product.html?slug=omega-3-1000" class="btn">Learn More</a>
+        </div>
+        <div class="about-feat">
+          <span class="feat-num">02</span>
+          <div class="feat-text">
+            <h4>Fully transparent labels</h4>
+            <p>Exact dosages of every ingredient on every product. Always.</p>
           </div>
         </div>
-    
-        <div class="portfolio-box">
-          <div class="portfolio-img">
-            <img src="images/womens-multivitamin.jpg" alt="Nutralux Women's Multivitamin bottle" />
+        <div class="about-feat">
+          <span class="feat-num">03</span>
+          <div class="feat-text">
+            <h4>Human-first support</h4>
+            <p>Real consultation from people who understand supplements — not bots.</p>
           </div>
-          <div class="portfolio-content">
-            <h4>Women’s Multivitamin</h4>
-            <p>Daily balance and vitality support</p>
-            <a href="product.html?slug=womens-multivitamin" class="btn">Learn More</a>
-          </div>
-        </div>
-      </div>
-    
-      <div style="text-align:center; margin-top: 1.5rem;">
-        <a href="catalog.html" class="btn">View Full Catalog</a>
-      </div>
-    </section>
-
-    <!-------------- FAQ -------------->
-
-    <section class="faq" id="faq">
-      <h2 class="heading">Frequently Asked <span>Questions</span></h2>
-    
-      <div class="faq-container">
-        <div class="faq-item">
-          <h3>How fast is delivery?</h3>
-          <p>Usually, delivery takes 1–2 business days. We ship orders on the same day they’re placed.</p>
-        </div>
-    
-        <div class="faq-item">
-          <h3>Can children take your vitamins?</h3>
-          <p>Yes, we offer special formulas for kids. Please check the “For Kids” section in our catalog.</p>
-        </div>
-    
-        <div class="faq-item">
-          <h3>Do you offer discounts for bulk orders?</h3>
-          <p>Yes, when ordering 3 or more items, you get a discount and free shipping.</p>
-        </div>
-    
-        <div class="faq-item">
-          <h3>What payment methods are available?</h3>
-          <p>We accept credit cards, e-wallets, and cash on delivery.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-------------- FOOTER -------------->
-
-    <footer class="footer">
-      <div class="footer-text">
-        <p>© 2025 Nutralux</p>
-      </div>
-
-      <div class="footer-icon-top">
-        <a href="#home"><i class="bx bx-up-arrow-alt"></i></a>
-      </div>
-    </footer>
-
-    <!-------------- SCROLL REVEAL --------------> 
-    <script src="https://unpkg.com/scrollreveal"></script>
-
-    <!-------------- TYPED JS --------------> 
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-
-    <!-------------- CUSTOM JS --------------> 
-    <script src="script.js"></script>
-    <script>
-      if (typeof Typed !== 'undefined' && document.querySelector('.multiple-text')) {
-        new Typed('.multiple-text', {
-          strings: ['vitamins and supplements', 'everyday health'],
-          typeSpeed: 100,
-          backSpeed: 100,
-          backDelay: 1000,
-          loop: true
-        });
-      }
-    </script>
-    <div id="support-chat-widget">
-      <div id="support-chat-button">💬</div>
-    
-      <div id="support-chat-window">
-        <div class="sc-header">
-          Nutralux Support
-          <span id="sc-close">&times;</span>
-        </div>
-        <div class="sc-messages" id="sc-messages"></div>
-        <div class="sc-input">
-          <input
-            type="text"
-            id="sc-input-field"
-            placeholder="Ask anything about Nutralux..."
-          />
-          <button id="sc-send-btn">Send</button>
         </div>
       </div>
     </div>
-    
-    <script src="chat-widget.js"></script>
-  </body>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section section-mid" id="services">
+  <div class="services-header">
+    <div>
+      <div class="eyebrow">What we offer</div>
+      <h2 class="s-title">End-to-end care,<br>from selection to <em>delivery.</em></h2>
+    </div>
+    <p class="s-sub">From choosing your first supplement to tracking your order at the door — we handle every step with care.</p>
+  </div>
+  <div class="services-grid">
+    <div class="svc" data-reveal>
+      <div class="svc-icon"><i class="bx bx-support"></i></div>
+      <h3>Personal Consultation</h3>
+      <ul>
+        <li>We help find the right formula and dosage for your specific health goals</li>
+        <li>Safe combination advice for complex supplement stacks</li>
+      </ul>
+    </div>
+    <div class="svc" data-reveal>
+      <div class="svc-icon"><i class="bx bx-package"></i></div>
+      <h3>Fast Tracked Delivery</h3>
+      <ul>
+        <li>Orders placed before 3 PM ship the same day, nationwide</li>
+        <li>Live tracking link sent immediately after dispatch</li>
+      </ul>
+    </div>
+    <div class="svc" data-reveal>
+      <div class="svc-icon"><i class="bx bx-check-shield"></i></div>
+      <h3>Quality Assurance</h3>
+      <ul>
+        <li>Only verified suppliers with full sourcing documentation</li>
+        <li>Clear labels, exact ingredient amounts — no proprietary blends</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section" id="products">
+  <div class="products-head">
+    <div>
+      <div class="eyebrow">Featured products</div>
+      <h2 class="s-title">Bestsellers this <em>season.</em></h2>
+    </div>
+    <a href="catalog-en.html" class="btn-hero-outline" style="font-size:.875rem;padding:.7rem 1.6rem">Full catalog →</a>
+  </div>
+
+  <div class="products-scroll" id="pscroll">
+    <div class="pcard">
+      <div class="pcard-img"><img src="images/omega-3.jpg" alt="Omega-3"/></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">Fatty Acids</div>
+        <h3>Omega-3 1000 mg</h3>
+        <p>EPA 180 mg + DHA 120 mg. Supports brain, heart, vision &amp; immunity.</p>
+        <a href="product-en.html?slug=omega-3-1000" class="btn-card">Details <i class="bx bx-right-arrow-alt"></i></a>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img"><img src="images/womens-multivitamin.jpg" alt="Women's Multivitamin"/></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">Complexes</div>
+        <h3>Women's Multivitamin</h3>
+        <p>30 active compounds in one capsule. Up to 98% bioavailability.</p>
+        <a href="product-en.html?slug=womens-multivitamin" class="btn-card">Details <i class="bx bx-right-arrow-alt"></i></a>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img"><img src="images/magnesium-b6.jpg" alt="Magnesium B6"/></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">Minerals</div>
+        <h3>Magnesium B6</h3>
+        <p>Taurate + malate form. Reduces cramps, supports sleep and calm.</p>
+        <a href="product-en.html?slug=magnesium-b6" class="btn-card">Details <i class="bx bx-right-arrow-alt"></i></a>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img"><img src="images/collagen-30-sachets.jpg" alt="Collagen"/></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">Collagen</div>
+        <h3>Collagen — 30 Sachets</h3>
+        <p>Types I, II &amp; III + Vit C, HA, CoQ10, Zinc, Biotin. Skin, joints, nails.</p>
+        <a href="product-en.html?slug=collagen-30-sachets" class="btn-card">Details <i class="bx bx-right-arrow-alt"></i></a>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img"><img src="images/vitamin-c-eff.jpg" alt="Vitamin C"/></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">Vitamins</div>
+        <h3>Vitamin C 1000 mg</h3>
+        <p>1250% DV per effervescent tablet. Immune defence + collagen synthesis.</p>
+        <a href="product-en.html?slug=vitamin-c-effervescent-1000" class="btn-card">Details <i class="bx bx-right-arrow-alt"></i></a>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img"><img src="images/probiotic.jpg" alt="Probiotic"/></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">Probiotics</div>
+        <h3>Probiotic 11 Strains</h3>
+        <p>Multi-strain formula. Supports gut microbiome and immune resilience.</p>
+        <a href="product-en.html?slug=probiotic-30b" class="btn-card">Details <i class="bx bx-right-arrow-alt"></i></a>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img"><img src="images/anti-stress.jpg" alt="Anti-Stress"/></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">Herbal Extracts</div>
+        <h3>Anti-Stress</h3>
+        <p>St. John's wort 300 mg + Passionflower + Valerian. Calm &amp; restful sleep.</p>
+        <a href="product-en.html?slug=anti-stress" class="btn-card">Details <i class="bx bx-right-arrow-alt"></i></a>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img"><img src="images/vitamin-d3-10000.jpg" alt="Vitamin D3"/></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">Vitamins</div>
+        <h3>Vitamin D3 10,000 IU</h3>
+        <p>High-potency liquid D3. Immunity, calcium metabolism &amp; vascular health.</p>
+        <a href="product-en.html?slug=vitamin-d3-10000" class="btn-card">Details <i class="bx bx-right-arrow-alt"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-nav">
+    <button class="scroll-btn" id="prev"><i class="bx bx-chevron-left"></i></button>
+    <button class="scroll-btn" id="next"><i class="bx bx-chevron-right"></i></button>
+  </div>
+</section>
+
+<!-- RITUAL / PHILOSOPHY GRID -->
+<section class="section section-mid">
+  <div style="text-align:center;margin-bottom:4rem">
+    <div class="eyebrow" style="justify-content:center">Why Nutralux</div>
+    <h2 class="s-title" style="text-align:center">Four principles we<br>never <em>compromise on.</em></h2>
+  </div>
+  <div class="ritual-grid">
+    <div class="ritual-left">
+      <div class="eyebrow">Our standards</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:400;line-height:1.2;margin-bottom:1.2rem">
+        The <em style="font-style:italic;color:var(--sage3)">details</em><br>nobody else shows you.
+      </h3>
+      <p style="font-size:.875rem;color:rgba(250,250,247,.45);line-height:1.7;margin-bottom:2rem">
+        We publish exact milligram amounts, strain counts, and sourcing notes for every product. Not because we have to — because we believe you deserve to know.
+      </p>
+      <a href="catalog-en.html" class="btn-hero" style="align-self:flex-start">See all products</a>
+    </div>
+    <div class="ritual-right">
+      <div class="ritual-cell">
+        <div class="big-num">01</div>
+        <div class="rc-icon"><i class="bx bx-test-tube"></i></div>
+        <h3>Clinically informed dosages</h3>
+        <p>Every formula is built around research-backed amounts — not the minimum needed to list an ingredient on the label.</p>
+      </div>
+      <div class="ritual-cell">
+        <div class="big-num">02</div>
+        <div class="rc-icon"><i class="bx bx-search-alt"></i></div>
+        <h3>Verified supplier chain</h3>
+        <p>We work only with suppliers who provide full documentation and traceability from source to capsule.</p>
+      </div>
+    </div>
+  </div>
+  <div class="ritual-grid" style="margin-top:1.5rem;border-color:rgba(250,250,247,.07)">
+    <div class="ritual-right" style="border-right:1px solid rgba(250,250,247,.07)">
+      <div class="ritual-cell">
+        <div class="big-num">03</div>
+        <div class="rc-icon"><i class="bx bx-group"></i></div>
+        <h3>Formulas for every stage</h3>
+        <p>From children's iron liquid to high-potency men's complexes — we cover every life stage with purpose-built formulas.</p>
+      </div>
+      <div class="ritual-cell">
+        <div class="big-num">04</div>
+        <div class="rc-icon"><i class="bx bx-conversation"></i></div>
+        <h3>Real human consultation</h3>
+        <p>Before you buy anything, message us. We'll help you find what actually fits your goals — even if it means recommending less.</p>
+      </div>
+    </div>
+    <div class="ritual-left" style="border-right:none;border-left:none;background:rgba(61,158,98,.06)">
+      <div class="eyebrow">Get personalised advice</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:400;line-height:1.25;margin-bottom:1rem">
+        Not sure where to start?<br><em style="font-style:italic;color:var(--sage3)">We'll guide you.</em>
+      </h3>
+      <p style="font-size:.875rem;color:rgba(250,250,247,.45);line-height:1.7;margin-bottom:1.8rem">
+        Chat with us on WhatsApp or Telegram. We typically respond within the hour.
+      </p>
+      <div style="display:flex;gap:.7rem;flex-wrap:wrap">
+        <a href="https://wa.me/905332452900" class="btn-hero" target="_blank" style="font-size:.875rem;padding:.7rem 1.5rem">
+          <i class="bx bxl-whatsapp"></i> WhatsApp
+        </a>
+        <a href="https://t.me/nutralux" class="btn-hero-outline" target="_blank" style="font-size:.875rem;padding:.7rem 1.5rem">
+          <i class="bx bxl-telegram"></i> Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="faq-wrap">
+    <div>
+      <div class="eyebrow">Common questions</div>
+      <h2 class="s-title">Everything you<br>need to <em>know.</em></h2>
+      <p class="s-sub" style="margin-top:.8rem">Still have a question? We're one message away.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-row">
+        <button class="faq-q" aria-expanded="false">How fast is delivery? <span class="fq-icon"><i class="bx bx-plus"></i></span></button>
+        <div class="faq-a">Orders placed before 3 PM ship the same day. You'll receive a tracking link the moment your order leaves our warehouse. Standard delivery is 1–2 business days nationwide.</div>
+      </div>
+      <div class="faq-row">
+        <button class="faq-q" aria-expanded="false">Can children take your supplements? <span class="fq-icon"><i class="bx bx-plus"></i></span></button>
+        <div class="faq-a">Yes — we have dedicated formulas for children (like Iron Kids liquid). All kids' products carry clear age guidance and safe dosages. Check the "For Kids" category in our catalog.</div>
+      </div>
+      <div class="faq-row">
+        <button class="faq-q" aria-expanded="false">Do you offer bulk or multi-item discounts? <span class="fq-icon"><i class="bx bx-plus"></i></span></button>
+        <div class="faq-a">Ordering 3 or more items unlocks a discount plus free shipping. For larger bulk orders, message us directly on WhatsApp for a custom quote.</div>
+      </div>
+      <div class="faq-row">
+        <button class="faq-q" aria-expanded="false">What payment methods are accepted? <span class="fq-icon"><i class="bx bx-plus"></i></span></button>
+        <div class="faq-a">We accept major credit and debit cards, popular e-wallets, and cash on delivery. All online transactions are secured with SSL encryption.</div>
+      </div>
+      <div class="faq-row">
+        <button class="faq-q" aria-expanded="false">Can I combine different supplements safely? <span class="fq-icon"><i class="bx bx-plus"></i></span></button>
+        <div class="faq-a">Many supplements stack well together. We offer free combination guidance — just message us before ordering and we'll advise based on your health goals and current routine.</div>
+      </div>
+      <div class="faq-row">
+        <button class="faq-q" aria-expanded="false">Are all ingredients listed on every product? <span class="fq-icon"><i class="bx bx-plus"></i></span></button>
+        <div class="faq-a">Absolutely — and with exact milligram amounts. No proprietary blends, no hidden formulas. Every product page shows the full ingredient list with dosage per serving.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact" style="background:#060606">
+  <div class="contact-inner">
+    <div>
+      <div class="eyebrow">Get in touch</div>
+      <h2 class="s-title">Ready to start<br>your <em>wellness ritual?</em></h2>
+      <p class="s-sub" style="margin-top:.8rem">We're available on WhatsApp, Telegram, TikTok, and Instagram. We aim to respond within the hour.</p>
+      <div class="contact-cards">
+        <a href="https://wa.me/905332452900" class="ccard" target="_blank">
+          <div class="ccard-icon"><i class="bx bxl-whatsapp"></i></div>
+          <div><h4>WhatsApp</h4><p>+90 533 245 2900</p></div>
+        </a>
+        <a href="https://t.me/nutralux" class="ccard" target="_blank">
+          <div class="ccard-icon"><i class="bx bxl-telegram"></i></div>
+          <div><h4>Telegram</h4><p>@nutralux</p></div>
+        </a>
+        <a href="https://www.tiktok.com/@nutraluxlife" class="ccard" target="_blank">
+          <div class="ccard-icon"><i class="bx bxl-tiktok"></i></div>
+          <div><h4>TikTok</h4><p>@nutraluxlife</p></div>
+        </a>
+        <a href="https://clck.ru/3NQNkm" class="ccard" target="_blank">
+          <div class="ccard-icon"><i class="bx bxl-instagram"></i></div>
+          <div><h4>Instagram</h4><p>Daily wellness tips</p></div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="contact-big-text">Feel<br><em>well</em><br>daily.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-logo">Nutra<span class="dot">.</span>lux</span>
+  <p>© 2025 Nutralux. All rights reserved.</p>
+  <a href="#home" class="footer-top" aria-label="Back to top"><i class="bx bx-up-arrow-alt"></i></a>
+</footer>
+
+<!-- CHAT -->
+<button id="chat-fab" aria-label="Support chat">💬</button>
+<div id="chat-win">
+  <div class="ch-head">
+    <span>Nutralux Support</span>
+    <button id="ch-close">×</button>
+  </div>
+  <div class="ch-msgs" id="ch-msgs"></div>
+  <div class="ch-input-row">
+    <input type="text" id="ch-field" placeholder="Ask about supplements…"/>
+    <button id="ch-send">Send</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/scrollreveal"></script>
+<script src="chat-widget.js"></script>
+<script>
+/* ── CURSOR ── */
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+document.querySelectorAll('a,button,.svc,.pcard,.ccard').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(3)';ring.style.opacity='0'});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';ring.style.opacity='1'});
+});
+
+/* ── HERO CANVAS PARTICLES ── */
+const canvas=document.getElementById('hero-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight}
+resize();window.addEventListener('resize',resize);
+for(let i=0;i<80;i++)particles.push({
+  x:Math.random()*2000,y:Math.random()*1000,
+  vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,
+  r:Math.random()*2+.5,
+  a:Math.random()
+});
+function drawParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(61,158,98,${p.a*.6})`;ctx.fill();
+  });
+  particles.forEach((p,i)=>{
+    for(let j=i+1;j<particles.length;j++){
+      const d=Math.hypot(p.x-particles[j].x,p.y-particles[j].y);
+      if(d<120){
+        ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(61,158,98,${.12*(1-d/120)})`;ctx.lineWidth=.6;ctx.stroke();
+      }
+    }
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ── NAV SCROLL ── */
+const navEl=document.getElementById('nav');
+window.addEventListener('scroll',()=>navEl.classList.toggle('scrolled',scrollY>60));
+
+/* ── MOBILE NAV ── */
+const menuBtn=document.getElementById('nav-menu-btn');
+const navLinks=document.getElementById('nav-links');
+menuBtn.addEventListener('click',()=>{
+  navLinks.classList.toggle('open');
+  menuBtn.querySelector('i').className=navLinks.classList.contains('open')?'bx bx-x':'bx bx-menu';
+});
+window.addEventListener('scroll',()=>{navLinks.classList.remove('open');menuBtn.querySelector('i').className='bx bx-menu'});
+
+/* ── PRODUCT SCROLL ── */
+const pscroll=document.getElementById('pscroll');
+document.getElementById('prev').addEventListener('click',()=>pscroll.scrollBy({left:-300,behavior:'smooth'}));
+document.getElementById('next').addEventListener('click',()=>pscroll.scrollBy({left:300,behavior:'smooth'}));
+
+/* ── FAQ ── */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const row=btn.closest('.faq-row');
+    const ans=row.querySelector('.faq-a');
+    const open=ans.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(a=>a.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(b=>{b.classList.remove('open');b.setAttribute('aria-expanded','false')});
+    if(!open){ans.classList.add('open');btn.classList.add('open');btn.setAttribute('aria-expanded','true')}
+  });
+});
+
+/* ── SCROLL REVEAL ── */
+if(typeof ScrollReveal!=='undefined'){
+  const sr=ScrollReveal({distance:'30px',duration:800,delay:100,reset:false,easing:'cubic-bezier(.25,.46,.45,.94)'});
+  sr.reveal('.about-img-stack',{origin:'left',delay:100});
+  sr.reveal('.about-text',{origin:'right',delay:200});
+  sr.reveal('.svc',{origin:'bottom',interval:120});
+  sr.reveal('.pcard',{origin:'bottom',interval:80});
+  sr.reveal('.ritual-cell',{origin:'bottom',interval:120});
+  sr.reveal('.faq-row',{origin:'bottom',interval:70});
+  sr.reveal('.ccard',{origin:'bottom',interval:100});
+}
+
+/* ── CHAT ── */
+const fab=document.getElementById('chat-fab');
+const win=document.getElementById('chat-win');
+const close=document.getElementById('ch-close');
+fab.addEventListener('click',()=>win.style.display=win.style.display==='flex'?'none':'flex');
+close.addEventListener('click',()=>win.style.display='none');
+</script>
+</body>
 </html>
