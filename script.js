@@ -1,98 +1,108 @@
-/*==================== toggle icon navbar ====================*/
+/* ==========================================================================
+   NUTRALUX — core UI script
+   Загружается на всех страницах. Каждый блок изолирован и проверяет наличие
+   своих узлов, поэтому отсутствующий элемент больше не обрывает весь файл.
+   ========================================================================== */
 
-let menuIcon = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
+/* ==================== мобильное меню ==================== */
+(() => {
+  const menuIcon = document.querySelector('#menu-icon');
+  const navbar = document.querySelector('.navbar');
+  if (!menuIcon || !navbar) return;
 
-menuIcon.onclick = () => {
-    menuIcon.classList.toggle('bx-x');
-    navbar.classList.toggle('active');
-}
-
-/*==================== scroll sections active link ====================*/
-
-window.onscroll = () => {
+  const closeMenu = () => {
     menuIcon.classList.remove('bx-x');
     navbar.classList.remove('active');
-}
+    menuIcon.setAttribute('aria-expanded', 'false');
+  };
 
-/*==================== scroll reveal ====================*/
+  menuIcon.setAttribute('role', 'button');
+  menuIcon.setAttribute('tabindex', '0');
+  menuIcon.setAttribute('aria-expanded', 'false');
 
-ScrollReveal({
-    reset: true,
-    distance: '80px',
-    duration: 2000,
-    delay: 200
-})
+  menuIcon.addEventListener('click', () => {
+    const isOpen = navbar.classList.toggle('active');
+    menuIcon.classList.toggle('bx-x', isOpen);
+    menuIcon.setAttribute('aria-expanded', String(isOpen));
+  });
 
-ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
-ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
-ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
-ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
-
-/*==================== typed js ====================*/
-
-const typed = new Typed('.', {
-    strings: ['', '', ''],
-    typeSpeed: 100,
-    backSpeed: 100,
-    backDelay: 1000,
-    loop: true
-})
-
-/*==================== email validation ====================*/
-
-const EMAIL_REGEXP = /^[a-zA-Z0–9+_.-]+@[a-zA-Z0–9.-]+$/;
-
-let emailInput = document.getElementById('email');
-
-emailInput.addEventListener('input', validateEmail);
-
-function validateEmail() {
-    if (!EMAIL_REGEXP.test(this.value)) {
-        this.setCustomValidity('Проверьте правильность введённого email');
-    } else {
-        this.setCustomValidity('');
+  menuIcon.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      menuIcon.click();
     }
-    this.reportValidity();
-}
+  });
 
-/*==================== phone number validation ====================*/
+  navbar.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+  window.addEventListener('scroll', closeMenu, { passive: true });
+})();
 
-const PHONE_REGEXP = /^[\d\+][\d\(\)\ -]{10,14}\d$/;
+/* ==================== состояние шапки при скролле ==================== */
+(() => {
+  const header = document.querySelector('.header');
+  if (!header) return;
 
-let phoneInput = document.getElementById('phone');
+  const sync = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+  sync();
+  window.addEventListener('scroll', sync, { passive: true });
+})();
 
-phoneInput.addEventListener('input', validatePhone);
+/* ==================== появление блоков при скролле ====================
+   Заменяет ScrollReveal: ~20 строк вместо ~15 KB библиотеки.           */
+(() => {
+  const items = document.querySelectorAll('[data-reveal]');
+  if (!items.length) return;
 
-function validatePhone() {
-    if (!PHONE_REGEXP.test(this.value)) {
-        this.setCustomValidity('Проверьте правильность введённого номера телефона');
-    } else {
-        this.setCustomValidity('');
-    }
-    this.reportValidity();
-}
-
-// Добавьте в конец script.js
-function adjustImages() {
-    document.querySelectorAll('.product-image-container img').forEach(img => {
-      const naturalRatio = img.naturalWidth / img.naturalHeight;
-      
-      if (naturalRatio > 1) {
-        // Широкие изображения
-        img.style.maxWidth = '95%';
-        img.style.maxHeight = 'none';
-      } else {
-        // Высокие изображения
-        img.style.maxHeight = '95%';
-        img.style.maxWidth = 'none';
-      }
-    });
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !('IntersectionObserver' in window)) {
+    items.forEach((el) => el.classList.add('is-in'));
+    return;
   }
-  
-  // Запускаем при загрузке и изменении размера
-  window.addEventListener('load', adjustImages);
-  window.addEventListener('resize', adjustImages);
-  
-  // Также вызываем после загрузки товаров
-  loadProducts().then(adjustImages);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-in');
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -4% 0px', threshold: 0.1 });
+
+  items.forEach((el) => observer.observe(el));
+})();
+
+/* ==================== валидация контактной формы ==================== */
+(() => {
+  const EMAIL_REGEXP = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const PHONE_REGEXP = /^[\d+][\d()\s-]{8,16}\d$/;
+
+  const bind = (input, regexp, message) => {
+    if (!input) return;
+    input.addEventListener('input', function () {
+      this.setCustomValidity(regexp.test(this.value) ? '' : message);
+    });
+  };
+
+  bind(document.getElementById('email'), EMAIL_REGEXP, 'Проверьте правильность введённого email');
+  bind(document.getElementById('phone'), PHONE_REGEXP, 'Проверьте правильность введённого номера телефона');
+})();
+
+/* ==================== подгонка изображений товара ====================
+   Нужна только страницам с .product-image-container (каталог/товар).   */
+(() => {
+  const images = document.querySelectorAll('.product-image-container img');
+  if (!images.length) return;
+
+  const adjust = () => {
+    images.forEach((img) => {
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const isWide = img.naturalWidth / img.naturalHeight > 1;
+      img.style.maxWidth = isWide ? '95%' : 'none';
+      img.style.maxHeight = isWide ? 'none' : '95%';
+    });
+  };
+
+  adjust();
+  window.addEventListener('load', adjust);
+  window.addEventListener('resize', adjust, { passive: true });
+})();
