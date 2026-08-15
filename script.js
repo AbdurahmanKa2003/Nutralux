@@ -71,6 +71,44 @@
   items.forEach((el) => observer.observe(el));
 })();
 
+/* ==================== счётчики чисел ==================== */
+(() => {
+  const numbers = document.querySelectorAll('[data-count]');
+  if (!numbers.length) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !('IntersectionObserver' in window)) return;
+
+  const run = (el) => {
+    const target = Number(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    if (!Number.isFinite(target)) return;
+
+    const duration = 1100;
+    const start = performance.now();
+
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    };
+
+    el.textContent = '0' + suffix;
+    requestAnimationFrame(tick);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      run(entry.target);
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.6 });
+
+  numbers.forEach((el) => observer.observe(el));
+})();
+
 /* ==================== валидация контактной формы ==================== */
 (() => {
   const EMAIL_REGEXP = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

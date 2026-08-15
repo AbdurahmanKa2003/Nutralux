@@ -19,7 +19,9 @@
   --brand-100: #d9ebdf;
   --brand-500: #2ca84a;   /* logo green */
   --brand-600: #1f8b4c;
+  --brand-300: #7fd39a;
   --brand-700: #14603a;
+  --forest: #0f2118;
 
   /* Warm neutrals — тёплая база вместо стерильно-белой */
   --ink: #14201b;
@@ -493,8 +495,35 @@ section { padding: var(--section-y) 0; }
   letter-spacing: .02em;
 }
 
-/* ====== SERVICES / PRINCIPLES ====== */
-.services { background: var(--surface-2); }
+/* ====== SERVICES / PRINCIPLES — тёмный блок ======
+   Единственная тёмная секция на странице: даёт контрастную паузу
+   в ритме и читается дороже сплошного светлого полотна. */
+.services {
+  position: relative;
+  background: var(--forest);
+  color: #fff;
+  overflow: hidden;
+}
+
+.services::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: min(60vw, 760px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 50% 50%,
+              rgba(44, 168, 74, .28) 0%,
+              rgba(44, 168, 74, .10) 45%,
+              transparent 70%);
+  pointer-events: none;
+}
+
+.services .shell { position: relative; }
+.services .heading { color: #fff; }
+.services .heading em { color: var(--brand-300); }
+.services .eyebrow { color: rgba(255, 255, 255, .55); }
+.services .section-head p { color: rgba(255, 255, 255, .70); }
 
 .services .shell { display: block; }
 
@@ -502,8 +531,8 @@ section { padding: var(--section-y) 0; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .14);
   border-radius: clamp(18px, 2vw, 26px);
   overflow: hidden;
 }
@@ -514,15 +543,15 @@ section { padding: var(--section-y) 0; }
   flex-direction: column;
   gap: 1rem;
   padding: clamp(30px, 3.4vw, 48px);
-  background: var(--paper);
+  background: rgba(255, 255, 255, .055);
   transition: background .4s var(--ease-out);
 }
 
-.services-box:hover { background: var(--surface); }
+.services-box:hover { background: rgba(255, 255, 255, .10); }
 
 .services-box i {
   font-size: 30px;
-  color: var(--brand-600);
+  color: var(--brand-300);
 }
 
 .services-box h3 {
@@ -531,6 +560,7 @@ section { padding: var(--section-y) 0; }
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -.01em;
+  color: #fff;
 }
 
 .services-box ul { list-style: none; display: grid; gap: .7rem; }
@@ -539,7 +569,7 @@ section { padding: var(--section-y) 0; }
   position: relative;
   padding-left: 1.4em;
   font-size: var(--step--1);
-  color: var(--ink-65);
+  color: rgba(255, 255, 255, .74);
   line-height: 1.55;
 }
 
@@ -551,7 +581,52 @@ section { padding: var(--section-y) 0; }
   width: 5px;
   height: 5px;
   border-radius: 50%;
+  background: var(--brand-300);
+}
+
+/* ====== TICKER — бегущая лента ценностей ====== */
+.ticker {
+  overflow: hidden;
+  padding: clamp(18px, 2vw, 26px) 0;
+  border-block: 1px solid var(--line-soft);
+  background: var(--paper);
+  user-select: none;
+}
+
+.ticker-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: clamp(28px, 4vw, 60px);
+  animation: ticker-scroll 46s linear infinite;
+}
+
+.ticker:hover .ticker-track { animation-play-state: paused; }
+
+.ticker span {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(28px, 4vw, 60px);
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.2vw, 34px);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.ticker span::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   background: var(--brand-500);
+  flex: 0 0 auto;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 
 /* ====== FOOTER ====== */
@@ -852,6 +927,8 @@ html.-string .heading.is-revealed .-s-word {
   }
 
   .btn[string~="magnetic"] { transform: none !important; }
+
+  .ticker-track { animation: none !important; }
 }
 
 /* ====== BREAKPOINTS ====== */

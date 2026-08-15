@@ -187,11 +187,30 @@
         </div>
       </section>
 
+
+      <!-------------- TICKER -------------->
+
+      <section class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>Прозрачные составы</span>
+          <span>Проверенные поставщики</span>
+          <span>Честные дозировки</span>
+          <span>Отправка в день заказа</span>
+          <span>Без «фирменных смесей»</span>
+          <span>Прозрачные составы</span>
+          <span>Проверенные поставщики</span>
+          <span>Честные дозировки</span>
+          <span>Отправка в день заказа</span>
+          <span>Без «фирменных смесей»</span>
+        </div>
+      </section>
+
       <!-------------- ABOUT -------------->
 
       <section class="about" id="about">
         <div class="about-img" data-reveal>
           <img
+            string="parallax" string-parallax="0.12"
             src="images/about-collagen.jpg"
             alt="Упаковка коллагена Nutralux с биотином и цинком, 30 саше"
             width="1280" height="960" loading="lazy" decoding="async"
@@ -218,7 +237,7 @@
 
           <ul class="about-stats">
             <li data-reveal style="--reveal-i: 0">
-              <strong>21</strong>
+              <strong data-count="21">21</strong>
               <span>формула в каталоге</span>
             </li>
             <li data-reveal style="--reveal-i: 1">
@@ -226,7 +245,7 @@
               <span>дня до доставки</span>
             </li>
             <li data-reveal style="--reveal-i: 2">
-              <strong>100%</strong>
+              <strong data-count="100" data-suffix="%">100%</strong>
               <span>проверенные поставщики</span>
             </li>
           </ul>
