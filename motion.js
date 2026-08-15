@@ -33,16 +33,48 @@
     tune.use(ns.StringSplit);
     tune.use(ns.StringMagnetic);
 
-    /* Никакого перехвата скролла. */
+    /* Нативный скролл. ВНИМАНИЕ: 'disable' у этой библиотеки означает
+       «запретить прокрутку вообще», а не «не вмешиваться в неё».
+       Нужен именно 'default'. */
     try {
-      tune.scrollDesktopMode = 'disable';
-      tune.scrollMobileMode = 'disable';
+      tune.scrollDesktopMode = 'default';
+      tune.scrollMobileMode = 'default';
     } catch (err) {
       /* режим недоступен в этой сборке — не критично */
     }
 
     tune.start(60);
     normalizeWordGaps();
+    revealSplitText();
+  };
+
+  /* Появление текста вешаем на собственный IntersectionObserver, а не на
+     класс -inview из библиотеки: он обновляется её скролл-циклом, и стоит
+     тому не отработать — текст остаётся невидимым навсегда. */
+  const revealSplitText = () => {
+    const targets = document.querySelectorAll('.home-content h1, .heading');
+    if (!targets.length) return;
+
+    const show = (el) => el.classList.add('is-revealed');
+
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(show);
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        show(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+
+    targets.forEach((el) => observer.observe(el));
+
+    /* Страховка: что бы ни случилось со сплитом и наблюдателем, через
+       2.5 секунды текст обязан быть виден. */
+    setTimeout(() => targets.forEach(show), 2500);
   };
 
   /* StringSplit склеивает слова неразрывным пробелом и убирает его у слова,

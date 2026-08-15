@@ -792,7 +792,7 @@ html.-string .home-content h1 .-s-char {
   transition-delay: calc(var(--word-index) * 85ms + var(--char-index) * 24ms);
 }
 
-html.-string .home-content h1.-inview .-s-char {
+html.-string .home-content h1.is-revealed .-s-char {
   opacity: 1;
   transform: none;
 }
@@ -807,7 +807,7 @@ html.-string .heading .-s-word {
   transition-delay: calc(var(--word-index) * 65ms);
 }
 
-html.-string .heading.-inview .-s-word {
+html.-string .heading.is-revealed .-s-word {
   opacity: 1;
   transform: none;
 }
