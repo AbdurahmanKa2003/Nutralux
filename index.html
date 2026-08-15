@@ -35,6 +35,9 @@
     <meta name="twitter:description" content="Transparent formulas, verified suppliers and clear dosages. 21 formulas for immunity, energy, sleep and daily balance." />
     <meta name="twitter:image" content="https://www.nutralux.com.tr/images/og-image.jpg" />
 
+    <link rel="preload" as="image" href="images/cutout/vitamin-c-eff.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="images/logo-mark.png" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -200,13 +203,40 @@
           <div class="stage-ring" string="parallax" string-parallax="0.06" aria-hidden="true"></div>
           <div class="stage-ring stage-ring--inner" string="parallax" string-parallax="0.10" aria-hidden="true"></div>
 
-          <img
-            class="stage-product"
-            string="tilt" string-tilt-max="9" string-tilt-friction="0.14"
-            src="images/cutout/vitamin-c-eff.png"
-            alt="Nutralux Vitamin C effervescent tablets and box"
-            width="411" height="1000" fetchpriority="high" decoding="async"
-          />
+          <div class="stage-glow" aria-hidden="true"></div>
+
+          <div class="stage-products" string="tilt" string-tilt-max="9" string-tilt-friction="0.14">
+            <img
+              class="stage-product is-active"
+              src="images/cutout/vitamin-c-eff.png"
+              alt="Vitamin C 1000 mg — Nutralux"
+              data-name="Vitamin C 1000 mg" data-sub="Immunity · tone"
+              width="411" height="1000"
+              fetchpriority="high" decoding="async"
+            />
+            <img
+              class="stage-product"
+              src="images/cutout/omega-3.png"
+              alt="Omega-3 1000 mg — Nutralux"
+              data-name="Omega-3 1000 mg" data-sub="Brain · heart · vision"
+              width="198" height="363"
+              loading="lazy" decoding="async"
+            />
+            <img
+              class="stage-product"
+              src="images/cutout/magnesium-b6.png"
+              alt="Magnesium + B6 — Nutralux"
+              data-name="Magnesium + B6" data-sub="Calm · sleep · muscles"
+              width="217" height="403"
+              loading="lazy" decoding="async"
+            />
+          </div>
+
+          <div class="stage-caption">
+            <b>Vitamin C 1000 mg</b>
+            <span>Immunity · tone</span>
+            <div class="stage-dots" role="tablist" aria-label="Showcase"></div>
+          </div>
 
           <div class="hero-chip hero-chip--one" string="parallax" string-parallax="0.30">
             <img src="images/cutout/omega-3.png" alt="" width="198" height="363" loading="lazy" />

@@ -17,10 +17,10 @@
     if (e.animationName === 'intro-out') drop();
   });
 
-  setTimeout(drop, 2600);
+  setTimeout(drop, 2200);
 
   /* Сценарий входа отыгран — снимаем режим, дальше всё живёт обычной жизнью. */
-  setTimeout(() => document.documentElement.classList.remove('js-intro'), 2800);
+  setTimeout(() => document.documentElement.classList.remove('js-intro'), 2400);
 })();
 
 /* ==================== мобильное меню ==================== */
@@ -88,6 +88,87 @@
   }, { rootMargin: '0px 0px -4% 0px', threshold: 0.1 });
 
   items.forEach((el) => observer.observe(el));
+})();
+
+/* ==================== витрина в первом экране ====================
+   Товар в сцене меняется сам, подпись и точки следуют за ним.         */
+(() => {
+  const stage = document.querySelector('.stage-products');
+  const caption = document.querySelector('.stage-caption');
+  const dots = document.querySelector('.stage-dots');
+  if (!stage || !caption || !dots) return;
+
+  const slides = [...stage.querySelectorAll('.stage-product')];
+  if (slides.length < 2) return;
+
+  const title = caption.querySelector('b');
+  const sub = caption.querySelector('span');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let index = 0;
+  let timer = null;
+
+  const show = (next) => {
+    if (next === index) return;
+    index = next;
+
+    slides.forEach((el, i) => el.classList.toggle('is-active', i === index));
+    [...dots.children].forEach((el, i) => el.setAttribute('aria-selected', String(i === index)));
+
+    caption.classList.add('is-swapping');
+    setTimeout(() => {
+      title.textContent = slides[index].dataset.name || '';
+      sub.textContent = slides[index].dataset.sub || '';
+      caption.classList.remove('is-swapping');
+    }, 320);
+  };
+
+  const restart = () => {
+    if (reduced) return;
+    clearInterval(timer);
+    timer = setInterval(() => show((index + 1) % slides.length), 4600);
+  };
+
+  slides.forEach((slide, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-selected', String(i === 0));
+    dot.setAttribute('aria-label', slide.dataset.name || `#${i + 1}`);
+    dot.addEventListener('click', () => {
+      show(i);
+      restart();
+    });
+    dots.appendChild(dot);
+  });
+
+  restart();
+
+  /* Не крутим витрину, пока вкладка не на экране. */
+  document.addEventListener('visibilitychange', () => {
+    clearInterval(timer);
+    if (!document.hidden) restart();
+  });
+})();
+
+/* ==================== свет за курсором в сцене ==================== */
+(() => {
+  const hero = document.querySelector('.home');
+  const glow = document.querySelector('.stage-glow');
+  if (!hero || !glow) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  let raf = null;
+
+  hero.addEventListener('mousemove', (e) => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      const r = hero.getBoundingClientRect();
+      glow.style.setProperty('--mx', ((e.clientX - r.left) / r.width).toFixed(3));
+      glow.style.setProperty('--my', ((e.clientY - r.top) / r.height).toFixed(3));
+      raf = null;
+    });
+  }, { passive: true });
 })();
 
 /* ==================== индикатор прочитанного ==================== */
