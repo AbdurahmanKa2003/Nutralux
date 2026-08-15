@@ -125,7 +125,7 @@
     </script>
   </head>
 
-  <body>
+  <body class="home-page">
     <div class="scroll-progress" aria-hidden="true"></div>
     <div class="intro" aria-hidden="true">
       <div class="intro-mark">
@@ -195,26 +195,29 @@
           </ul>
         </div>
 
-        <div class="home-img">
-          <div class="hero-card" string="tilt" string-tilt-max="7" string-tilt-friction="0.12">
-            <img
-              src="images/vitamin-c-eff.jpg"
-              alt="Туба шипучих таблеток Витамин C Nutralux рядом с упаковкой"
-              width="1600" height="1600"
-              fetchpriority="high" decoding="async"
-            />
-          </div>
+        <div class="home-stage">
+          <div class="stage-halo" aria-hidden="true"></div>
+          <div class="stage-ring" string="parallax" string-parallax="0.06" aria-hidden="true"></div>
+          <div class="stage-ring stage-ring--inner" string="parallax" string-parallax="0.10" aria-hidden="true"></div>
 
-          <div class="hero-chip hero-chip--one" string="parallax" string-parallax="0.28">
-            <img src="images/products/omega-3.jpg" alt="" width="120" height="120" loading="lazy" />
+          <img
+            class="stage-product"
+            string="tilt" string-tilt-max="9" string-tilt-friction="0.14"
+            src="images/cutout/vitamin-c-eff.png"
+            alt="Витамин C Nutralux — шипучие таблетки и упаковка"
+            width="411" height="1000" fetchpriority="high" decoding="async"
+          />
+
+          <div class="hero-chip hero-chip--one" string="parallax" string-parallax="0.30">
+            <img src="images/cutout/omega-3.png" alt="" width="198" height="363" loading="lazy" />
             <div>
               <b>Омега-3 1000 мг</b>
               <span>Мозг · сердце · зрение</span>
             </div>
           </div>
 
-          <div class="hero-chip hero-chip--two" string="parallax" string-parallax="0.16">
-            <img src="images/products/magnesium-b6.jpg" alt="" width="120" height="120" loading="lazy" />
+          <div class="hero-chip hero-chip--two" string="parallax" string-parallax="0.18">
+            <img src="images/cutout/magnesium-b6.png" alt="" width="217" height="403" loading="lazy" />
             <div>
               <b>Магний + B6</b>
               <span>Спокойствие · сон · мышцы</span>
@@ -225,7 +228,19 @@
             <strong>21</strong>
             <span>формула в каталоге</span>
           </div>
+
+          <div class="stage-seal" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <defs><path id="seal-ru" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" /></defs>
+              <text><textPath href="#seal-ru">NUTRALUX · VITAMINS &amp; SUPPLEMENTS · NUTRALUX · VITAMINS &amp; SUPPLEMENTS · </textPath></text>
+            </svg>
+            <span><i class="bx bx-leaf" aria-hidden="true"></i></span>
+          </div>
         </div>
+
+        <a class="scroll-cue" href="#about">
+          Листайте <i class="bx bx-chevron-down" aria-hidden="true"></i>
+        </a>
       </section>
 
 
@@ -315,11 +330,11 @@
             </div>
 
             <div class="services-box" data-reveal style="--reveal-i: 1">
-              <i class="bx bx-package" aria-hidden="true"></i>
-              <h3>Отправка в день заказа</h3>
+              <i class="bx bx-capsule" aria-hidden="true"></i>
+              <h3>Понятные схемы приёма</h3>
               <ul>
-                <li>Заказы уходят в день оформления</li>
-                <li>Отслеживание статуса по каждому заказу</li>
+                <li>Сколько принимать, когда и с чем</li>
+                <li>Дозировка прямо указана на упаковке</li>
               </ul>
             </div>
 

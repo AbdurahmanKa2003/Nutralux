@@ -22,6 +22,7 @@
   --brand-300: #7fd39a;
   --brand-700: #14603a;
   --forest: #0f2118;
+  --night: #08130e;
 
   /* Warm neutrals — тёплая база вместо стерильно-белой */
   --ink: #14201b;
@@ -53,7 +54,7 @@
   --step-2:  clamp(20px, 1.0vw + 17px, 27px);
   --step-3:  clamp(24px, 1.8vw + 19px, 38px);
   --step-4:  clamp(30px, 3.0vw + 21px, 54px);
-  --step-5:  clamp(38px, 5.0vw + 20px, 82px);
+  --step-5:  clamp(34px, 3.4vw + 18px, 64px);
 
   /* Space */
   --gutter: clamp(20px, 5vw, 72px);
@@ -295,61 +296,94 @@ section { padding: var(--section-y) 0; }
   transform: translate3d(calc(var(--magnetic-x, 0) * 1px), calc(var(--magnetic-y, 0) * 1px), 0);
 }
 
-/* ====== HERO ====== */
+/* ==========================================================================
+   HERO — тёмная сцена
+   Прежний светлый макет «текст слева, фото справа» повторял исходный сайт.
+   Здесь другая логика: полноэкранная тёмная сцена, продукт без фона парит
+   в световом ореоле, вокруг — орбита из карточек и вращающейся печати.
+   ========================================================================== */
+
 .home {
   position: relative;
+  isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
   align-items: center;
-  gap: clamp(32px, 5vw, 80px);
+  gap: clamp(28px, 4vw, 64px);
   width: 100%;
-  max-width: var(--maxw);
-  margin-inline: auto;
-  padding: clamp(126px, 13vw, 186px) var(--gutter) clamp(64px, 7vw, 104px);
-  min-height: min(100svh, 940px);
+  padding: clamp(104px, 10vw, 148px) var(--gutter) clamp(64px, 7vw, 96px);
+  min-height: 100svh;
+  background: var(--night);
+  color: #fff;
+  overflow: hidden;
 }
 
+.home > .home-content { max-width: 38rem; justify-self: end; padding-right: clamp(0px, 2vw, 32px); }
+.home > .home-stage { justify-self: start; }
+
+/* Живой цветной свет вместо плоской заливки */
+.home-aurora {
+  position: absolute;
+  inset: -20% -10%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 42% at 72% 34%, rgba(44, 168, 74, .42) 0%, transparent 62%),
+    radial-gradient(30% 34% at 22% 72%, rgba(24, 132, 122, .34) 0%, transparent 66%),
+    radial-gradient(26% 30% at 88% 78%, rgba(126, 210, 122, .20) 0%, transparent 68%);
+  filter: blur(10px);
+  animation: aurora 18s ease-in-out infinite alternate;
+}
+
+@keyframes aurora {
+  from { transform: translate3d(-2%, -1%, 0) scale(1); }
+  to   { transform: translate3d(3%, 2%, 0) scale(1.08); }
+}
+
+/* Тонкая сетка — намёк на «лабораторную» точность бренда */
 .home::before {
   content: "";
   position: absolute;
+  inset: 0;
   z-index: -1;
-  top: -16%;
-  right: -8%;
-  width: min(62vw, 780px);
-  aspect-ratio: 1;
-  background: radial-gradient(circle at 50% 50%,
-              rgba(44, 168, 74, .20) 0%,
-              rgba(44, 168, 74, .07) 42%,
-              transparent 68%);
   pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px);
+  background-size: clamp(56px, 6vw, 96px) clamp(56px, 6vw, 96px);
+  mask-image: radial-gradient(72% 62% at 50% 45%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(72% 62% at 50% 45%, #000 30%, transparent 78%);
 }
 
-.home-content { max-width: 36rem; }
+.home-content { position: relative; z-index: 2; }
 
-.home-content .eyebrow { margin-bottom: clamp(16px, 1.8vw, 24px); }
+.home-content .eyebrow { color: rgba(255, 255, 255, .58); margin-bottom: clamp(16px, 1.8vw, 24px); }
+.home-content .eyebrow::before { background: var(--brand-300); opacity: 1; }
 
 .home-content h1 {
   font-family: var(--font-display);
   font-size: var(--step-5);
   font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -.025em;
-  color: var(--ink);
+  line-height: 1.04;
+  letter-spacing: -.028em;
+  color: #fff;
   text-wrap: balance;
 }
 
-.home-content h1 em { font-style: italic; color: var(--brand-600); }
+.home-content h1 em {
+  font-style: italic;
+  color: var(--brand-300);
+}
 
 .home-content .home-lead {
   margin-top: clamp(18px, 2.2vw, 26px);
   font-size: var(--step-1);
   line-height: 1.55;
-  color: var(--ink-65);
+  color: rgba(255, 255, 255, .72);
   max-width: 31rem;
   text-wrap: pretty;
 }
 
-/* Направления подбора — сразу объясняют, что это за магазин */
 .home-goals {
   display: flex;
   flex-wrap: wrap;
@@ -363,21 +397,22 @@ section { padding: var(--section-y) 0; }
   align-items: center;
   gap: .45em;
   padding: .55em 1em;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, .18);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  background: rgba(255, 255, 255, .05);
   font-size: var(--step--1);
-  color: var(--ink-65);
-  transition: color .25s ease, border-color .25s ease, transform .4s var(--ease-out);
+  color: rgba(255, 255, 255, .82);
+  transition: color .25s ease, border-color .25s ease, background .3s ease, transform .4s var(--ease-out);
 }
 
 .home-goals a:hover {
-  color: var(--brand-700);
-  border-color: var(--brand-600);
+  color: #fff;
+  border-color: var(--brand-300);
+  background: rgba(44, 168, 74, .18);
   transform: translateY(-2px);
 }
 
-.home-goals i { font-size: 1.05em; color: var(--brand-600); }
+.home-goals i { font-size: 1.05em; color: var(--brand-300); }
 
 .home-actions {
   display: flex;
@@ -386,13 +421,29 @@ section { padding: var(--section-y) 0; }
   margin-top: clamp(24px, 3vw, 36px);
 }
 
+.home .btn { --btn-bg: var(--brand-500); box-shadow: 0 14px 40px rgba(44, 168, 74, .34); }
+.home .btn:hover { --btn-bg: var(--brand-300); color: var(--night); }
+
+.home .btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: #fff;
+  border-color: rgba(255, 255, 255, .26);
+  box-shadow: none;
+}
+
+.home .btn--ghost:hover {
+  background: rgba(255, 255, 255, .10);
+  border-color: rgba(255, 255, 255, .5);
+  color: #fff;
+}
+
 .home-trust {
   display: flex;
   flex-wrap: wrap;
   gap: .7rem clamp(12px, 1.6vw, 24px);
   margin-top: clamp(28px, 3.4vw, 44px);
   padding-top: clamp(20px, 2.4vw, 28px);
-  border-top: 1px solid var(--line-soft);
+  border-top: 1px solid rgba(255, 255, 255, .12);
   list-style: none;
 }
 
@@ -401,109 +452,149 @@ section { padding: var(--section-y) 0; }
   align-items: center;
   gap: .45em;
   font-size: var(--step--1);
-  color: var(--ink-65);
+  color: rgba(255, 255, 255, .70);
   white-space: nowrap;
 }
 
-.home-trust i { font-size: 1.15em; color: var(--brand-600); }
+.home-trust i { font-size: 1.15em; color: var(--brand-300); }
 
-/* ====== HERO VISUAL — многослойная композиция ====== */
-.home-img {
+/* ====== СЦЕНА С ПРОДУКТОМ ====== */
+.home-stage {
   position: relative;
-  justify-self: end;
-  width: 100%;
-  max-width: 540px;
-  perspective: 1400px;
+  z-index: 2;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: min(100%, 520px);
+  height: min(60vh, 540px);
+  perspective: 1200px;
 }
 
-/* Наклон следует за курсором (StringTilt отдаёт --tilt-x/--tilt-y) */
-.hero-card {
-  position: relative;
-  border-radius: clamp(22px, 2.6vw, 34px);
-  overflow: hidden;
-  background: var(--surface-2);
-  aspect-ratio: 4 / 5;
-  box-shadow: 0 2px 6px rgba(20, 32, 27, .05), 0 34px 80px rgba(20, 32, 27, .13);
-  transform: none;
-  transition: transform .6s var(--ease-out), box-shadow .6s var(--ease-out);
-  transform-style: preserve-3d;
-  will-change: transform;
+.stage-halo {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%,
+              rgba(126, 210, 154, .40) 0%,
+              rgba(44, 168, 74, .22) 34%,
+              transparent 68%);
+  filter: blur(4px);
+  animation: halo-pulse 7s ease-in-out infinite;
 }
 
-/* Наклон включаем только при наведении: иначе карточка стоит перекошенной,
-   потому что модуль отслеживает курсор по всей странице. */
-.home-img:hover .hero-card {
-  transition: transform .18s linear, box-shadow .6s var(--ease-out);
+@keyframes halo-pulse {
+  0%, 100% { transform: scale(1); opacity: .92; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+.stage-ring {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .14);
+}
+
+.stage-ring--inner { inset: 17%; border-color: rgba(255, 255, 255, .09); }
+
+.stage-product {
+  position: relative;
+  z-index: 3;
+  /* проценты внутри grid-центрирования не резолвятся и изображение брало
+     высоту из атрибута — ограничиваем в единицах вьюпорта */
+  height: auto;
+  width: auto;
+  max-height: min(56vh, 500px);
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 40px 60px rgba(0, 0, 0, .55));
   transform:
-    rotateX(calc(var(--tilt-y, 0) * -1deg))
-    rotateY(calc(var(--tilt-x, 0) * 1deg));
-  box-shadow: 0 2px 6px rgba(20, 32, 27, .05), 0 46px 96px rgba(20, 32, 27, .17);
+    rotateX(calc(var(--tilt-y, 0) * -.6deg))
+    rotateY(calc(var(--tilt-x, 0) * .6deg));
+  transition: transform .5s var(--ease-out);
+  animation: float-product 8s ease-in-out infinite;
 }
 
-.hero-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.02);
+@keyframes float-product {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -14px; }
 }
 
-/* Плавающие карточки-спутники — разная глубина параллакса */
+/* Вращающаяся печать — деталь, которую замечают */
+.stage-seal {
+  position: absolute;
+  right: 2%;
+  bottom: 6%;
+  z-index: 4;
+  width: clamp(96px, 11vw, 132px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.stage-seal svg { position: absolute; inset: 0; animation: seal-spin 22s linear infinite; }
+.stage-seal text { fill: rgba(255, 255, 255, .72); font-size: 8.2px; letter-spacing: .32em; text-transform: uppercase; font-family: var(--font-sans); }
+
+.stage-seal span {
+  display: grid;
+  place-items: center;
+  width: 42%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .10);
+  border: 1px solid rgba(255, 255, 255, .18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 18px;
+}
+
+@keyframes seal-spin { to { transform: rotate(360deg); } }
+
+/* Карточки-спутники на тёмном стекле */
 .hero-chip {
   position: absolute;
-  z-index: 2;
+  z-index: 5;
   display: flex;
   align-items: center;
   gap: .75rem;
-  padding: .7rem .95rem .7rem .7rem;
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--line-soft);
-  box-shadow: 0 16px 40px rgba(20, 32, 27, .14);
+  padding: .65rem .95rem .65rem .65rem;
+  border-radius: 16px;
+  background: rgba(12, 26, 20, .62);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, .14);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, .45);
 }
 
 .hero-chip img {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
   object-fit: cover;
-  background: var(--surface-2);
+  background: rgba(255, 255, 255, .08);
 }
 
-.hero-chip b {
-  display: block;
-  font-size: var(--step--1);
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--ink);
-}
+.hero-chip b { display: block; font-size: var(--step--1); font-weight: 600; line-height: 1.2; color: #fff; }
+.hero-chip span { display: block; margin-top: .15em; font-size: 12px; color: rgba(255, 255, 255, .58); }
 
-.hero-chip span {
-  display: block;
-  margin-top: .15em;
-  font-size: 12px;
-  color: var(--ink-45);
-}
-
-.hero-chip--one { left: clamp(-24px, -2vw, 0px); top: 16%; }
-.hero-chip--two { right: clamp(-20px, -1.6vw, 0px); bottom: 24%; }
+.hero-chip--one { left: -6%; top: 14%; }
+.hero-chip--two { right: -8%; top: 44%; }
 
 .home-badge {
   position: absolute;
-  z-index: 2;
-  left: clamp(-8px, -1vw, 0px);
-  bottom: clamp(18px, 2.6vw, 30px);
+  z-index: 5;
+  left: 0;
+  bottom: 8%;
   display: flex;
   align-items: center;
   gap: .9rem;
-  padding: .95rem 1.3rem;
-  background: color-mix(in srgb, var(--surface) 90%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--line-soft);
+  padding: .85rem 1.25rem;
+  background: rgba(12, 26, 20, .62);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, .14);
   border-radius: 999px;
-  box-shadow: 0 14px 34px rgba(20, 32, 27, .12);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, .45);
 }
 
 .home-badge strong {
@@ -511,16 +602,49 @@ section { padding: var(--section-y) 0; }
   font-size: var(--step-3);
   font-weight: 600;
   line-height: .9;
-  letter-spacing: -.01em;
-  color: var(--ink);
+  color: #fff;
 }
 
-.home-badge span {
-  font-size: var(--step--1);
-  line-height: 1.3;
-  color: var(--ink-65);
-  max-width: 11ch;
+.home-badge span { font-size: var(--step--1); line-height: 1.25; color: rgba(255, 255, 255, .62); max-width: 11ch; }
+
+/* Приглашение прокрутить */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(22px, 3vw, 38px);
+  z-index: 3;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: .6em;
+  font-size: 11px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .5);
+  transition: color .3s ease;
 }
+
+.scroll-cue:hover { color: #fff; }
+
+.scroll-cue i { animation: cue 2.2s ease-in-out infinite; }
+
+@keyframes cue {
+  0%, 100% { transform: translateY(0); opacity: .6; }
+  50% { transform: translateY(5px); opacity: 1; }
+}
+
+/* Шапка поверх тёмной сцены, пока страница не прокручена */
+.home-page .header:not(.is-scrolled) {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.home-page .header:not(.is-scrolled) .logo,
+.home-page .header:not(.is-scrolled) #menu-icon { color: #fff; }
+.home-page .header:not(.is-scrolled) .navbar a { color: rgba(255, 255, 255, .78); }
+.home-page .header:not(.is-scrolled) .navbar a:hover { color: #fff; }
+.home-page .header:not(.is-scrolled) .navbar a.lang { border-color: rgba(255, 255, 255, .28); }
 
 /* Индикатор прочитанного */
 .scroll-progress {
@@ -532,135 +656,8 @@ section { padding: var(--section-y) 0; }
   width: 100%;
   transform: scaleX(var(--read, 0));
   transform-origin: left;
-  background: linear-gradient(90deg, var(--brand-600), var(--brand-500));
+  background: linear-gradient(90deg, var(--brand-500), var(--brand-300));
   pointer-events: none;
-}
-
-
-/* ==========================================================================
-   ВХОД НА СТРАНИЦУ
-   Полностью на CSS: даже если JS не выполнится, заставка всё равно уйдёт
-   и контент останется доступным.
-   ========================================================================== */
-
-.js-intro .intro { display: grid; }
-
-.intro {
-  position: fixed;
-  display: none;
-  inset: 0;
-  z-index: 300;
-  display: grid;
-  place-items: center;
-  gap: 1.2rem;
-  background: var(--paper);
-  animation: intro-out .8s cubic-bezier(.76, 0, .24, 1) .75s forwards;
-}
-
-.intro-mark {
-  display: grid;
-  place-items: center;
-  gap: 1.1rem;
-  animation: intro-mark 1s var(--ease-out) both;
-}
-
-.intro-mark img {
-  width: clamp(84px, 9vw, 124px);
-  animation: intro-spin 1.5s var(--ease-out) both;
-}
-
-.intro-mark span {
-  font-family: var(--font-sans);
-  font-size: clamp(15px, 1.3vw, 19px);
-  font-weight: 600;
-  letter-spacing: .34em;
-  text-transform: uppercase;
-  color: var(--ink);
-  overflow: hidden;
-}
-
-.intro-line {
-  position: absolute;
-  left: 50%;
-  bottom: 22%;
-  width: min(220px, 40vw);
-  height: 1px;
-  transform: translateX(-50%);
-  background: var(--line);
-  overflow: hidden;
-}
-
-.intro-line::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--brand-600);
-  transform-origin: left;
-  animation: intro-load .78s cubic-bezier(.65, 0, .35, 1) both;
-}
-
-@keyframes intro-out {
-  to { transform: translateY(-101%); visibility: hidden; }
-}
-
-@keyframes intro-mark {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; }
-}
-
-@keyframes intro-spin {
-  from { opacity: 0; transform: rotate(-24deg) scale(.82); }
-  to { opacity: 1; transform: none; }
-}
-
-@keyframes intro-load {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-/* Тонкое зерно поверх страницы — убирает «плоскость» заливок */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  opacity: .05;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Оркестрованный вход первого экрана: блоки поднимаются по очереди уже после
-   того, как заставка ушла.
-   ВАЖНО: стартовая прозрачность включается только классом js-intro, который
-   ставит инлайн-скрипт в <head> и снимает script.js. Без работающего JS
-   контент виден сразу — он не может «пропасть» из-за несыгравшей анимации. */
-.js-intro .home-content > *:not(h1),
-.js-intro .home-img > * {
-  opacity: 0;
-  animation: hero-rise .9s var(--ease-out) forwards;
-}
-
-.js-intro .home-content > .eyebrow      { animation-delay: .92s; }
-.js-intro .home-content > .home-lead    { animation-delay: 1.16s; }
-.js-intro .home-content > .home-goals   { animation-delay: 1.26s; }
-.js-intro .home-content > .home-actions { animation-delay: 1.36s; }
-.js-intro .home-content > .home-trust   { animation-delay: 1.46s; }
-
-.js-intro .home-img > .hero-card   { animation: hero-card-in 1.15s var(--ease-out) .95s forwards; }
-.js-intro .home-img > .hero-chip--one { animation-delay: 1.52s; }
-.js-intro .home-img > .hero-chip--two { animation-delay: 1.64s; }
-.js-intro .home-img > .home-badge     { animation-delay: 1.76s; }
-
-@keyframes hero-rise {
-  from { opacity: 0; transform: translateY(26px); }
-  to { opacity: 1; transform: none; }
-}
-
-/* Изображение раскрывается из-под маски со сходящим масштабом */
-@keyframes hero-card-in {
-  from { opacity: 0; clip-path: inset(14% 0 0 0 round 32px); transform: scale(1.08); }
-  to   { opacity: 1; clip-path: inset(0 0 0 0 round 32px); transform: none; }
 }
 
 /* ====== ABOUT ====== */
@@ -1177,7 +1174,7 @@ html.-string .heading.is-revealed .-s-word {
   .intro { display: none !important; }
 
   .js-intro .home-content > *:not(h1),
-  .js-intro .home-img > * {
+  .js-intro .home-stage > * {
     opacity: 1 !important;
     animation: none !important;
   }
@@ -1194,8 +1191,7 @@ html.-string .heading.is-revealed .-s-word {
   }
 
   .home-content { max-width: 38rem; }
-  .home-img { justify-self: stretch; max-width: 100%; }
-  .hero-card { aspect-ratio: 16 / 11; }
+  .home-stage { justify-self: center; max-width: 460px; }
 
   .about { grid-template-columns: 1fr; }
   .about-img { max-width: 34rem; aspect-ratio: 4 / 3; }
@@ -1234,18 +1230,20 @@ html.-string .heading.is-revealed .-s-word {
   .home { padding-top: clamp(104px, 22vw, 140px); }
   .home-badge { left: 12px; padding: .8rem 1.1rem; }
 
-  /* на узком экране спутники наезжали на фото — прижимаем к краям */
-  .hero-chip { padding: .55rem .8rem .55rem .55rem; }
-  .hero-chip img { width: 38px; height: 38px; }
-  .hero-chip--one { left: 4px; top: 10%; }
-  .hero-chip--two { right: 4px; bottom: 18%; }
+  /* на узком экране спутники прижимаем к краям сцены */
+  .hero-chip { padding: .5rem .75rem .5rem .5rem; }
+  .hero-chip img { width: 34px; height: 34px; }
+  .hero-chip--one { left: -4%; top: 8%; }
+  .hero-chip--two { right: -4%; top: 46%; }
+  .home { grid-template-columns: 1fr; min-height: auto; }
 
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
 
 @media (max-width: 480px) {
-  .hero-card { aspect-ratio: 5 / 4; }
+  .home-stage { max-width: 340px; }
   .hero-chip span { display: none; }
+  .stage-seal { display: none; }
   .home-trust { gap: .8rem 1.4rem; }
   .about-stats { gap: 1.6rem 2.4rem; }
 }
