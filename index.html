@@ -46,6 +46,14 @@
     <!-- lang icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css" />
 
+    <script>
+      /* Ставится до отрисовки: включает сценарий входа. Если JS выключен,
+         класс не появится и весь контент останется видимым. */
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("js-intro");
+      }
+    </script>
+
     <!-- css -->
     <link rel="stylesheet" href="styles.css" />
 
@@ -119,6 +127,14 @@
 
   <body>
     <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="intro" aria-hidden="true">
+      <div class="intro-mark">
+        <img src="images/logo-mark.png" alt="" width="124" height="127" />
+        <span>Nutralux</span>
+      </div>
+      <div class="intro-line"></div>
+    </div>
+
     <!-------------- HEADER -------------->
 
     <header class="header">
@@ -143,15 +159,15 @@
 
       <section class="home" id="home">
         <div class="home-content">
-          <p class="eyebrow">Vitamins &amp; supplements · Made in Türkiye</p>
+          <p class="eyebrow">Nutralux — vitamins &amp; supplements</p>
 
-          <h1 string="split" string-split="char-word" aria-label="Vitamins and supplements, precisely dosed">
-            Vitamins and supplements, <em>precisely dosed</em>
+          <h1 string="split" string-split="char-word" aria-label="Vitamins and supplements for everyday health">
+            Vitamins and supplements for <em>everyday health</em>
           </h1>
 
           <p class="home-lead">
-            An online store of 21 formulas with transparent ingredients and dosages
-            you can actually read on the label. Delivered across Türkiye in 1–2 days.
+            Vitamin C, magnesium, zinc, multivitamins, probiotics and more.
+            Quality formulas, clear dosage instructions and help choosing what suits you.
           </p>
 
           <ul class="home-goals">
@@ -174,7 +190,7 @@
 
           <ul class="home-trust">
             <li><i class="bx bx-check-shield" aria-hidden="true"></i> Verified suppliers</li>
-            <li><i class="bx bx-package" aria-hidden="true"></i> Same-day dispatch</li>
+            <li><i class="bx bx-capsule" aria-hidden="true"></i> Clear dosage instructions</li>
             <li><i class="bx bx-list-check" aria-hidden="true"></i> Transparent labels</li>
           </ul>
         </div>
@@ -206,8 +222,8 @@
           </div>
 
           <div class="home-badge">
-            <strong>1–2</strong>
-            <span>days delivery</span>
+            <strong>21</strong>
+            <span>formulas in the catalog</span>
           </div>
         </div>
       </section>
@@ -265,12 +281,12 @@
               <span>formulas in the catalog</span>
             </li>
             <li data-reveal style="--reveal-i: 1">
-              <strong>1–2</strong>
-              <span>days to delivery</span>
+              <strong data-count="10">10</strong>
+              <span>categories to choose from</span>
             </li>
             <li data-reveal style="--reveal-i: 2">
-              <strong data-count="100" data-suffix="%">100%</strong>
-              <span>verified suppliers</span>
+              <strong>Verified</strong>
+              <span>suppliers only</span>
             </li>
           </ul>
         </div>

@@ -186,9 +186,9 @@ section { padding: var(--section-y) 0; }
   align-items: center;
   gap: .68rem;
   font-family: var(--font-sans);
-  font-size: clamp(16px, 1.15vw, 19px);
+  font-size: clamp(17px, 1.3vw, 21px);
   font-weight: 600;
-  letter-spacing: .15em;
+  letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--ink);
   transition: opacity .3s ease;
@@ -197,7 +197,7 @@ section { padding: var(--section-y) 0; }
 .logo:hover { opacity: .78; }
 
 .logo img {
-  width: clamp(36px, 3vw, 46px);
+  width: clamp(44px, 3.8vw, 58px);
   height: auto;
   transition: transform .5s var(--ease-out);
 }
@@ -534,6 +534,133 @@ section { padding: var(--section-y) 0; }
   transform-origin: left;
   background: linear-gradient(90deg, var(--brand-600), var(--brand-500));
   pointer-events: none;
+}
+
+
+/* ==========================================================================
+   ВХОД НА СТРАНИЦУ
+   Полностью на CSS: даже если JS не выполнится, заставка всё равно уйдёт
+   и контент останется доступным.
+   ========================================================================== */
+
+.js-intro .intro { display: grid; }
+
+.intro {
+  position: fixed;
+  display: none;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  gap: 1.2rem;
+  background: var(--paper);
+  animation: intro-out .8s cubic-bezier(.76, 0, .24, 1) .75s forwards;
+}
+
+.intro-mark {
+  display: grid;
+  place-items: center;
+  gap: 1.1rem;
+  animation: intro-mark 1s var(--ease-out) both;
+}
+
+.intro-mark img {
+  width: clamp(84px, 9vw, 124px);
+  animation: intro-spin 1.5s var(--ease-out) both;
+}
+
+.intro-mark span {
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.3vw, 19px);
+  font-weight: 600;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.intro-line {
+  position: absolute;
+  left: 50%;
+  bottom: 22%;
+  width: min(220px, 40vw);
+  height: 1px;
+  transform: translateX(-50%);
+  background: var(--line);
+  overflow: hidden;
+}
+
+.intro-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--brand-600);
+  transform-origin: left;
+  animation: intro-load .78s cubic-bezier(.65, 0, .35, 1) both;
+}
+
+@keyframes intro-out {
+  to { transform: translateY(-101%); visibility: hidden; }
+}
+
+@keyframes intro-mark {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes intro-spin {
+  from { opacity: 0; transform: rotate(-24deg) scale(.82); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes intro-load {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Тонкое зерно поверх страницы — убирает «плоскость» заливок */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: .05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Оркестрованный вход первого экрана: блоки поднимаются по очереди уже после
+   того, как заставка ушла.
+   ВАЖНО: стартовая прозрачность включается только классом js-intro, который
+   ставит инлайн-скрипт в <head> и снимает script.js. Без работающего JS
+   контент виден сразу — он не может «пропасть» из-за несыгравшей анимации. */
+.js-intro .home-content > *:not(h1),
+.js-intro .home-img > * {
+  opacity: 0;
+  animation: hero-rise .9s var(--ease-out) forwards;
+}
+
+.js-intro .home-content > .eyebrow      { animation-delay: .92s; }
+.js-intro .home-content > .home-lead    { animation-delay: 1.16s; }
+.js-intro .home-content > .home-goals   { animation-delay: 1.26s; }
+.js-intro .home-content > .home-actions { animation-delay: 1.36s; }
+.js-intro .home-content > .home-trust   { animation-delay: 1.46s; }
+
+.js-intro .home-img > .hero-card   { animation: hero-card-in 1.15s var(--ease-out) .95s forwards; }
+.js-intro .home-img > .hero-chip--one { animation-delay: 1.52s; }
+.js-intro .home-img > .hero-chip--two { animation-delay: 1.64s; }
+.js-intro .home-img > .home-badge     { animation-delay: 1.76s; }
+
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Изображение раскрывается из-под маски со сходящим масштабом */
+@keyframes hero-card-in {
+  from { opacity: 0; clip-path: inset(14% 0 0 0 round 32px); transform: scale(1.08); }
+  to   { opacity: 1; clip-path: inset(0 0 0 0 round 32px); transform: none; }
 }
 
 /* ====== ABOUT ====== */
@@ -958,28 +1085,36 @@ section { padding: var(--section-y) 0; }
 /* Разбитые фрагменты прячем ТОЛЬКО когда библиотека реально стартовала
    (html.-string ставит сама StringTune) — иначе при сбое JS текст исчезнет.
    Скрываем адресно: логотип разбивается ради hover-волны и должен быть виден. */
-html.-string .home-content h1 .-s-char,
 html.-string .heading .-s-word {
   display: inline-block;
   opacity: 0;
   will-change: transform, opacity;
 }
 
-/* Hero H1 — посимвольно, но слова остаются целыми (режим char-word):
-   иначе на узких экранах строка рвётся посреди слова. */
-html.-string .home-content h1 .-s-word { display: inline-block; }
-
+/* Hero H1 — буквы прячет сама маска слова, прозрачность тут не нужна:
+   иначе текст остаётся невидимым, если сценарий входа не отыграл.
+   Режим char-word — чтобы строка не рвалась посреди слова. */
 html.-string .home-content h1 .-s-char {
-  transform: translateY(.42em);
-  transition: opacity .55s var(--ease-out), transform .7s var(--ease-out);
-  /* --word-index наследуется в буквы: волна идёт по словам, внутри — по буквам */
-  transition-delay: calc(var(--word-index) * 38ms + var(--char-index) * 11ms);
+  display: inline-block;
+  will-change: transform;
 }
 
-html.-string .home-content h1.is-revealed .-s-char {
-  opacity: 1;
-  transform: none;
+html.-string .home-content h1 .-s-word {
+  display: inline-block;
+  overflow: hidden;
+  /* запас под выносные элементы курсива, иначе маска срезает хвосты букв */
+  padding-bottom: .16em;
+  margin-bottom: -.16em;
 }
+
+html.-string.js-intro .home-content h1 .-s-char {
+  transform: translateY(105%);
+  transition: transform .85s cubic-bezier(.22, 1, .36, 1);
+  /* стартуем, пока заставка уезжает; --word-index наследуется в буквы */
+  transition-delay: calc(.86s + var(--word-index) * 48ms + var(--char-index) * 12ms);
+}
+
+html.-string.js-intro .home-content h1.is-revealed .-s-char { transform: none; }
 
 /* Заголовки секций — по словам.
    Расстояние между словами держим сами (см. normalizeWordGaps в motion.js):
@@ -1038,6 +1173,16 @@ html.-string .heading.is-revealed .-s-word {
   .btn[string~="magnetic"] { transform: none !important; }
 
   .ticker-track { animation: none !important; }
+
+  .intro { display: none !important; }
+
+  .js-intro .home-content > *:not(h1),
+  .js-intro .home-img > * {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+  body::after { display: none; }
 }
 
 /* ====== BREAKPOINTS ====== */

@@ -46,6 +46,14 @@
     <!-- lang icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css" />
 
+    <script>
+      /* Ставится до отрисовки: включает сценарий входа. Если JS выключен,
+         класс не появится и весь контент останется видимым. */
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("js-intro");
+      }
+    </script>
+
     <!-- css -->
     <link rel="stylesheet" href="styles.css" />
 
@@ -119,6 +127,14 @@
 
   <body>
     <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="intro" aria-hidden="true">
+      <div class="intro-mark">
+        <img src="images/logo-mark.png" alt="" width="124" height="127" />
+        <span>Nutralux</span>
+      </div>
+      <div class="intro-line"></div>
+    </div>
+
     <!-------------- HEADER -------------->
 
     <header class="header">
@@ -143,15 +159,15 @@
 
       <section class="home" id="home">
         <div class="home-content">
-          <p class="eyebrow">Витамины и добавки · Производство Турции</p>
+          <p class="eyebrow">Nutralux — витамины и БАДы</p>
 
-          <h1 string="split" string-split="char-word" aria-label="Витамины с понятной дозировкой">
-            Витамины <em>с понятной дозировкой</em>
+          <h1 string="split" string-split="char-word" aria-label="Витамины и добавки для здоровья">
+            Витамины и добавки <em>для здоровья</em>
           </h1>
 
           <p class="home-lead">
-            Интернет-магазин: 21 формула с прозрачным составом и дозировками, которые
-            действительно читаются на этикетке. Доставка по Турции за 1–2 дня.
+            Витамин C, магний, цинк, мультивитамины, пробиотики и другое.
+            Качественные составы, понятные схемы приёма и помощь в подборе.
           </p>
 
           <ul class="home-goals">
@@ -174,7 +190,7 @@
 
           <ul class="home-trust">
             <li><i class="bx bx-check-shield" aria-hidden="true"></i> Проверенные поставщики</li>
-            <li><i class="bx bx-package" aria-hidden="true"></i> Отправка в день заказа</li>
+            <li><i class="bx bx-capsule" aria-hidden="true"></i> Понятные схемы приёма</li>
             <li><i class="bx bx-list-check" aria-hidden="true"></i> Честные этикетки</li>
           </ul>
         </div>
@@ -206,8 +222,8 @@
           </div>
 
           <div class="home-badge">
-            <strong>1–2</strong>
-            <span>дня доставка</span>
+            <strong>21</strong>
+            <span>формула в каталоге</span>
           </div>
         </div>
       </section>
@@ -266,11 +282,11 @@
               <span>формула в каталоге</span>
             </li>
             <li data-reveal style="--reveal-i: 1">
-              <strong>1–2</strong>
-              <span>дня до доставки</span>
+              <strong data-count="10">10</strong>
+              <span>категорий на выбор</span>
             </li>
             <li data-reveal style="--reveal-i: 2">
-              <strong data-count="100" data-suffix="%">100%</strong>
+              <strong>Только</strong>
               <span>проверенные поставщики</span>
             </li>
           </ul>

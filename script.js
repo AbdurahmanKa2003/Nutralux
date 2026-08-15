@@ -4,6 +4,25 @@
    своих узлов, поэтому отсутствующий элемент больше не обрывает весь файл.
    ========================================================================== */
 
+/* ==================== снятие входной заставки ====================
+   CSS уводит её сам; это подстраховка на случай, если анимация не
+   отработала — заставка не должна перекрывать сайт ни при каких условиях. */
+(() => {
+  const intro = document.querySelector('.intro');
+  if (!intro) return;
+
+  const drop = () => intro.remove();
+
+  intro.addEventListener('animationend', (e) => {
+    if (e.animationName === 'intro-out') drop();
+  });
+
+  setTimeout(drop, 2600);
+
+  /* Сценарий входа отыгран — снимаем режим, дальше всё живёт обычной жизнью. */
+  setTimeout(() => document.documentElement.classList.remove('js-intro'), 2800);
+})();
+
 /* ==================== мобильное меню ==================== */
 (() => {
   const menuIcon = document.querySelector('#menu-icon');
