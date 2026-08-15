@@ -30,8 +30,14 @@ MODEL = Path(__file__).with_name("isnet.onnx")
 # Кадры, где посторонний предмет вплотную примыкает к бутылке: обе модели
 # считают их одним объектом, поэтому границы продукта заданы руками
 # (доли от размера кадра: left, top, right, bottom).
+# Зоны, которые вычитаются из маски: у Omega-3 капсулы нависают над плечом
+# бутылки, и одной рамкой их не отделить, не срезав крышку.
+EXCLUDE = {
+    "omega-3.jpg": [(0.10, 0.10, 0.298, 0.33), (0.60, 0.10, 0.80, 0.22)],
+}
+
 MANUAL_BOX = {
-    "omega-3.jpg": (0.265, 0.195, 0.685, 0.89),
+    "omega-3.jpg": (0.245, 0.125, 0.663, 0.90),
     "probiotic.jpg": (0.235, 0.09, 0.695, 0.91),
     "spirulina.jpg": (0.235, 0.12, 0.675, 0.96),
     "st-johns-wort-parsley.jpg": (0.24, 0.08, 0.80, 0.90),
@@ -182,6 +188,15 @@ def main() -> int:
                 )
                 mask = Image.fromarray(
                     np.minimum(np.asarray(mask), np.asarray(keep)).astype(np.uint8), "L"
+                )
+            for zone in EXCLUDE.get(path.name, []):
+                w, h = img.size
+                cut = Image.new("L", img.size, 255)
+                ImageDraw.Draw(cut).rectangle(
+                    [zone[0] * w, zone[1] * h, zone[2] * w, zone[3] * h], fill=0
+                )
+                mask = Image.fromarray(
+                    np.minimum(np.asarray(mask), np.asarray(cut)).astype(np.uint8), "L"
                 )
             result = compose(img, refine(mask))
         except ValueError as err:

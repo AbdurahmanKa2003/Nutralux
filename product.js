@@ -117,8 +117,21 @@
     if (alt) alt.href = `${cfg.altPage}?slug=${encodeURIComponent(p.slug)}`;
   };
 
+  /* Состав приходит одной строкой вида «Рыбий жир — 1000 мг; EPA — 180 мг».
+     Разбираем её на отдельные строки: сплошной абзац читался тяжело. */
+  const factValue = (value) => {
+    const parts = String(value).split(';').map((x) => x.trim()).filter(Boolean);
+    if (parts.length < 2) return escape(value);
+
+    return `<ul class="fact-list">${parts.map((part) => {
+      const m = part.match(/^(.*?)\s*[—–-]\s*([^—–-]+)$/);
+      if (!m) return `<li>${escape(part)}</li>`;
+      return `<li><b>${escape(m[1])}</b><span class="fact-amount">${escape(m[2])}</span></li>`;
+    }).join('')}</ul>`;
+  };
+
   const factRows = (facts) => (Array.isArray(facts) ? facts : [])
-    .map((f) => `<div><dt>${escape(f.name)}</dt><dd>${escape(f.value)}</dd></div>`)
+    .map((f) => `<div><dt>${escape(f.name)}</dt><dd>${factValue(f.value)}</dd></div>`)
     .join('');
 
   const relatedCards = (all, current) => {

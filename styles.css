@@ -79,6 +79,12 @@ html {
 
 body {
   background: var(--paper);
+}
+
+/* Тёмная подложка убирает белую вспышку под шапкой на старте,
+   но светлые секции должны задавать свой фон сами (см. .home-page main). */
+body.home-page {
+  background: var(--night);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: var(--step-0);
@@ -302,6 +308,9 @@ section { padding: var(--section-y) 0; }
    Здесь другая логика: полноэкранная тёмная сцена, продукт без фона парит
    в световом ореоле, вокруг — орбита из карточек и вращающейся печати.
    ========================================================================== */
+
+/* Всё, кроме тёмных секций, лежит на светлом полотне */
+.home-page main { background: var(--paper); }
 
 .home {
   position: relative;
@@ -723,6 +732,18 @@ section { padding: var(--section-y) 0; }
 }
 
 /* Шапка поверх тёмной сцены, пока страница не прокручена */
+.home-page .header {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.home-page .header.is-scrolled {
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+}
+
 .home-page .header:not(.is-scrolled) {
   background: transparent;
   backdrop-filter: none;
@@ -1347,27 +1368,7 @@ html.-string .heading.is-revealed .-s-word {
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
 
-@media (max-width: 700px) {
-  /* одна карточка на всю ширину превращала товар в гигантскую картинку */
-  .portfolio-container,
-  .catalog-grid,
-  .related-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
 
-  .portfolio-content,
-  .product-card__body { padding: 12px 12px 14px; }
-
-  .portfolio-content h4,
-  .product-card h3 { font-size: var(--step-0); min-height: 0; }
-
-  .portfolio-content p,
-  .product-card p { font-size: 12.5px; line-height: 1.45; }
-
-  .portfolio-content .btn { padding: .7em 1.1em; font-size: 12px; }
-  .product-card__cat { font-size: 10px; }
-}
 
 @media (max-width: 480px) {
   .home-stage { max-width: 340px; }
@@ -1870,4 +1871,140 @@ html.-string .heading.is-revealed .-s-word {
     right: 15px;
     bottom: 80px;
   }
+}
+
+/* ==========================================================================
+   Доработки по замечаниям
+   ========================================================================== */
+
+/* Клик по любому месту карточки, а не только по ссылке */
+.product-card, .portfolio-box { position: relative; }
+
+.product-card__link::after,
+.portfolio-content .btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* сам текст остаётся выделяемым */
+.product-card__body, .portfolio-content { position: relative; }
+.product-card__link, .portfolio-content .btn { position: static; }
+
+/* Нечётная карточка в конце ряда оставляла пустую ячейку — раскладываем её
+   поперёк: фото слева, текст справа. */
+@media (max-width: 700px) {
+  .portfolio-container > *:last-child:nth-child(odd),
+  .catalog-grid > *:last-child:nth-child(odd),
+  .related-grid > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .portfolio-container > *:last-child:nth-child(odd) .portfolio-img,
+  .catalog-grid > *:last-child:nth-child(odd) .product-card__media,
+  .related-grid > *:last-child:nth-child(odd) .product-card__media {
+    flex: 0 0 40%;
+    aspect-ratio: auto;
+  }
+
+  .portfolio-container > *:last-child:nth-child(odd) .portfolio-content,
+  .catalog-grid > *:last-child:nth-child(odd) .product-card__body,
+  .related-grid > *:last-child:nth-child(odd) .product-card__body {
+    justify-content: center;
+  }
+}
+
+/* Состав: длинные перечисления разбиваем на строки, а не в один абзац */
+.fact-list {
+  display: grid;
+  gap: .45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact-list li {
+  display: flex;
+  align-items: baseline;
+  gap: .6em;
+  padding: .5rem .8rem;
+  border-radius: 10px;
+  background: var(--surface-2);
+  font-size: var(--step--1);
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.fact-list li::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brand-500);
+  transform: translateY(-.15em);
+}
+
+.fact-list b { font-weight: 600; }
+.fact-list .fact-amount { margin-left: auto; color: var(--ink-65); white-space: nowrap; }
+
+/* ====== ABOUT — плотнее и с акцентом ====== */
+.about-img {
+  position: relative;
+  border-radius: clamp(20px, 2.4vw, 30px);
+  background: linear-gradient(150deg, var(--surface-2), #e9e5db);
+  padding: clamp(14px, 1.6vw, 22px);
+  box-shadow: 0 2px 4px rgba(20, 32, 27, .04), 0 26px 60px rgba(20, 32, 27, .10);
+}
+
+.about-img img {
+  border-radius: clamp(12px, 1.4vw, 18px);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.about-note {
+  position: absolute;
+  right: clamp(-10px, -1vw, 0px);
+  bottom: clamp(-18px, -2vw, -10px);
+  display: grid;
+  gap: .15rem;
+  padding: .9rem 1.2rem;
+  border-radius: 16px;
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 18px 40px rgba(20, 32, 27, .28);
+}
+
+.about-note b { font-family: var(--font-display); font-size: var(--step-2); font-weight: 600; line-height: 1; }
+.about-note span { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255, 255, 255, .6); }
+
+.about-stats li { padding-right: clamp(12px, 2vw, 28px); }
+
+/* Раскладка узких экранов держится в самом низу файла: правила выше
+   переопределяли её при равной специфичности. */
+@media (max-width: 700px) {
+  /* одна карточка на всю ширину превращала товар в гигантскую картинку */
+  .portfolio-container,
+  .catalog-grid,
+  .related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .portfolio-content,
+  .product-card__body { padding: 12px 12px 14px; }
+
+  .portfolio-content h4,
+  .product-card h3 { font-size: var(--step-0); min-height: 0; }
+
+  .portfolio-content p,
+  .product-card p { font-size: 12.5px; line-height: 1.45; }
+
+  .portfolio-content .btn { padding: .7em 1.1em; font-size: 12px; }
+  .product-card__cat { font-size: 10px; }
 }
