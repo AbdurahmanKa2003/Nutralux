@@ -179,18 +179,30 @@ section { padding: var(--section-y) 0; }
   padding-block: clamp(10px, 1.1vw, 14px);
 }
 
+/* Знак + слово набраны как настоящий логотип бренда: гротеск, капитель,
+   разрядка. Серифное «Nutralux» рядом со знаком читалось случайным. */
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: .6rem;
-  font-family: var(--font-display);
-  font-size: clamp(21px, 1.5vw, 26px);
+  gap: .68rem;
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.15vw, 19px);
   font-weight: 600;
-  letter-spacing: .01em;
+  letter-spacing: .15em;
+  text-transform: uppercase;
   color: var(--ink);
+  transition: opacity .3s ease;
 }
 
-.logo img { width: clamp(26px, 2.2vw, 32px); height: auto; }
+.logo:hover { opacity: .78; }
+
+.logo img {
+  width: clamp(36px, 3vw, 46px);
+  height: auto;
+  transition: transform .5s var(--ease-out);
+}
+
+.logo:hover img { transform: rotate(-8deg) scale(1.06); }
 
 .navbar { display: flex; align-items: center; gap: clamp(20px, 2.4vw, 38px); }
 
@@ -287,73 +299,99 @@ section { padding: var(--section-y) 0; }
 .home {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr);
   align-items: center;
-  gap: clamp(32px, 5vw, 88px);
+  gap: clamp(32px, 5vw, 80px);
   width: 100%;
   max-width: var(--maxw);
   margin-inline: auto;
-  padding: clamp(120px, 13vw, 190px) var(--gutter) clamp(72px, 8vw, 120px);
-  min-height: min(100svh, 900px);
+  padding: clamp(126px, 13vw, 186px) var(--gutter) clamp(64px, 7vw, 104px);
+  min-height: min(100svh, 940px);
 }
 
 .home::before {
   content: "";
   position: absolute;
   z-index: -1;
-  top: -14%;
-  right: -6%;
-  width: min(58vw, 720px);
+  top: -16%;
+  right: -8%;
+  width: min(62vw, 780px);
   aspect-ratio: 1;
   background: radial-gradient(circle at 50% 50%,
-              rgba(44, 168, 74, .16) 0%,
-              rgba(44, 168, 74, .06) 42%,
+              rgba(44, 168, 74, .20) 0%,
+              rgba(44, 168, 74, .07) 42%,
               transparent 68%);
   pointer-events: none;
 }
 
-.home-content { max-width: 34rem; }
+.home-content { max-width: 36rem; }
 
-.home-content .eyebrow { margin-bottom: clamp(18px, 2vw, 26px); }
+.home-content .eyebrow { margin-bottom: clamp(16px, 1.8vw, 24px); }
 
 .home-content h1 {
   font-family: var(--font-display);
   font-size: var(--step-5);
   font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -.02em;
+  line-height: 1.08;
+  letter-spacing: -.025em;
   color: var(--ink);
   text-wrap: balance;
 }
 
-.home-content h1 em {
-  font-style: italic;
-  color: var(--brand-600);
-}
+.home-content h1 em { font-style: italic; color: var(--brand-600); }
 
 .home-content .home-lead {
-  margin-top: clamp(20px, 2.4vw, 30px);
+  margin-top: clamp(18px, 2.2vw, 26px);
   font-size: var(--step-1);
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--ink-65);
-  max-width: 30rem;
+  max-width: 31rem;
   text-wrap: pretty;
 }
+
+/* Направления подбора — сразу объясняют, что это за магазин */
+.home-goals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: clamp(20px, 2.4vw, 28px);
+  list-style: none;
+}
+
+.home-goals a {
+  display: inline-flex;
+  align-items: center;
+  gap: .45em;
+  padding: .55em 1em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  font-size: var(--step--1);
+  color: var(--ink-65);
+  transition: color .25s ease, border-color .25s ease, transform .4s var(--ease-out);
+}
+
+.home-goals a:hover {
+  color: var(--brand-700);
+  border-color: var(--brand-600);
+  transform: translateY(-2px);
+}
+
+.home-goals i { font-size: 1.05em; color: var(--brand-600); }
 
 .home-actions {
   display: flex;
   flex-wrap: wrap;
   gap: .9rem;
-  margin-top: clamp(28px, 3.2vw, 42px);
+  margin-top: clamp(24px, 3vw, 36px);
 }
 
-/* Доверие вместо соцсетей в первом экране */
 .home-trust {
   display: flex;
   flex-wrap: wrap;
   gap: .7rem clamp(12px, 1.6vw, 24px);
-  margin-top: clamp(34px, 4vw, 52px);
-  padding-top: clamp(22px, 2.6vw, 30px);
+  margin-top: clamp(28px, 3.4vw, 44px);
+  padding-top: clamp(20px, 2.4vw, 28px);
   border-top: 1px solid var(--line-soft);
   list-style: none;
 }
@@ -369,43 +407,98 @@ section { padding: var(--section-y) 0; }
 
 .home-trust i { font-size: 1.15em; color: var(--brand-600); }
 
-/* Hero visual */
+/* ====== HERO VISUAL — многослойная композиция ====== */
 .home-img {
   position: relative;
   justify-self: end;
   width: 100%;
-  max-width: 560px;
+  max-width: 540px;
+  perspective: 1400px;
 }
 
-.home-img figure {
+/* Наклон следует за курсором (StringTilt отдаёт --tilt-x/--tilt-y) */
+.hero-card {
   position: relative;
+  border-radius: clamp(22px, 2.6vw, 34px);
   overflow: hidden;
-  border-radius: clamp(20px, 2.4vw, 32px);
   background: var(--surface-2);
   aspect-ratio: 4 / 5;
-  box-shadow: 0 2px 4px rgba(20, 32, 27, .04), 0 30px 70px rgba(20, 32, 27, .10);
+  box-shadow: 0 2px 6px rgba(20, 32, 27, .05), 0 34px 80px rgba(20, 32, 27, .13);
+  transform: none;
+  transition: transform .6s var(--ease-out), box-shadow .6s var(--ease-out);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-.home-img img {
+/* Наклон включаем только при наведении: иначе карточка стоит перекошенной,
+   потому что модуль отслеживает курсор по всей странице. */
+.home-img:hover .hero-card {
+  transition: transform .18s linear, box-shadow .6s var(--ease-out);
+  transform:
+    rotateX(calc(var(--tilt-y, 0) * -1deg))
+    rotateY(calc(var(--tilt-x, 0) * 1deg));
+  box-shadow: 0 2px 6px rgba(20, 32, 27, .05), 0 46px 96px rgba(20, 32, 27, .17);
+}
+
+.hero-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.01);
-  transition: transform 1.2s var(--ease-out);
+  transform: scale(1.02);
 }
 
-.home-img:hover img { transform: scale(1.04); }
+/* Плавающие карточки-спутники — разная глубина параллакса */
+.hero-chip {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .7rem .95rem .7rem .7rem;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 16px 40px rgba(20, 32, 27, .14);
+}
 
-/* Плашка с фактом поверх изображения */
+.hero-chip img {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--surface-2);
+}
+
+.hero-chip b {
+  display: block;
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.hero-chip span {
+  display: block;
+  margin-top: .15em;
+  font-size: 12px;
+  color: var(--ink-45);
+}
+
+.hero-chip--one { left: clamp(-24px, -2vw, 0px); top: 16%; }
+.hero-chip--two { right: clamp(-20px, -1.6vw, 0px); bottom: 24%; }
+
 .home-badge {
   position: absolute;
+  z-index: 2;
   left: clamp(-8px, -1vw, 0px);
-  bottom: clamp(20px, 3vw, 36px);
+  bottom: clamp(18px, 2.6vw, 30px);
   display: flex;
   align-items: center;
   gap: .9rem;
   padding: .95rem 1.3rem;
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--line-soft);
@@ -427,6 +520,20 @@ section { padding: var(--section-y) 0; }
   line-height: 1.3;
   color: var(--ink-65);
   max-width: 11ch;
+}
+
+/* Индикатор прочитанного */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(var(--read, 0));
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--brand-600), var(--brand-500));
+  pointer-events: none;
 }
 
 /* ====== ABOUT ====== */
@@ -650,12 +757,14 @@ section { padding: var(--section-y) 0; }
   display: flex;
   align-items: center;
   gap: .65rem;
-  font-family: var(--font-display);
-  font-size: var(--step-2);
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
   font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
 }
 
-.footer-brand img { width: 28px; }
+.footer-brand img { width: 34px; }
 
 .footer-text p { font-size: var(--step--1); color: var(--ink-45); }
 
@@ -862,9 +971,9 @@ html.-string .home-content h1 .-s-word { display: inline-block; }
 
 html.-string .home-content h1 .-s-char {
   transform: translateY(.42em);
-  transition: opacity .7s var(--ease-out), transform .9s var(--ease-out);
+  transition: opacity .55s var(--ease-out), transform .7s var(--ease-out);
   /* --word-index наследуется в буквы: волна идёт по словам, внутри — по буквам */
-  transition-delay: calc(var(--word-index) * 85ms + var(--char-index) * 24ms);
+  transition-delay: calc(var(--word-index) * 38ms + var(--char-index) * 11ms);
 }
 
 html.-string .home-content h1.is-revealed .-s-char {
@@ -941,7 +1050,7 @@ html.-string .heading.is-revealed .-s-word {
 
   .home-content { max-width: 38rem; }
   .home-img { justify-self: stretch; max-width: 100%; }
-  .home-img figure { aspect-ratio: 16 / 11; }
+  .hero-card { aspect-ratio: 16 / 11; }
 
   .about { grid-template-columns: 1fr; }
   .about-img { max-width: 34rem; aspect-ratio: 4 / 3; }
@@ -980,11 +1089,18 @@ html.-string .heading.is-revealed .-s-word {
   .home { padding-top: clamp(104px, 22vw, 140px); }
   .home-badge { left: 12px; padding: .8rem 1.1rem; }
 
+  /* на узком экране спутники наезжали на фото — прижимаем к краям */
+  .hero-chip { padding: .55rem .8rem .55rem .55rem; }
+  .hero-chip img { width: 38px; height: 38px; }
+  .hero-chip--one { left: 4px; top: 10%; }
+  .hero-chip--two { right: 4px; bottom: 18%; }
+
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
 
 @media (max-width: 480px) {
-  .home-img figure { aspect-ratio: 5 / 4; }
+  .hero-card { aspect-ratio: 5 / 4; }
+  .hero-chip span { display: none; }
   .home-trust { gap: .8rem 1.4rem; }
   .about-stats { gap: 1.6rem 2.4rem; }
 }

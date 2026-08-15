@@ -32,6 +32,10 @@
     const tune = ns.StringTune.getInstance();
     tune.use(ns.StringSplit);
     tune.use(ns.StringMagnetic);
+    tune.use(ns.StringParallax);
+
+    /* Наклон карточки за курсором — только при настоящем курсоре. */
+    if (hasFinePointer) tune.use(ns.StringTilt);
 
     /* Нативный скролл. ВНИМАНИЕ: 'disable' у этой библиотеки означает
        «запретить прокрутку вообще», а не «не вмешиваться в неё».

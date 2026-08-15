@@ -71,6 +71,31 @@
   items.forEach((el) => observer.observe(el));
 })();
 
+/* ==================== индикатор прочитанного ==================== */
+(() => {
+  const bar = document.querySelector('.scroll-progress');
+  if (!bar) return;
+
+  let ticking = false;
+
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const value = max > 0 ? window.scrollY / max : 0;
+    bar.style.setProperty('--read', Math.min(1, Math.max(0, value)).toFixed(4));
+    ticking = false;
+  };
+
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  update();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+})();
+
 /* ==================== счётчики чисел ==================== */
 (() => {
   const numbers = document.querySelectorAll('[data-count]');
