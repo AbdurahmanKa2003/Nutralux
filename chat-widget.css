@@ -1,0 +1,547 @@
+/* ==========================================================================
+   NUTRALUX — виджет поддержки
+   Стеклянные панели, анимированная рамка ввода, пошаговый индикатор работы
+   и проявление ответа блоками. Палитра — белое с зелёным.
+   ========================================================================== */
+
+@property --sc-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+#nx-chat {
+  --sc-green: #2ca84a;
+  --sc-green-deep: #1f8b4c;
+  --sc-green-dark: #14603a;
+  --sc-green-soft: #eaf6ee;
+  --sc-mint: #7fd39a;
+
+  --sc-ink: #14201b;
+  --sc-dim: rgba(20, 32, 27, .62);
+  --sc-muted: rgba(20, 32, 27, .42);
+
+  --sc-glass: rgba(255, 255, 255, .72);
+  --sc-glass-2: rgba(255, 255, 255, .92);
+  --sc-tint: rgba(20, 32, 27, .04);
+  --sc-line: rgba(20, 32, 27, .10);
+  --sc-line-soft: rgba(20, 32, 27, .06);
+  --sc-shadow: rgba(20, 32, 27, .18);
+
+  --sc-ease: cubic-bezier(.16, 1, .3, 1);
+
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9999;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#nx-chat *,
+#nx-chat *::before,
+#nx-chat *::after { box-sizing: border-box; }
+
+/* ====== Кнопка вызова ====== */
+.nx-launcher {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--sc-green) 0%, var(--sc-green-deep) 60%, var(--sc-green-dark) 100%);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(20, 96, 58, .34), inset 0 1px 1px rgba(255, 255, 255, .3);
+  transition: transform .3s var(--sc-ease), box-shadow .3s ease;
+}
+
+.nx-launcher:hover { transform: scale(1.05); box-shadow: 0 16px 38px rgba(20, 96, 58, .42); }
+.nx-launcher:active { transform: scale(.95); }
+
+.nx-launcher svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nx-launcher .nx-ico-close { position: absolute; opacity: 0; transform: rotate(-90deg) scale(.6); transition: .35s var(--sc-ease); }
+.nx-launcher .nx-ico-chat { transition: .35s var(--sc-ease); }
+
+#nx-chat.is-open .nx-ico-chat { opacity: 0; transform: rotate(90deg) scale(.6); }
+#nx-chat.is-open .nx-ico-close { opacity: 1; transform: none; }
+
+/* пульс, пока с ботом не поговорили */
+.nx-launcher::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--sc-green);
+  opacity: 0;
+  animation: nx-pulse 3.2s ease-out infinite;
+}
+
+#nx-chat.is-open .nx-launcher::after,
+#nx-chat.is-touched .nx-launcher::after { animation: none; opacity: 0; }
+
+@keyframes nx-pulse {
+  0% { transform: scale(.9); opacity: .55; }
+  70% { transform: scale(1.25); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ====== Панель ====== */
+.nx-panel {
+  position: absolute;
+  right: 0;
+  bottom: 76px;
+  width: min(410px, calc(100vw - 40px));
+  height: min(640px, calc(100dvh - 130px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--sc-line);
+  border-radius: 28px;
+  background: var(--sc-glass);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  box-shadow: 0 30px 70px -18px var(--sc-shadow), inset 0 1px 1px rgba(255, 255, 255, .6);
+  opacity: 0;
+  transform: translateY(16px) scale(.96);
+  transform-origin: bottom right;
+  pointer-events: none;
+  transition: opacity .35s var(--sc-ease), transform .45s var(--sc-ease);
+}
+
+#nx-chat.is-open .nx-panel { opacity: 1; transform: none; pointer-events: auto; }
+
+/* мягкое зелёное свечение внутри панели */
+.nx-panel::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -30%;
+  right: -20%;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(44, 168, 74, .18) 0%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+/* ====== Шапка ====== */
+.nx-head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--sc-line-soft);
+  background: linear-gradient(180deg, var(--sc-glass-2), rgba(255, 255, 255, .4));
+}
+
+.nx-avatar {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: linear-gradient(140deg, var(--sc-green), var(--sc-green-dark));
+  box-shadow: 0 8px 20px rgba(20, 96, 58, .28);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.nx-avatar img { width: 30px; height: auto; }
+
+.nx-head-text { flex: 1; min-width: 0; }
+.nx-head-text b { display: block; font-size: 14.5px; font-weight: 600; color: var(--sc-ink); letter-spacing: -.2px; }
+
+.nx-status { display: flex; align-items: center; gap: 7px; margin-top: 3px; font-size: 12px; color: var(--sc-dim); }
+
+.nx-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sc-green);
+  box-shadow: 0 0 10px var(--sc-green);
+  animation: nx-breathe 3s ease-in-out infinite;
+}
+
+@keyframes nx-breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: .5; }
+}
+
+.nx-head-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--sc-line);
+  border-radius: 11px;
+  background: var(--sc-tint);
+  color: var(--sc-dim);
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.nx-head-btn:hover { color: var(--sc-ink); background: #fff; border-color: var(--sc-line); transform: translateY(-1px); }
+.nx-head-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ====== Лента ====== */
+.nx-feed {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 18px 8px;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.nx-feed::-webkit-scrollbar { width: 4px; }
+.nx-feed::-webkit-scrollbar-track { background: transparent; }
+.nx-feed::-webkit-scrollbar-thumb { background: rgba(20, 32, 27, .16); border-radius: 10px; }
+.nx-feed::-webkit-scrollbar-thumb:hover { background: rgba(20, 32, 27, .3); }
+
+/* ====== Пустое состояние ====== */
+.nx-hero { animation: nx-blur-in .8s var(--sc-ease); }
+
+@keyframes nx-blur-in {
+  from { opacity: 0; filter: blur(12px); transform: scale(.97); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+
+.nx-hero h3 {
+  margin: 0 0 6px;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -.4px;
+  color: var(--sc-ink);
+}
+
+.nx-hero p { margin: 0 0 18px; font-size: 13.5px; line-height: 1.5; color: var(--sc-dim); }
+
+.nx-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+.nx-card {
+  padding: 12px 13px;
+  border: 1px solid var(--sc-line-soft);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .7);
+  text-align: left;
+  cursor: pointer;
+  transition: .3s var(--sc-ease);
+  font-family: inherit;
+}
+
+.nx-card:hover {
+  border-color: rgba(44, 168, 74, .45);
+  background: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px rgba(20, 32, 27, .1);
+}
+
+.nx-card:active { transform: scale(.98); }
+.nx-card b { display: block; font-size: 13px; font-weight: 600; color: var(--sc-ink); margin-bottom: 3px; }
+.nx-card span { font-size: 11.5px; line-height: 1.4; color: var(--sc-muted); }
+
+/* ====== Сообщения ====== */
+.nx-row {
+  display: flex;
+  gap: 11px;
+  animation: nx-rise .55s var(--sc-ease) both;
+}
+
+@keyframes nx-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+.nx-row.user { flex-direction: row-reverse; }
+
+.nx-msg-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 11px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.nx-row.bot .nx-msg-avatar {
+  background: linear-gradient(140deg, var(--sc-green-soft), #fff);
+  border: 1px solid rgba(44, 168, 74, .3);
+  overflow: hidden;
+}
+
+.nx-row.bot .nx-msg-avatar img { width: 22px; height: auto; }
+.nx-row.user .nx-msg-avatar { background: var(--sc-ink); color: #fff; }
+
+.nx-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.nx-row.user .nx-body { align-items: flex-end; }
+
+.nx-bubble { font-size: 14px; line-height: 1.65; color: var(--sc-ink); word-wrap: break-word; }
+
+.nx-row.user .nx-bubble {
+  max-width: 85%;
+  padding: 11px 15px;
+  border: 1px solid rgba(44, 168, 74, .22);
+  border-radius: 18px;
+  border-top-right-radius: 6px;
+  background: var(--sc-green-soft);
+}
+
+.nx-row.bot .nx-bubble { padding-top: 3px; }
+.nx-row.bot .nx-bubble strong { font-weight: 600; color: var(--sc-green-dark); }
+.nx-row.bot .nx-bubble a { color: var(--sc-green-deep); text-decoration: underline; }
+
+.nx-li { display: flex; gap: 9px; margin: 7px 0; }
+.nx-li-mark { color: var(--sc-green); font-weight: 700; flex-shrink: 0; }
+
+.nx-code {
+  margin: 10px 0;
+  border: 1px solid var(--sc-line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.nx-code-head { display: flex; gap: 6px; padding: 8px 11px; border-bottom: 1px solid var(--sc-line-soft); background: var(--sc-tint); }
+.nx-code-head i { width: 9px; height: 9px; border-radius: 50%; background: rgba(20, 32, 27, .18); }
+.nx-code-body { padding: 11px; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; line-height: 1.5; }
+
+/* ====== Подвал сообщения ====== */
+.nx-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--sc-muted); }
+
+.nx-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sc-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.nx-copy:hover { color: var(--sc-green-dark); background: var(--sc-green-soft); }
+.nx-copy svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ====== Индикатор работы ====== */
+.nx-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: fit-content;
+  padding: 12px 14px;
+  border: 1px solid var(--sc-line-soft);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .75);
+}
+
+.nx-step { display: flex; align-items: center; gap: 9px; font-size: 12.5px; color: var(--sc-dim); transition: opacity .3s ease; }
+
+.nx-spin {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(44, 168, 74, .22);
+  border-top-color: var(--sc-green);
+  border-radius: 50%;
+  animation: nx-spin 1s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes nx-spin { to { transform: rotate(360deg); } }
+
+.nx-step.done .nx-spin {
+  position: relative;
+  border-color: var(--sc-green);
+  background: var(--sc-green);
+  animation: none;
+}
+
+.nx-step.done .nx-spin::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 3.5px;
+  width: 3px;
+  height: 6px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+}
+
+.nx-shimmer { display: flex; flex-direction: column; gap: 9px; margin-top: 12px; }
+
+.nx-shimmer i {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--sc-tint) 25%, rgba(44, 168, 74, .16) 50%, var(--sc-tint) 75%);
+  background-size: 200% 100%;
+  animation: nx-shine 1.5s linear infinite;
+}
+
+.nx-shimmer i:nth-child(1) { width: 92%; }
+.nx-shimmer i:nth-child(2) { width: 100%; }
+.nx-shimmer i:nth-child(3) { width: 58%; }
+
+@keyframes nx-shine {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* ====== Поле ввода ====== */
+.nx-dock { position: relative; z-index: 2; padding: 12px 14px 14px; background: linear-gradient(0deg, var(--sc-glass-2) 55%, transparent); }
+
+.nx-input-glass {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  padding: 8px 8px 8px 16px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(20, 32, 27, .10);
+  transition: box-shadow .3s ease;
+}
+
+/* градиентная рамка оживает, когда есть что отправить */
+.nx-input-glass::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: 23px;
+  background: var(--sc-line);
+  transition: background .4s ease;
+}
+
+.nx-input-glass.is-active::before {
+  background: linear-gradient(var(--sc-angle), var(--sc-green), var(--sc-mint), var(--sc-green-dark), var(--sc-green));
+  animation: nx-border 3s linear infinite;
+}
+
+@keyframes nx-border {
+  to { --sc-angle: 360deg; }
+}
+
+.nx-input {
+  flex: 1;
+  min-height: 40px;
+  max-height: 132px;
+  padding: 10px 0;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--sc-ink);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.nx-input::placeholder { color: var(--sc-muted); }
+
+.nx-send {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(140deg, var(--sc-green), var(--sc-green-dark));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(20, 96, 58, .3);
+  transition: transform .25s var(--sc-ease), box-shadow .25s ease, background .25s ease;
+}
+
+.nx-send:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 10px 22px rgba(20, 96, 58, .38); }
+.nx-send:active:not(:disabled) { transform: scale(.94); }
+
+.nx-send:disabled {
+  background: var(--sc-tint);
+  color: var(--sc-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.nx-send svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.nx-hint { margin: 8px 2px 0; font-size: 10.5px; color: var(--sc-muted); text-align: center; }
+
+/* ====== Ошибка ====== */
+.nx-toast {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  z-index: 5;
+  display: none;
+  max-width: 88%;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 14px;
+  background: rgba(180, 35, 24, .94);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 14px 30px rgba(180, 35, 24, .3);
+  transform: translate(-50%, -14px);
+  opacity: 0;
+}
+
+.nx-toast.show { display: block; animation: nx-drop .45s var(--sc-ease) forwards; }
+
+@keyframes nx-drop {
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* ====== Телефон ====== */
+@media (max-width: 560px) {
+  #nx-chat { right: 14px; bottom: 14px; }
+
+  .nx-panel {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 88dvh;
+    border-radius: 26px 26px 0 0;
+    transform-origin: bottom center;
+  }
+
+  .nx-cards { grid-template-columns: 1fr; }
+
+  /* Панель занимает низ экрана — кнопка вызова накрывала бы поле ввода */
+  #nx-chat.is-open .nx-launcher {
+    opacity: 0;
+    transform: scale(.8);
+    pointer-events: none;
+  }
+}
+
+/* ====== Уважение к настройкам движения ====== */
+@media (prefers-reduced-motion: reduce) {
+  #nx-chat *,
+  #nx-chat *::before,
+  #nx-chat *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
