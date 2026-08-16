@@ -1362,12 +1362,18 @@ html.-string .heading.is-revealed .-s-word {
   .hero-chip img { width: 32px; height: 32px; }
   .hero-chip--one { left: 0; top: 2%; }
   .hero-chip--two { display: none; }
-  .home-badge { left: 0; bottom: 0; padding: .7rem 1rem; }
+  /* бейдж пересекался с подписью витрины; тот же факт есть в блоке
+     «О бренде» и в кнопке под товарами */
+  .home-badge { display: none; }
   .home { grid-template-columns: 1fr; min-height: auto; }
   .home > .home-content { justify-self: stretch; padding-right: 0; }
   /* На узком экране подпись и «листайте» ложились прямо на упаковку —
      выводим подпись в поток под сценой. */
-  .home-stage { height: min(42vh, 330px); margin-bottom: 1rem; }
+  /* Продукт был выше самой сцены (56vh против 42vh) и обрезался её краем:
+     на узком экране высоту задаёт содержимое, а упаковка ограничена явно. */
+  .home-stage { height: auto; min-height: min(40vh, 300px); margin-bottom: 1rem; }
+  .stage-products { height: auto; }
+  .stage-product { max-height: min(38vh, 290px); }
 
   .stage-caption {
     position: static;
