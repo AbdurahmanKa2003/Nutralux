@@ -49,6 +49,38 @@
     <!-- lang icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css" />
 
+    <style>
+      /* Критические стили заставки: без них браузер успевает показать
+         логотип в натуральную величину до загрузки styles.css. */
+      html { background: #08130e; }
+      .intro { display: none; }
+      html.js-intro .intro {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        display: grid;
+        place-items: center;
+        gap: 1.2rem;
+        background: #08130e;
+      }
+      html.js-intro .intro-mark { display: grid; place-items: center; gap: 1.1rem; }
+      html.js-intro .intro-mark img { width: clamp(84px, 9vw, 124px); height: auto; }
+      html.js-intro .intro-mark span {
+        font: 600 clamp(15px, 1.3vw, 19px)/1 system-ui, sans-serif;
+        letter-spacing: .34em;
+        text-transform: uppercase;
+        color: #fff;
+      }
+      html.js-intro .intro-line {
+        position: absolute;
+        left: 50%;
+        bottom: 22%;
+        width: min(220px, 40vw);
+        height: 1px;
+        transform: translateX(-50%);
+        background: rgba(255,255,255,.16);
+      }
+    </style>
     <script>
       /* Ставится до отрисовки: включает сценарий входа. Если JS выключен,
          класс не появится и весь контент останется видимым. */
@@ -297,13 +329,13 @@
         <div class="about-img" data-reveal>
           <img
             string="parallax" string-parallax="0.12"
-            src="images/about-collagen.jpg"
+            src="images/products/collagen-30-sachets.jpg"
             alt="Упаковка коллагена Nutralux с биотином и цинком, 30 саше"
-            width="1280" height="960" loading="lazy" decoding="async"
+            width="1200" height="1200" loading="lazy" decoding="async"
           />
           <div class="about-note">
             <b>0</b>
-            <span>«фирменных смесей»</span>
+            <span>фирменных смесей</span>
           </div>
         </div>
 
@@ -426,6 +458,17 @@
                 <h4>Магний + B6</h4>
                 <p>Для мышц, нервной системы и спокойного сна</p>
                 <a href="product.html?slug=magnesium-b6" class="btn">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="portfolio-box" data-reveal style="--reveal-i: 3">
+              <div class="portfolio-img">
+                <img src="images/products/vitamin-c-eff.jpg" alt="Витамин C 1000 мг Nutralux, шипучие таблетки" width="1200" height="1200" loading="lazy" decoding="async" />
+              </div>
+              <div class="portfolio-content">
+                <h4>Витамин C 1000 мг</h4>
+                <p>Шипучие таблетки для иммунитета и тонуса</p>
+                <a href="product.html?slug=vitamin-c-effervescent-1000" class="btn">Подробнее</a>
               </div>
             </article>
           </div>

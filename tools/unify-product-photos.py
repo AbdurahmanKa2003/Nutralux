@@ -33,11 +33,11 @@ MODEL = Path(__file__).with_name("isnet.onnx")
 # Зоны, которые вычитаются из маски: у Omega-3 капсулы нависают над плечом
 # бутылки, и одной рамкой их не отделить, не срезав крышку.
 EXCLUDE = {
-    "omega-3.jpg": [(0.10, 0.10, 0.298, 0.33), (0.60, 0.10, 0.80, 0.22)],
+    "omega-3.jpg": [(0.02, 0.02, 0.275, 0.30), (0.655, 0.02, 0.98, 0.20)],
 }
 
 MANUAL_BOX = {
-    "omega-3.jpg": (0.245, 0.125, 0.663, 0.90),
+    "omega-3.jpg": (0.225, 0.115, 0.700, 0.915),
     "probiotic.jpg": (0.235, 0.09, 0.695, 0.91),
     "spirulina.jpg": (0.235, 0.12, 0.675, 0.96),
     "st-johns-wort-parsley.jpg": (0.24, 0.08, 0.80, 0.90),
@@ -179,24 +179,28 @@ def main() -> int:
         img = Image.open(path)
         try:
             mask = segment(session, img)
+            def feather(rect, invert=False):
+                """Прямоугольник с мягкой границей: резкие срезы выглядят как брак."""
+                w, h = img.size
+                layer = Image.new("L", img.size, 255 if invert else 0)
+                ImageDraw.Draw(layer).rectangle(
+                    [rect[0] * w, rect[1] * h, rect[2] * w, rect[3] * h],
+                    fill=0 if invert else 255,
+                )
+                return layer.filter(ImageFilter.GaussianBlur(max(6, int(min(w, h) * 0.02))))
+
             box = MANUAL_BOX.get(path.name)
             if box:
-                w, h = img.size
-                keep = Image.new("L", img.size, 0)
-                ImageDraw.Draw(keep).rectangle(
-                    [box[0] * w, box[1] * h, box[2] * w, box[3] * h], fill=255
-                )
                 mask = Image.fromarray(
-                    np.minimum(np.asarray(mask), np.asarray(keep)).astype(np.uint8), "L"
+                    (np.asarray(mask, dtype=np.float32)
+                     * (np.asarray(feather(box), dtype=np.float32) / 255.0)
+                     ).astype(np.uint8), "L"
                 )
             for zone in EXCLUDE.get(path.name, []):
-                w, h = img.size
-                cut = Image.new("L", img.size, 255)
-                ImageDraw.Draw(cut).rectangle(
-                    [zone[0] * w, zone[1] * h, zone[2] * w, zone[3] * h], fill=0
-                )
                 mask = Image.fromarray(
-                    np.minimum(np.asarray(mask), np.asarray(cut)).astype(np.uint8), "L"
+                    (np.asarray(mask, dtype=np.float32)
+                     * (np.asarray(feather(zone, invert=True), dtype=np.float32) / 255.0)
+                     ).astype(np.uint8), "L"
                 )
             result = compose(img, refine(mask))
         except ValueError as err:
