@@ -3,35 +3,91 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fbfaf7" />
 
     <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon" />
 
     <!-- SEO Meta Tags -->
-    <title>Nutralux — Vitamins & Supplements Store | Buy Vitamin C, Magnesium, Zinc</title>
-    <meta name="description" content="Nutralux — your trusted online store for vitamins and supplements. We offer high-quality products: Vitamin C, Magnesium, Zinc, Multivitamins, Probiotics. Wide catalog, detailed descriptions, and fast delivery nationwide." />
-    <meta name="keywords" content="Nutralux, vitamins, supplements, buy vitamins, vitamin C, magnesium, zinc, multivitamins, probiotics, health, supplement store, online vitamin store, immune support, vitamins for energy" />
+    <title>Nutralux — Vitamins & Supplements | Vitamin C, Magnesium, Omega-3</title>
+    <meta name="description" content="Nutralux — vitamins and supplements with transparent formulas and clear dosages: Vitamin C, Magnesium, Zinc, Omega-3, Multivitamins, Probiotics. 21 formulas, delivery in 1–2 days." />
+    <meta name="keywords" content="Nutralux, vitamins, supplements, buy vitamins, vitamin C, magnesium, zinc, multivitamins, probiotics, omega 3, health, supplement store, immune support" />
     <meta name="author" content="Nutralux" />
-    <link rel="canonical" href="https://yourwebsite.com/index.html" />
+    <link rel="canonical" href="https://www.nutralux.com.tr/index.html" />
+    <link rel="alternate" hreflang="en" href="https://www.nutralux.com.tr/index.html" />
+    <link rel="alternate" hreflang="ru" href="https://www.nutralux.com.tr/index-ru.html" />
+    <link rel="alternate" hreflang="x-default" href="https://www.nutralux.com.tr/index.html" />
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Nutralux — Vitamins & Supplements Store" />
-    <meta property="og:description" content="Nutralux — your trusted online store for vitamins and supplements. We offer high-quality products: Vitamin C, Magnesium, Zinc, Multivitamins, Probiotics. Wide catalog, detailed descriptions, and fast delivery nationwide." />
+    <meta property="og:site_name" content="Nutralux" />
+    <meta property="og:title" content="Nutralux — Vitamins & Supplements" />
+    <meta property="og:description" content="Transparent formulas, verified suppliers and clear dosages. 21 formulas for immunity, energy, sleep and daily balance." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://yourwebsite.com/index.html" />
-    <meta property="og:image" content="https://yourwebsite.com/images/avatar.png" />
+    <meta property="og:url" content="https://www.nutralux.com.tr/index.html" />
+    <meta property="og:image" content="https://www.nutralux.com.tr/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ru_RU" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Nutralux — Vitamins & Supplements Store" />
-    <meta name="twitter:description" content="Nutralux — your trusted online store for vitamins and supplements. We offer high-quality products: Vitamin C, Magnesium, Zinc, Multivitamins, Probiotics. Wide catalog, detailed descriptions, and fast delivery nationwide." />
-    <meta name="twitter:image" content="https://yourwebsite.com/images/avatar.png" />
+    <meta name="twitter:title" content="Nutralux — Vitamins & Supplements" />
+    <meta name="twitter:description" content="Transparent formulas, verified suppliers and clear dosages. 21 formulas for immunity, energy, sleep and daily balance." />
+    <meta name="twitter:image" content="https://www.nutralux.com.tr/images/og-image.jpg" />
+
+    <link rel="preload" as="image" href="images/cutout/vitamin-c-eff.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="images/logo-mark.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
     <!-- box icons -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
 
     <!-- lang icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css" />
+
+    <style>
+      /* Критические стили заставки: без них браузер успевает показать
+         логотип в натуральную величину до загрузки styles.css. */
+      html { background: #08130e; }
+      .intro { display: none; }
+      html.js-intro .intro {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        display: grid;
+        place-items: center;
+        gap: 1.2rem;
+        background: #08130e;
+      }
+      html.js-intro .intro-mark { display: grid; place-items: center; gap: 1.1rem; }
+      html.js-intro .intro-mark img { width: clamp(84px, 9vw, 124px); height: auto; }
+      html.js-intro .intro-mark span {
+        font: 600 clamp(15px, 1.3vw, 19px)/1 system-ui, sans-serif;
+        letter-spacing: .34em;
+        text-transform: uppercase;
+        color: #fff;
+      }
+      html.js-intro .intro-line {
+        position: absolute;
+        left: 50%;
+        bottom: 22%;
+        width: min(220px, 40vw);
+        height: 1px;
+        transform: translateX(-50%);
+        background: rgba(255,255,255,.16);
+      }
+    </style>
+    <script>
+      /* Ставится до отрисовки: включает сценарий входа. Если JS выключен,
+         класс не появится и весь контент останется видимым. */
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("js-intro");
+      }
+    </script>
 
     <!-- css -->
     <link rel="stylesheet" href="styles.css" />
@@ -42,10 +98,11 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Nutralux",
-      "url": "https://yourwebsite.com/",
+      "url": "https://www.nutralux.com.tr/",
+      "inLanguage": "en",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://yourwebsite.com/catalog.html?q={search_term_string}",
+        "target": "https://www.nutralux.com.tr/catalog-en.html?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     }
@@ -55,8 +112,9 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Nutralux",
-      "url": "https://yourwebsite.com/",
-      "logo": "https://yourwebsite.com/images/favicon-32x32.png",
+      "url": "https://www.nutralux.com.tr/",
+      "logo": "https://www.nutralux.com.tr/images/logo-full.png",
+      "image": "https://www.nutralux.com.tr/images/og-image.jpg",
       "sameAs": [
         "https://wa.me/905332452900",
         "https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1",
@@ -67,202 +125,426 @@
         "@type": "ContactPoint",
         "telephone": "+905332452900",
         "contactType": "customer service",
-        "areaServed": "EN"
+        "areaServed": "TR",
+        "availableLanguage": ["en", "ru", "tr"]
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How fast is delivery?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Usually 1–2 business days. Orders are shipped the same day they are placed." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can children take your vitamins?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, we offer special formulas for kids. Please check the “For Kids” section in our catalog." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer discounts for bulk orders?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, when ordering 3 or more items you get a discount and free shipping." }
+        },
+        {
+          "@type": "Question",
+          "name": "What payment methods are available?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We accept credit cards, e-wallets, and cash on delivery." }
+        }
+      ]
     }
     </script>
   </head>
 
-  <body>
+  <body class="home-page">
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="intro" aria-hidden="true">
+      <div class="intro-mark">
+        <img src="images/logo-mark.png" alt="" width="124" height="127" />
+        <span>Nutralux</span>
+      </div>
+      <div class="intro-line"></div>
+    </div>
+
     <!-------------- HEADER -------------->
 
     <header class="header">
-      <a href="#home" class="logo">Nutralux</a>
+      <a href="#home" class="logo" aria-label="Nutralux — home">
+        <img src="images/logo-mark.png" alt="" width="46" height="47" />
+        <span>Nutralux</span>
+      </a>
 
-      <i class="bx bx-menu" id="menu-icon"></i>
+      <i class="bx bx-menu" id="menu-icon" aria-label="Open menu"></i>
 
-      <nav class="navbar">
-        <a href="#about" class="active">About</a>
-        <a href="#services" class="active">Services</a>
-        <a href="catalog-en.html" class="active">Catalog</a>
-        <a href="#contact" class="active">Contact</a>
-        <a href="index-ru.html" class="active lang"><span class="fi fi-ru"></span></a>
+      <nav class="navbar" id="primary-nav">
+        <a href="#about">About</a>
+        <a href="#services">Why Nutralux</a>
+        <a href="catalog-en.html">Catalog</a>
+        <a href="#faq">FAQ</a>
+        <a href="index-ru.html" class="lang" aria-label="Русская версия"><span class="fi fi-ru"></span></a>
       </nav>
     </header>
 
-    <!-------------- HOME -------------->
+    <main>
+      <!-------------- HERO -------------->
 
-    <section class="home" id="home">
-      <div class="home-content">
-        <h1>Nutralux</h1>
-        <h3><span class="multiple-text"></span> Store</h3>
-        <p>
-          Vitamins and supplements for health: Vitamin C, Magnesium, Zinc, Multivitamins, Probiotics, and more.
-          High-quality formulas, clear usage instructions, and personalized support.
-        </p>
-        <div class="social-media">
-          <a href="https://wa.me/905332452900" target="_blank" aria-label="WhatsApp Nutralux"><i class="bx bxl-whatsapp"></i></a>
-          <a href="https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1" target="_blank" aria-label="TikTok Nutralux"><i class="bx bxl-tiktok"></i></a>
-          <a href="https://t.me/nutralux" target="_blank" aria-label="Telegram Nutralux"><i class="bx bxl-telegram"></i></a>
-          <a href="https://clck.ru/3NQNkm" target="_blank" aria-label="Instagram Nutralux"><i class="bx bxl-instagram"></i></a>
-        </div>
-        <a href="catalog-en.html" class="btn">Go to Catalog</a>
-      </div>
+      <section class="home" id="home">
+        <div class="home-content">
+          <p class="eyebrow">Nutralux — vitamins &amp; supplements</p>
 
-      <div class="home-img">
-        <img src="images/avatar.png" alt="Woman holding a Nutralux vitamin bottle with a green label" />
-      </div>
-    </section>
+          <h1 string="split" string-split="char-word" aria-label="Vitamins and supplements for everyday health">
+            Vitamins and supplements for <em>everyday health</em>
+          </h1>
 
-    <!-------------- ABOUT -------------->
+          <p class="home-lead">
+            Vitamin C, magnesium, zinc, multivitamins, probiotics and more.
+            Quality formulas, clear dosage instructions and help choosing what suits you.
+          </p>
 
-    <section class="about" id="about">
-      <div class="about-img">
-        <img src="images/about-image.png" alt="Set of various Nutralux vitamin bottles on a white background" />
-      </div>
+          <ul class="home-goals">
+            <li><a href="catalog-en.html"><i class="bx bx-shield-plus" aria-hidden="true"></i> Immunity</a></li>
+            <li><a href="catalog-en.html"><i class="bx bx-bolt-circle" aria-hidden="true"></i> Energy</a></li>
+            <li><a href="catalog-en.html"><i class="bx bx-moon" aria-hidden="true"></i> Sleep</a></li>
+            <li><a href="catalog-en.html"><i class="bx bx-heart" aria-hidden="true"></i> Beauty</a></li>
+            <li><a href="catalog-en.html"><i class="bx bx-leaf" aria-hidden="true"></i> Daily balance</a></li>
+          </ul>
 
-      <div class="about-content">
-        <h2 class="heading">About <span>Nutralux</span></h2>
-        <h3>Daily support with quality supplements</h3>
-        <p>
-          We carefully select trusted supplements with transparent ingredients and proper dosages.
-          We help you choose the right complexes for your goals — immunity, energy, sleep, beauty, and more.
-        </p>
-        <p>Focus: Vitamin C, Magnesium, Zinc, Women’s Multivitamins, Probiotics, and basic health complexes.</p>
-      </div>
-    </section>
+          <div class="home-actions">
+            <a href="catalog-en.html" class="btn" data-magnetic>
+              Explore the catalog
+              <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+            </a>
+            <a href="https://wa.me/905332452900" target="_blank" rel="noopener" class="btn btn--ghost" data-magnetic>
+              Ask a specialist
+            </a>
+          </div>
 
-    <!-------------- SERVICES -------------->
-
-    <section class="services" id="services">
-      <h2 class="heading">Our <span>Services</span></h2>
-
-      <div class="services-container">
-        <div class="services-box">
-          <i class="bx bx-support"></i>
-          <h3>Vitamin Consultation</h3>
-          <ul>
-            <li>We’ll help you choose the right formula and dosage</li>
-            <li>Basic recommendations for taking supplements</li>
+          <ul class="home-trust">
+            <li><i class="bx bx-check-shield" aria-hidden="true"></i> Verified suppliers</li>
+            <li><i class="bx bx-capsule" aria-hidden="true"></i> Clear dosage instructions</li>
+            <li><i class="bx bx-list-check" aria-hidden="true"></i> Transparent labels</li>
           </ul>
         </div>
 
-        <div class="services-box">
-          <i class="bx bx-package"></i>
-          <h3>Fast Delivery</h3>
-          <ul>
-            <li>Orders shipped the same day</li>
-            <li>Tracking available for every order</li>
+        <div class="home-stage">
+          <div class="stage-halo" aria-hidden="true"></div>
+          <div class="stage-ring" string="parallax" string-parallax="0.06" aria-hidden="true"></div>
+          <div class="stage-ring stage-ring--inner" string="parallax" string-parallax="0.10" aria-hidden="true"></div>
+
+          <div class="stage-glow" aria-hidden="true"></div>
+
+          <div class="stage-products" string="tilt" string-tilt-max="9" string-tilt-friction="0.14">
+            <img
+              class="stage-product is-active"
+              src="images/cutout/vitamin-c-eff.png"
+              alt="Vitamin C 1000 mg — Nutralux"
+              data-name="Vitamin C 1000 mg" data-sub="Immunity · tone"
+              width="411" height="1000"
+              fetchpriority="high" decoding="async"
+            />
+            <img
+              class="stage-product"
+              src="images/cutout/omega-3.png"
+              alt="Omega-3 1000 mg — Nutralux"
+              data-name="Omega-3 1000 mg" data-sub="Brain · heart · vision"
+              width="198" height="363"
+              loading="lazy" decoding="async"
+            />
+            <img
+              class="stage-product"
+              src="images/cutout/magnesium-b6.png"
+              alt="Magnesium + B6 — Nutralux"
+              data-name="Magnesium + B6" data-sub="Calm · sleep · muscles"
+              width="217" height="403"
+              loading="lazy" decoding="async"
+            />
+          </div>
+
+          <div class="stage-caption">
+            <b>Vitamin C 1000 mg</b>
+            <span>Immunity · tone</span>
+            <div class="stage-dots" role="tablist" aria-label="Showcase"></div>
+          </div>
+
+          <div class="hero-chip hero-chip--one" string="parallax" string-parallax="0.30">
+            <img src="images/cutout/omega-3.png" alt="" width="198" height="363" loading="lazy" />
+            <div>
+              <b>Omega-3 1000 mg</b>
+              <span>Brain · heart · vision</span>
+            </div>
+          </div>
+
+          <div class="hero-chip hero-chip--two" string="parallax" string-parallax="0.18">
+            <img src="images/cutout/magnesium-b6.png" alt="" width="217" height="403" loading="lazy" />
+            <div>
+              <b>Magnesium + B6</b>
+              <span>Calm · sleep · muscles</span>
+            </div>
+          </div>
+
+          <div class="home-badge">
+            <strong>21</strong>
+            <span>formulas in the catalog</span>
+          </div>
+
+          <div class="stage-seal" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <defs><path id="seal-en" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" /></defs>
+              <text><textPath href="#seal-en">NUTRALUX · VITAMINS &amp; SUPPLEMENTS · NUTRALUX · VITAMINS &amp; SUPPLEMENTS · </textPath></text>
+            </svg>
+            <span><i class="bx bx-leaf" aria-hidden="true"></i></span>
+          </div>
+        </div>
+
+        <a class="scroll-cue" href="#about">
+          Scroll <i class="bx bx-chevron-down" aria-hidden="true"></i>
+        </a>
+      </section>
+
+
+      <!-------------- TICKER -------------->
+
+      <section class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>Transparent formulas</span>
+          <span>Verified suppliers</span>
+          <span>Honest dosages</span>
+          <span>No proprietary blends</span>
+          <span>No proprietary blends</span>
+          <span>Transparent formulas</span>
+          <span>Verified suppliers</span>
+          <span>Honest dosages</span>
+          <span>No proprietary blends</span>
+          <span>No proprietary blends</span>
+        </div>
+      </section>
+
+      <!-------------- ABOUT -------------->
+
+      <section class="about" id="about">
+        <div class="about-img" data-reveal>
+          <img
+            string="parallax" string-parallax="0.12"
+            src="images/products/collagen-30-sachets.jpg"
+            alt="Nutralux Collagen box with biotin and zinc, 30 sachets"
+            width="1200" height="1200" loading="lazy" decoding="async"
+          />
+          <div class="about-note">
+            <b>0</b>
+            <span>proprietary blends</span>
+          </div>
+        </div>
+
+        <div class="about-content">
+          <div class="section-head">
+            <p class="eyebrow">About</p>
+            <h2 class="heading" string="split" string-split="word" aria-label="Supplements chosen the way we would choose them for ourselves">
+              Supplements chosen the way we'd choose them <em>for ourselves</em>
+            </h2>
+          </div>
+
+          <p>
+            We work only with verified suppliers and formulas that state their ingredients and dosages plainly.
+            No proprietary blends, no vague promises — just what is in the bottle and how to take it.
+          </p>
+          <p>
+            Focus areas: Vitamin C, Magnesium, Zinc, Omega-3, Women's Multivitamins, Probiotics
+            and foundational daily complexes.
+          </p>
+
+          <ul class="about-stats">
+            <li data-reveal style="--reveal-i: 0">
+              <strong data-count="21">21</strong>
+              <span>formulas in the catalog</span>
+            </li>
+            <li data-reveal style="--reveal-i: 1">
+              <strong data-count="10">10</strong>
+              <span>categories to choose from</span>
+            </li>
+            <li data-reveal style="--reveal-i: 2">
+              <strong>Verified</strong>
+              <span>suppliers only</span>
+            </li>
           </ul>
         </div>
+      </section>
 
-        <div class="services-box">
-          <i class="bx bx-check-shield"></i>
-          <h3>Quality & Transparency</h3>
-          <ul>
-            <li>Only verified suppliers</li>
-            <li>Clear labels and ingredient lists</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      <!-------------- WHY NUTRALUX -------------->
 
-    <!-------------- FEATURED PRODUCTS -------------->
-
-    <section class="portfolio" id="portfolio">
-      <h2 class="heading">Popular <span>Nutralux Products</span></h2>
-    
-      <div class="portfolio-container">
-        <div class="portfolio-box">
-          <div class="portfolio-img">
-            <img src="images/omega-3.jpg" alt="Nutralux Omega-3 1000 mg bottle" />
+      <section class="services" id="services">
+        <div class="shell">
+          <div class="section-head">
+            <p class="eyebrow">Why Nutralux</p>
+            <h2 class="heading" string="split" string-split="word" aria-label="Three things we refuse to compromise on">
+              Three things we refuse to <em>compromise on</em>
+            </h2>
           </div>
-          <div class="portfolio-content">
-            <h4>Omega-3 1000 mg</h4>
-            <p>Supports brain, heart, and vision health</p>
-            <a href="product.html?slug=omega-3-1000" class="btn">Learn More</a>
-          </div>
-        </div>
-    
-        <div class="portfolio-box">
-          <div class="portfolio-img">
-            <img src="images/womens-multivitamin.jpg" alt="Nutralux Women's Multivitamin bottle" />
-          </div>
-          <div class="portfolio-content">
-            <h4>Women’s Multivitamin</h4>
-            <p>Daily balance and vitality support</p>
-            <a href="product.html?slug=womens-multivitamin" class="btn">Learn More</a>
-          </div>
-        </div>
-      </div>
-    
-      <div style="text-align:center; margin-top: 1.5rem;">
-        <a href="catalog.html" class="btn">View Full Catalog</a>
-      </div>
-    </section>
 
-    <!-------------- FAQ -------------->
+          <div class="services-container">
+            <div class="services-box" data-reveal style="--reveal-i: 0">
+              <i class="bx bx-support" aria-hidden="true"></i>
+              <h3>Guidance, not upselling</h3>
+              <ul>
+                <li>We help you pick the right formula and dosage</li>
+                <li>Clear recommendations on how to take it</li>
+              </ul>
+            </div>
 
-    <section class="faq" id="faq">
-      <h2 class="heading">Frequently Asked <span>Questions</span></h2>
-    
-      <div class="faq-container">
-        <div class="faq-item">
-          <h3>How fast is delivery?</h3>
-          <p>Usually, delivery takes 1–2 business days. We ship orders on the same day they’re placed.</p>
+            <div class="services-box" data-reveal style="--reveal-i: 1">
+              <i class="bx bx-capsule" aria-hidden="true"></i>
+              <h3>Clear instructions</h3>
+              <ul>
+                <li>How much to take, when and with what</li>
+                <li>Dosage stated plainly on every label</li>
+              </ul>
+            </div>
+
+            <div class="services-box" data-reveal style="--reveal-i: 2">
+              <i class="bx bx-check-shield" aria-hidden="true"></i>
+              <h3>Nothing hidden on the label</h3>
+              <ul>
+                <li>Only verified suppliers</li>
+                <li>Full ingredient lists and honest dosages</li>
+              </ul>
+            </div>
+          </div>
         </div>
-    
-        <div class="faq-item">
-          <h3>Can children take your vitamins?</h3>
-          <p>Yes, we offer special formulas for kids. Please check the “For Kids” section in our catalog.</p>
+      </section>
+
+      <!-------------- FEATURED PRODUCTS -------------->
+
+      <section class="portfolio" id="portfolio">
+        <div class="shell">
+          <div class="section-head">
+            <p class="eyebrow">Bestsellers</p>
+            <h2 class="heading" string="split" string-split="word" aria-label="Where most people start">
+              Where most people <em>start</em>
+            </h2>
+          </div>
+
+          <div class="portfolio-container">
+            <article class="portfolio-box" data-reveal style="--reveal-i: 0">
+              <div class="portfolio-img">
+                <img src="images/products/omega-3.jpg" alt="Nutralux Omega-3 1000 mg bottle" width="467" height="534" loading="lazy" decoding="async" />
+              </div>
+              <div class="portfolio-content">
+                <h4>Omega-3 1000 mg</h4>
+                <p>Supports brain, heart and vision health</p>
+                <a href="product-en.html?slug=omega-3-1000" class="btn">Learn more</a>
+              </div>
+            </article>
+
+            <article class="portfolio-box" data-reveal style="--reveal-i: 1">
+              <div class="portfolio-img">
+                <img src="images/products/womens-multivitamin.jpg" alt="Nutralux Women's Multivitamin bottle" width="463" height="539" loading="lazy" decoding="async" />
+              </div>
+              <div class="portfolio-content">
+                <h4>Women's Multivitamin</h4>
+                <p>Daily balance and vitality support</p>
+                <a href="product-en.html?slug=womens-multivitamin" class="btn">Learn more</a>
+              </div>
+            </article>
+
+            <article class="portfolio-box" data-reveal style="--reveal-i: 2">
+              <div class="portfolio-img">
+                <img src="images/products/magnesium-b6.jpg" alt="Nutralux Magnesium with vitamin B6 bottle" width="468" height="533" loading="lazy" decoding="async" />
+              </div>
+              <div class="portfolio-content">
+                <h4>Magnesium + B6</h4>
+                <p>For muscles, nervous system and calmer sleep</p>
+                <a href="product-en.html?slug=magnesium-b6" class="btn">Learn more</a>
+              </div>
+            </article>
+
+            <article class="portfolio-box" data-reveal style="--reveal-i: 3">
+              <div class="portfolio-img">
+                <img src="images/products/vitamin-c-eff.jpg" alt="Nutralux Vitamin C 1000 mg effervescent tablets" width="1200" height="1200" loading="lazy" decoding="async" />
+              </div>
+              <div class="portfolio-content">
+                <h4>Vitamin C 1000 mg</h4>
+                <p>Effervescent tablets for immunity and tone</p>
+                <a href="product-en.html?slug=vitamin-c-effervescent-1000" class="btn">Learn more</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="portfolio-cta">
+            <a href="catalog-en.html" class="btn btn--ghost" data-magnetic>View all 21 formulas</a>
+          </div>
         </div>
-    
-        <div class="faq-item">
-          <h3>Do you offer discounts for bulk orders?</h3>
-          <p>Yes, when ordering 3 or more items, you get a discount and free shipping.</p>
+      </section>
+
+      <!-------------- FAQ -------------->
+
+      <section class="faq" id="faq">
+        <div class="shell">
+          <div class="section-head">
+            <p class="eyebrow">FAQ</p>
+            <h2 class="heading" string="split" string-split="word" aria-label="Questions we get most often">
+              Questions we get <em>most often</em>
+            </h2>
+          </div>
+
+          <div class="faq-container">
+            <div class="faq-item" data-reveal style="--reveal-i: 0">
+              <h3>How fast is delivery?</h3>
+              <p>Usually 1–2 business days. Orders are shipped the same day they're placed.</p>
+            </div>
+
+            <div class="faq-item" data-reveal style="--reveal-i: 1">
+              <h3>Can children take your vitamins?</h3>
+              <p>Yes, we offer special formulas for kids. Please check the "For Kids" section in our catalog.</p>
+            </div>
+
+            <div class="faq-item" data-reveal style="--reveal-i: 2">
+              <h3>Do you offer discounts for bulk orders?</h3>
+              <p>Yes — when ordering 3 or more items, you get a discount and free shipping.</p>
+            </div>
+
+            <div class="faq-item" data-reveal style="--reveal-i: 3">
+              <h3>What payment methods are available?</h3>
+              <p>We accept credit cards, e-wallets, and cash on delivery.</p>
+            </div>
+          </div>
         </div>
-    
-        <div class="faq-item">
-          <h3>What payment methods are available?</h3>
-          <p>We accept credit cards, e-wallets, and cash on delivery.</p>
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <!-------------- FOOTER -------------->
 
     <footer class="footer">
-      <div class="footer-text">
-        <p>© 2025 Nutralux</p>
-      </div>
+      <div class="footer-inner">
+        <a href="#home" class="footer-brand">
+          <img src="images/logo-mark.png" alt="" width="28" height="29" />
+          Nutralux
+        </a>
 
-      <div class="footer-icon-top">
-        <a href="#home"><i class="bx bx-up-arrow-alt"></i></a>
+        <div class="social-media">
+          <a href="https://wa.me/905332452900" target="_blank" rel="noopener" aria-label="WhatsApp Nutralux"><i class="bx bxl-whatsapp"></i></a>
+          <a href="https://www.tiktok.com/@nutraluxlife?_t=ZS-8yvEDo3bZth&_r=1" target="_blank" rel="noopener" aria-label="TikTok Nutralux"><i class="bx bxl-tiktok"></i></a>
+          <a href="https://t.me/nutralux" target="_blank" rel="noopener" aria-label="Telegram Nutralux"><i class="bx bxl-telegram"></i></a>
+          <a href="https://clck.ru/3NQNkm" target="_blank" rel="noopener" aria-label="Instagram Nutralux"><i class="bx bxl-instagram"></i></a>
+        </div>
+
+        <div class="footer-text">
+          <p>© 2025 Nutralux</p>
+        </div>
+
+        <div class="footer-icon-top">
+          <a href="#home" aria-label="Back to top"><i class="bx bx-up-arrow-alt"></i></a>
+        </div>
       </div>
     </footer>
 
-    <!-------------- SCROLL REVEAL --------------> 
-    <script src="https://unpkg.com/scrollreveal"></script>
+    <!-------------- SUPPORT CHAT -------------->
 
-    <!-------------- TYPED JS --------------> 
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-
-    <!-------------- CUSTOM JS --------------> 
-    <script src="script.js"></script>
-    <script>
-      if (typeof Typed !== 'undefined' && document.querySelector('.multiple-text')) {
-        new Typed('.multiple-text', {
-          strings: ['vitamins and supplements', 'everyday health'],
-          typeSpeed: 100,
-          backSpeed: 100,
-          backDelay: 1000,
-          loop: true
-        });
-      }
-    </script>
     <div id="support-chat-widget">
       <div id="support-chat-button">💬</div>
-    
+
       <div id="support-chat-window">
         <div class="sc-header">
           Nutralux Support
@@ -270,16 +552,22 @@
         </div>
         <div class="sc-messages" id="sc-messages"></div>
         <div class="sc-input">
-          <input
-            type="text"
-            id="sc-input-field"
-            placeholder="Ask anything about Nutralux..."
-          />
+          <input type="text" id="sc-input-field" aria-label="Message to support" placeholder="Ask anything about Nutralux..." />
           <button id="sc-send-btn">Send</button>
         </div>
       </div>
     </div>
-    
-    <script src="chat-widget.js"></script>
+
+    <!-------------- SCRIPTS -------------->
+
+    <script
+      src="https://unpkg.com/@fiddle-digital/string-tune@1.2.3/dist/index.js"
+      integrity="sha384-tX04Jlv/W0FRJIjskJ+s0A/rXWBHLZx7jDjgieWW+h3Gws78LQAaqVklqfaaC81c"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="motion.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="chat-widget.js" defer></script>
   </body>
 </html>
